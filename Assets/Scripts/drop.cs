@@ -9,12 +9,14 @@ public class drop : MonoBehaviour
     
     [SerializeField] private KeyCode _dropKey = KeyCode.Space;
     [SerializeField] private float _maxdroprotation = 45f;
+    [SerializeField] private float _maxdropforce = 10f;
  
     private GameObject _dropPrefab;
     
     // Start is called before the first frame update
     void Start()
     {
+        Debug.Log("drop start");
         _dropPrefab = Resources.Load<GameObject>("rock1");
     }
 
@@ -23,8 +25,11 @@ public class drop : MonoBehaviour
     {
         if (Input.GetKeyDown(_dropKey))
         {
-            GameObject drop = Instantiate(_dropPrefab, _dropper.transform.position, Quaternion.identity, _drop_parent);
-            drop.GetComponent<Rigidbody2D>().AddTorque(Random.Range(-_maxdroprotation, _maxdroprotation));
+            GameObject drop = Instantiate(_dropPrefab, _dropper.transform.position, Quaternion.identity,
+                _drop_parent);
+            Rigidbody2D dropRb = drop.GetComponent<Rigidbody2D>();
+            dropRb.AddTorque(Random.Range(-_maxdroprotation, _maxdroprotation), ForceMode2D.Impulse);
+            dropRb.AddForce(new Vector2(Random.Range(-_maxdropforce, _maxdropforce), 0), ForceMode2D.Impulse);
         }
     }
 }
