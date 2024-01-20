@@ -6,6 +6,7 @@ TagManager:
   tags:
   - rockdestroyer
   - rock
+  - tokinematic
   layers:
   - Default
   - TransparentFX
