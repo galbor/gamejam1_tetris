@@ -118,7 +118,7 @@ public class drop : MonoBehaviour
         GameObject drop = Instantiate(prefab, transform.position,
             Quaternion.identity, _drop_parent);
         Rigidbody2D dropRb = drop.GetComponent<Rigidbody2D>();
-        dropRb.AddForce(new Vector2(0, force), ForceMode2D.Impulse);
+        dropRb.AddForce(-force * transform.right, ForceMode2D.Impulse);
         dropRb.AddTorque(torque, ForceMode2D.Impulse);
     }
     
