@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -14,6 +15,7 @@ public class PlayerMovement : MonoBehaviour
 
     private float _inputAxis;
     private Vector2 _velocity;
+    private SpriteRenderer _holdableSpriteRenderer;
     private float JumpForce => (2f * maxJumpHeight) / (maxJumpTime / 2f);
     private float Gravity => (-2f * maxJumpHeight) / Mathf.Pow(maxJumpTime / 2f, 2);
     
@@ -55,6 +57,7 @@ public class PlayerMovement : MonoBehaviour
             {
                 Debug.Log("Player picked up " + holdable);
                 _holdable = holdable;
+                _holdableSpriteRenderer = _holdable.GetObject().GetComponent<SpriteRenderer>();
                 _holdable.PickUp(transform);
             }
         }
@@ -69,14 +72,27 @@ public class PlayerMovement : MonoBehaviour
     private void HorizontalMovement()
     {
         _inputAxis = Input.GetAxis("Horizontal");
-        _velocity.x = Mathf.MoveTowards(_velocity.x, _inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
         
-        var collideCenter = _holdable == null? transform.position : _holdable.GetObject().transform.position;
-        var distance = _holdable == null? collideDistance : _holdable.GetObject().GetComponent<SpriteRenderer>().bounds.extents.x + .1f;;
-        var hitInfo = Physics2D.Raycast(collideCenter, Vector2.right * _velocity.x, distance);
-        if (hitInfo.collider != null && !hitInfo.collider.transform.IsChildOf(transform)) {
-            Debug.Log("collision with center " + collideCenter + " and distance " + distance);  // todo continue here
+        if (_holdable != null && _holdable.IsColliding)
+        {
+            Debug.Log("Holdable collides so player stops moving");
             _velocity.x = 0f;
+        }
+        else
+        {
+            _velocity.x = Mathf.MoveTowards(_velocity.x, _inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
+
+            var collideCenter = _holdable == null ? transform.position : _holdable.GetObject().transform.position;
+            var distance = _holdable == null
+                ? collideDistance
+                : _holdableSpriteRenderer.bounds.extents.x + .1f;
+            ;
+            var hitInfo = Physics2D.Raycast(collideCenter, Vector2.right * _velocity.x, distance);
+            if (hitInfo.collider != null && !hitInfo.collider.transform.IsChildOf(transform))
+            {
+                Debug.Log("collision with center " + collideCenter + " and distance " + distance); // todo continue here
+                _velocity.x = 0f;
+            }
         }
 
         if (_velocity.x > 0f || (_velocity.x == 0f && _inputAxis > 0f))
@@ -122,6 +138,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
+        if (other.transform.IsChildOf(transform))
+        {
+            return;
+        }
         if (other.gameObject.CompareTag("rock") || other.gameObject.CompareTag("gentlerock"))
         {
             // TODO kill\lower HP of player

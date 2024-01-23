@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 669191506774110711}
   - component: {fileID: 2373153120843428324}
   - component: {fileID: -5437457161370553989}
+  - component: {fileID: 8773990542573365020}
   m_Layer: 0
   m_Name: rock1
   m_TagString: rock
@@ -162,3 +163,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyerTag: rockdestroyer
+--- !u!114 &8773990542573365020
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 226803769929877202}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ee5c070ed0280648984534d3e3186ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  player: {fileID: 8712081368357637208, guid: fbf81eab4a5455e4fa80f796df9a342d, type: 3}
