@@ -103,7 +103,6 @@ public class drop : MonoBehaviour
                 if (!isWarning)
                 {
                     StartCoroutine(DropAnimation(_pointerColorWarning, _pointerSizeWarning, _pointerTimeWarning));
-                    dropTimer = _dropInterval;
                 }
             }
         }
@@ -116,9 +115,9 @@ public class drop : MonoBehaviour
     private void Drop(GameObject prefab, float force, float torque)
     {
         GameObject drop = Instantiate(prefab, transform.position,
-            Quaternion.identity, _drop_parent);
+            transform.rotation, _drop_parent);
         Rigidbody2D dropRb = drop.GetComponent<Rigidbody2D>();
-        dropRb.AddForce(-force * transform.right, ForceMode2D.Impulse);
+        dropRb.AddForce(-force * transform.up, ForceMode2D.Impulse);
         dropRb.AddTorque(torque, ForceMode2D.Impulse);
     }
     
@@ -173,6 +172,7 @@ public class drop : MonoBehaviour
         _dropperPointerSpriteRenderer.color = initial_color;
         _dropperPointer.transform.localScale = Vector3.one * initial_size;
         ChangeToNewRandomLocation();
+        dropTimer = _dropInterval;
         isWarning = false;
     }
 
@@ -180,7 +180,7 @@ public class drop : MonoBehaviour
     //moves the dropper and rotates it randomly
     private void ChangeToNewRandomLocation()
     {
-        transform.position = new Vector2(Random.Range(leftBoundX, rightBoundX), transform.position.y);
+        transform.position = new Vector3(Random.Range(leftBoundX, rightBoundX), transform.position.y, 0);
         transform.eulerAngles = new Vector3( 0,0, Random.Range(-_maxDropperDirection, _maxDropperDirection) + originalRotation);
     }
 }

@@ -90,7 +90,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnCollisionEnter2D(Collision2D other)
     {
-        if (other.gameObject.CompareTag("rock"))
+        if (other.gameObject.CompareTag("rock") || other.gameObject.CompareTag("gentlerock"))
         {
             // TODO kill\lower HP of player
             if (transform.IsDirectionFrom(other.transform, Vector2.up))
