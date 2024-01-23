@@ -7,6 +7,7 @@ public class cameramovement : MonoBehaviour
     [SerializeField] private float _speed = 1f;
     [SerializeField] private KeyCode _goDownKey = KeyCode.DownArrow;
     private EventManagerScript _eventManager;
+    private bool goingdown = false;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,13 +18,14 @@ public class cameramovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKey(_goDownKey))
+        if (goingdown || Input.GetKey(_goDownKey))
         {
+            goingdown = true;
             _eventManager.TriggerEvent("start descent", _speed);
         }
-        else
-        {
-            _eventManager.TriggerEvent("stop descent", _speed);
-        }
+        // else
+        // {
+        //     _eventManager.TriggerEvent("stop descent", _speed);
+        // }
     }
 }

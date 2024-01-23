@@ -50,7 +50,7 @@ public class descender : MonoBehaviour
 
         // Debug.Log("descender start descent");
         _descender.velocity -= new Vector2(0, (float)obj);
-            goingdown = true;
+        goingdown = true;
     }
 
     private void StopDescent(object obj)
