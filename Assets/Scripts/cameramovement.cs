@@ -18,16 +18,15 @@ public class cameramovement : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (goingdown || Input.GetKeyDown(_goDownKey))
-        {
-            goingdown = true;
-            _eventManager.TriggerEvent("start descent", _speed);
-        }
-
         if (Input.GetKeyDown(_goDownKey) && goingdown)
         {
             goingdown = false;
             _eventManager.TriggerEvent("stop descent", _speed);
+        }
+        else if (goingdown || Input.GetKeyDown(_goDownKey))
+        {
+            goingdown = true;
+            _eventManager.TriggerEvent("start descent", _speed);
         }
     }
 }
