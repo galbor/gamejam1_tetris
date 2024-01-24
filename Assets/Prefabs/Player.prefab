@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 3518768818733390510}
   - component: {fileID: 227488530634847127}
   - component: {fileID: 4485201137074448535}
-  - component: {fileID: 8255296420118254264}
   m_Layer: 2
   m_Name: Player
   m_TagString: Untagged
@@ -79,6 +78,7 @@ MonoBehaviour:
   moveSpeed: 8
   maxJumpHeight: 3
   maxJumpTime: 1
+  holdDistance: 0.5
 --- !u!70 &3518768818733390510
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -154,7 +154,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 40
   m_Sprite: {fileID: 21300000, guid: 261befcfc3eb08a49b34bacd4cf645ff, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -182,15 +182,3 @@ MonoBehaviour:
   jump: {fileID: 21300000, guid: 1d8e95eef9a395e48938be555d5c900c, type: 3}
   turn: {fileID: 21300000, guid: 4dc62d6591d192d479e307d560b35bed, type: 3}
   run: {fileID: 21300000, guid: 7261cddb39858e04191daa685fe4e6aa, type: 3}
---- !u!114 &8255296420118254264
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8712081368357637208}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2cab7fe5ad3f9d24b9ad6c3178803caf, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

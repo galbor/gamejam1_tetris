@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3138693218831548160}
   - component: {fileID: 968455559971005569}
   - component: {fileID: 4361261739414479198}
+  - component: {fileID: 1341232389565130916}
   m_Layer: 0
   m_Name: plate
   m_TagString: gentlerock
@@ -184,3 +185,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _destroyerTag: rockdestroyer
+--- !u!114 &1341232389565130916
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33612054911777446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 8ee5c070ed0280648984534d3e3186ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 

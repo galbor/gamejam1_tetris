@@ -1,3 +1,6 @@
+using DG.Tweening;
+using DG.Tweening.Core;
+using DG.Tweening.Plugins.Options;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -11,14 +14,16 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxJumpHeight = 3f;
     [SerializeField] private float maxJumpTime = 1f;
     [SerializeField] private float holdDistance = .5f;
-    [SerializeField] private float collideDistance = .4f;
 
     private float _inputAxis;
     private Vector2 _velocity;
-    private SpriteRenderer _holdableSpriteRenderer;
     private float JumpForce => (2f * maxJumpHeight) / (maxJumpTime / 2f);
     private float Gravity => (-2f * maxJumpHeight) / Mathf.Pow(maxJumpTime / 2f, 2);
-    
+    private FixedJoint2D _fixedJoint;
+    private const float JointBreakForce = 600f;
+    private float _tweenYOffset;
+    private TweenerCore<Vector3,Vector3,VectorOptions> _holdableTween;
+
     public bool Grounded { get; private set; }
     public bool Jumping { get; private set; }
     public bool Turning => (_inputAxis > 0f && _velocity.x < 0f) || (_inputAxis < 0f && _velocity.x > 0f);
@@ -45,27 +50,35 @@ public class PlayerMovement : MonoBehaviour
 
         ApplyGravity();
         
-        HoldAndRelease();
+        CheckHoldAndRelease();
     }
 
-    private void HoldAndRelease()
+    private void CheckHoldAndRelease()
     {
         if (Input.GetButtonDown("Fire1") && _holdable == null)
         {
             var hitInfo = Physics2D.Raycast(transform.position, transform.right, holdDistance);
             if (hitInfo.collider != null && hitInfo.collider.TryGetComponent(out IHoldable holdable))
             {
+                // _holdable.PickUp(transform);
                 Debug.Log("Player picked up " + holdable);
                 _holdable = holdable;
-                _holdableSpriteRenderer = _holdable.GetObject().GetComponent<SpriteRenderer>();
-                _holdable.PickUp(transform);
+                _fixedJoint = gameObject.AddComponent<FixedJoint2D>();
+                _fixedJoint.connectedBody = _holdable.GetObject().GetComponent<Rigidbody2D>();
+                _fixedJoint.breakForce = JointBreakForce;
+                // do local move y to the holdable over .3 seconds to make it look like the player is picking it up
+                var localPosition = _holdable.GetObject().transform.localPosition;
+                _tweenYOffset = localPosition.y;
+                _holdableTween = _holdable.GetObject().transform.DOLocalMoveY(_tweenYOffset + .3f, .15f);
             }
         }
         if (Input.GetButtonUp("Fire1") && _holdable != null)
         {
+            // _holdable.Release();
             Debug.Log("Player released " + _holdable);
-            _holdable.Release();
             _holdable = null;
+            Destroy(_fixedJoint);
+            _holdableTween?.Kill();
         }
     }
 
@@ -73,28 +86,13 @@ public class PlayerMovement : MonoBehaviour
     {
         _inputAxis = Input.GetAxis("Horizontal");
         
-        if (_holdable != null && _holdable.IsColliding)
-        {
-            Debug.Log("Holdable collides so player stops moving");
-            _velocity.x = 0f;
+        _velocity.x = Mathf.MoveTowards(_velocity.x, _inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
+    
+    
+        // player's facing direction
+        if (_holdable != null) {  // we want to not turn if we're holding something
+            return;
         }
-        else
-        {
-            _velocity.x = Mathf.MoveTowards(_velocity.x, _inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
-
-            var collideCenter = _holdable == null ? transform.position : _holdable.GetObject().transform.position;
-            var distance = _holdable == null
-                ? collideDistance
-                : _holdableSpriteRenderer.bounds.extents.x + .1f;
-            ;
-            var hitInfo = Physics2D.Raycast(collideCenter, Vector2.right * _velocity.x, distance);
-            if (hitInfo.collider != null && !hitInfo.collider.transform.IsChildOf(transform))
-            {
-                Debug.Log("collision with center " + collideCenter + " and distance " + distance); // todo continue here
-                _velocity.x = 0f;
-            }
-        }
-
         if (_velocity.x > 0f || (_velocity.x == 0f && _inputAxis > 0f))
         {
             transform.eulerAngles = Vector3.zero;
@@ -116,7 +114,7 @@ public class PlayerMovement : MonoBehaviour
             Jumping = true;
             if (_holdable != null)
             {
-                _holdable.OnMove();
+                _holdableTween?.Kill();
             }
         }
     }
