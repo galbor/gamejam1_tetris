@@ -1,10 +1,12 @@
+using System;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
+using Interfaces;
 using UnityEngine;
 using UnityEngine.Serialization;
 
-public class PlayerMovement : MonoBehaviour
+public class PlayerMovement : MonoBehaviour, IMovable
 {
     
     private Rigidbody2D _rigidBody;
@@ -14,15 +16,19 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float maxJumpHeight = 3f;
     [SerializeField] private float maxJumpTime = 1f;
     [SerializeField] private float holdDistance = .5f;
+    [SerializeField] private float timeInWaterUntilStop = 5f;
+    [SerializeField] private float timeOutWaterUntilFullSpeed = 20f;
 
     private float _inputAxis;
     private Vector2 _velocity;
+    private float _velocityMultiplier = 1f;
     private float JumpForce => (2f * maxJumpHeight) / (maxJumpTime / 2f);
     private float Gravity => (-2f * maxJumpHeight) / Mathf.Pow(maxJumpTime / 2f, 2);
     private FixedJoint2D _fixedJoint;
     private const float JointBreakForce = 600f;
     private float _tweenYOffset;
     private TweenerCore<Vector3,Vector3,VectorOptions> _holdableTween;
+    private bool _submerged;
 
     public bool Grounded { get; private set; }
     public bool Jumping { get; private set; }
@@ -50,7 +56,21 @@ public class PlayerMovement : MonoBehaviour
 
         ApplyGravity();
         
+        ApplyWaterSoak();
+        
         CheckHoldAndRelease();
+    }
+
+    private void ApplyWaterSoak()
+    {
+        if (!_submerged)
+        {
+            _velocityMultiplier = Mathf.Min(_velocityMultiplier + Time.deltaTime / timeOutWaterUntilFullSpeed, 1f);
+        }
+        else
+        {
+            _velocityMultiplier = Mathf.Max(_velocityMultiplier - Time.deltaTime / timeInWaterUntilStop, 0f);
+        }
     }
 
     private void CheckHoldAndRelease()
@@ -87,6 +107,7 @@ public class PlayerMovement : MonoBehaviour
         _inputAxis = Input.GetAxis("Horizontal");
         
         _velocity.x = Mathf.MoveTowards(_velocity.x, _inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
+        _velocity.x *= _velocityMultiplier;
     
     
         // player's facing direction
@@ -110,7 +131,7 @@ public class PlayerMovement : MonoBehaviour
         
         if (Input.GetButtonDown("Jump"))
         {
-            _velocity.y = JumpForce;
+            _velocity.y = JumpForce * _velocityMultiplier;
             Jumping = true;
             if (_holdable != null)
             {
@@ -140,7 +161,7 @@ public class PlayerMovement : MonoBehaviour
         {
             return;
         }
-        if (other.gameObject.CompareTag("rock") || other.gameObject.CompareTag("gentlerock"))
+        if (other.gameObject.CompareTag("rock"))
         {
             // TODO kill\lower HP of player
             if (transform.IsDirectionFrom(other.transform, Vector2.up))
@@ -149,5 +170,28 @@ public class PlayerMovement : MonoBehaviour
                 _velocity.y = 0f;
             }
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("water"))
+        {
+            _submerged = true;
+            Debug.Log("Player enters water");
+        }
+    }
+
+    private void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.gameObject.CompareTag("water"))
+        {
+            _submerged = false;
+            Debug.Log("Player exits water");
+        }
+    }
+
+    public Vector2 GetVelocity()
+    {
+        return _velocity;
     }
 }

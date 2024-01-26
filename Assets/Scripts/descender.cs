@@ -1,9 +1,10 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using Interfaces;
 using UnityEngine;
 
-public class descender : MonoBehaviour
+public class descender : MonoBehaviour, IMovable
 {
     [SerializeField] private string _destroyerTag = "rockdestroyer";
 
@@ -61,5 +62,10 @@ public class descender : MonoBehaviour
             _descender.velocity += new Vector2(0, (float)obj);;
             goingdown = false;
         }
+    }
+
+    public Vector2 GetVelocity()
+    {
+        return _descender.velocity;
     }
 }
