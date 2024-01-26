@@ -9,7 +9,7 @@ public class cameramovement : MonoBehaviour
     private EventManagerScript _eventManager;
     private bool goingdown = false;
     // Start is called before the first frame update
-    void Start()
+    void Awake()
     {
         Debug.Log("cameramovement start");
         _eventManager = EventManagerScript.Instance;

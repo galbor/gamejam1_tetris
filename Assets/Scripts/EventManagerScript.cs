@@ -12,7 +12,6 @@ public class EventManagerScript : Singleton<EventManagerScript>
 
     public class FloatEvent : UnityEvent<object> {} //empty class; just needs to exist
 
-    public const string EVENT__CATCH_DIAMOND = "event_catchDiamond";
 
     private Dictionary <string, FloatEvent> eventDictionary;
 	

@@ -12,7 +12,6 @@ GameObject:
   - component: {fileID: 7752729664924358547}
   - component: {fileID: 3138693218831548160}
   - component: {fileID: 968455559971005569}
-  - component: {fileID: 4361261739414479198}
   - component: {fileID: 6069265373273232272}
   m_Layer: 0
   m_Name: plate
@@ -172,19 +171,6 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &4361261739414479198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 33612054911777446}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 32cca97affc8ad54bbffc7a47e0fd4b5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _destroyerTag: rockdestroyer
 --- !u!114 &6069265373273232272
 MonoBehaviour:
   m_ObjectHideFlags: 0

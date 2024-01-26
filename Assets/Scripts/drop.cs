@@ -88,7 +88,7 @@ public class drop : MonoBehaviour
         
         if (Input.GetKeyDown(_switchAutomaticKey))
         {
-            isAutomatic = !isAutomatic;
+            SwitchAutomatic();
         }
 
         //every _dropInterval seconds, drop a random prefab (if automatic)
@@ -182,5 +182,10 @@ public class drop : MonoBehaviour
     {
         transform.position = new Vector3(Random.Range(leftBoundX, rightBoundX), transform.position.y, 0);
         transform.eulerAngles = new Vector3( 0,0, Random.Range(-_maxDropperDirection, _maxDropperDirection) + originalRotation);
+    }
+
+    public void SwitchAutomatic()
+    {
+        isAutomatic = !isAutomatic;
     }
 }
