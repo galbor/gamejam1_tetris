@@ -9,6 +9,7 @@ TagManager:
   - tokinematic
   - Spring
   - water
+  - gentlerock
   layers:
   - Default
   - TransparentFX
