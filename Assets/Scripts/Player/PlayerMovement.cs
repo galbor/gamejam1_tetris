@@ -16,8 +16,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     [SerializeField] private float maxJumpHeight = 3f;
     [SerializeField] private float maxJumpTime = 1f;
     [SerializeField] private float holdDistance = .5f;
-    [SerializeField] private float timeInWaterUntilStop = 5f;
-    [SerializeField] private float timeOutWaterUntilFullSpeed = 20f;
+    [SerializeField] private float timeInWaterUntilStop = 10f;
 
     private float _inputAxis;
     private Vector2 _velocity;
@@ -30,6 +29,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     private TweenerCore<Vector3,Vector3,VectorOptions> _holdableTween;
     private bool _submerged;
     private SpriteRenderer _spriteRenderer;
+    private float _timeInWater;
 
     public bool Grounded { get; private set; }
     public bool Jumping { get; private set; }
@@ -41,6 +41,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidBody = GetComponent<Rigidbody2D>();
         _waterLayerMask = LayerMask.GetMask("Water");
+        _timeInWater = 0f;
     }
 
     private void Update()
@@ -86,14 +87,16 @@ public class PlayerMovement : MonoBehaviour, IMovable
 
     private void ApplyWaterSoak()
     {
-        if (!_submerged)
+        if (!_submerged && _timeInWater > 0f)
         {
-            _velocityMultiplier = Mathf.Min(_velocityMultiplier + Time.deltaTime / timeOutWaterUntilFullSpeed, 1f);
+            _timeInWater -= Time.deltaTime;
         }
-        else
+        else if (_submerged && _timeInWater < timeInWaterUntilStop)
         {
-            _velocityMultiplier = Mathf.Max(_velocityMultiplier - Time.deltaTime / timeInWaterUntilStop, 0f);
+            _timeInWater += Time.deltaTime;
         }
+        var easeInCubic = Mathf.Pow(_timeInWater / timeInWaterUntilStop, 4f);
+        _velocityMultiplier = Mathf.Lerp(1f, 0f, easeInCubic);
     }
 
     private void CheckHoldAndRelease()
