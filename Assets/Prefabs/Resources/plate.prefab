@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 3138693218831548160}
   - component: {fileID: 968455559971005569}
   - component: {fileID: 6069265373273232272}
+  - component: {fileID: 6114260453152341045}
   m_Layer: 0
   m_Name: plate
   m_TagString: gentlerock
@@ -181,5 +182,17 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: bb5118614f126834282da700542d4dd5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &6114260453152341045
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 33612054911777446}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e72ff198d9dab024898c2960d1f06db6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 

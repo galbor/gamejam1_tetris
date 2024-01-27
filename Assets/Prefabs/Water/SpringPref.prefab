@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 3665440802930484594}
   - component: {fileID: 9011227159182546203}
   - component: {fileID: -7073479108308399191}
-  m_Layer: 6
+  m_Layer: 4
   m_Name: SpringPref
   m_TagString: Spring
   m_Icon: {fileID: 0}
@@ -108,13 +108,13 @@ CircleCollider2D:
     m_Bits: 0
   m_ForceReceiveLayers:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 4294967295
   m_ContactCaptureLayers:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 4294967295
   m_CallbackLayers:
     serializedVersion: 2
-    m_Bits: 2147483647
+    m_Bits: 4294967295
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -137,4 +137,4 @@ MonoBehaviour:
   force: 0
   height: 5
   springTransform: {fileID: 4807435788306670504}
-  spriteShapeController: {fileID: 5838410499423465614, guid: cfe28068f716aba438837e1ca2552832, type: 3}
+  spriteShapeController: {fileID: 0}

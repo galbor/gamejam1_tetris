@@ -7,7 +7,7 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour, IMovable
 {
-    // private static LayerMask _defaultLayerMask = LayerMask.GetMask("Default");
+    private LayerMask _waterLayerMask;
     
     private Rigidbody2D _rigidBody;
     private IHoldable _holdable;
@@ -40,6 +40,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidBody = GetComponent<Rigidbody2D>();
+        _waterLayerMask = LayerMask.GetMask("Water");
     }
 
     private void Update()
@@ -55,12 +56,12 @@ public class PlayerMovement : MonoBehaviour, IMovable
         // get the down-left corner of the player
         var position = transform1.position;     
         var spriteBounds = _spriteRenderer.sprite.bounds;
-        var spriteBottomLeftCorner = new Vector3(spriteBounds.min.x, spriteBounds.min.y, 0) * (scale.x * .75f);
-        var spriteBottomRightCorner = new Vector3(spriteBounds.max.x, spriteBounds.min.y, 0) * (scale.x * .75f);
+        var spriteBottomLeftCorner = new Vector3(spriteBounds.min.x, spriteBounds.min.y, 0) * (scale.x * .78f);
+        var spriteBottomRightCorner = new Vector3(spriteBounds.max.x, spriteBounds.min.y, 0) * (scale.x * .78f);
         var playerBottomLeftCorner = position + spriteBottomLeftCorner;
         var playerBottomRightCorner = position + spriteBottomRightCorner;
-        var leftHit = Physics2D.Raycast(playerBottomLeftCorner, Vector2.down, distance);
-        var rightHit = Physics2D.Raycast(playerBottomRightCorner, Vector2.down, distance);
+        var leftHit = Physics2D.Raycast(playerBottomLeftCorner, Vector2.down, distance, ~_waterLayerMask);
+        var rightHit = Physics2D.Raycast(playerBottomRightCorner, Vector2.down, distance, ~_waterLayerMask);
         // Debug.DrawRay(playerBottomLeftCorner, Vector2.down * distance, Color.red);
         // Debug.DrawRay(playerBottomRightCorner, Vector2.down * distance, Color.red);
         
@@ -99,7 +100,8 @@ public class PlayerMovement : MonoBehaviour, IMovable
     {
         if (Input.GetButtonDown("Fire1") && _holdable == null)
         {
-            var hitInfo = Physics2D.Raycast(transform.position, transform.right, holdDistance);
+            var transform1 = transform;
+            var hitInfo = Physics2D.Raycast(transform1.position, transform1.right, holdDistance * transform1.localScale.x, ~_waterLayerMask);
             if (hitInfo.collider != null && hitInfo.collider.TryGetComponent(out IHoldable holdable))
             {
                 // _holdable.PickUp(transform);
