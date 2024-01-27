@@ -4,10 +4,10 @@ using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using Interfaces;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class PlayerMovement : MonoBehaviour, IMovable
 {
+    // private static LayerMask _defaultLayerMask = LayerMask.GetMask("Default");
     
     private Rigidbody2D _rigidBody;
     private IHoldable _holdable;
@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     private float _tweenYOffset;
     private TweenerCore<Vector3,Vector3,VectorOptions> _holdableTween;
     private bool _submerged;
+    private SpriteRenderer _spriteRenderer;
 
     public bool Grounded { get; private set; }
     public bool Jumping { get; private set; }
@@ -37,6 +38,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     
     private void Awake()
     {
+        _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidBody = GetComponent<Rigidbody2D>();
     }
 
@@ -44,11 +46,31 @@ public class PlayerMovement : MonoBehaviour, IMovable
     {
         HorizontalMovement();
 
-        if (!Grounded && _rigidBody.Raycast(Vector2.down))
+        var transform1 = transform;
+        var scale = transform1.localScale;
+        var localScale = scale;
+        var distance = .1f * localScale.x;
+
+        // cast ray from the player's feet
+        // get the down-left corner of the player
+        var position = transform1.position;     
+        var spriteBounds = _spriteRenderer.sprite.bounds;
+        var spriteBottomLeftCorner = new Vector3(spriteBounds.min.x, spriteBounds.min.y, 0) * (scale.x * .75f);
+        var spriteBottomRightCorner = new Vector3(spriteBounds.max.x, spriteBounds.min.y, 0) * (scale.x * .75f);
+        var playerBottomLeftCorner = position + spriteBottomLeftCorner;
+        var playerBottomRightCorner = position + spriteBottomRightCorner;
+        var leftHit = Physics2D.Raycast(playerBottomLeftCorner, Vector2.down, distance);
+        var rightHit = Physics2D.Raycast(playerBottomRightCorner, Vector2.down, distance);
+        // Debug.DrawRay(playerBottomLeftCorner, Vector2.down * distance, Color.red);
+        // Debug.DrawRay(playerBottomRightCorner, Vector2.down * distance, Color.red);
+        
+        var touchesGround = (leftHit.collider != null && leftHit.rigidbody != _rigidBody) 
+                            || (rightHit.collider != null && rightHit.rigidbody != _rigidBody);
+        if (!Grounded && touchesGround)
         {
             Debug.Log("Player touches the ground");
         }
-        Grounded = _rigidBody.Raycast(Vector2.down);
+        Grounded = touchesGround;
         if (Grounded) {
             
             GroundedMovement();
@@ -109,7 +131,6 @@ public class PlayerMovement : MonoBehaviour, IMovable
         _velocity.x = Mathf.MoveTowards(_velocity.x, _inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
         _velocity.x *= _velocityMultiplier;
     
-    
         // player's facing direction
         if (_holdable != null) {  // we want to not turn if we're holding something
             return;
@@ -121,6 +142,11 @@ public class PlayerMovement : MonoBehaviour, IMovable
         else if (_velocity.x < 0f || (_velocity.x == 0f && _inputAxis < 0f))
         {
             transform.eulerAngles = Vector3.up * 180f;
+        }
+        // if player is turning, add drag to make him turn faster
+        if (Turning)
+        {
+            _velocity.x *= .98f;
         }
     }
 
