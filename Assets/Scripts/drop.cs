@@ -25,6 +25,7 @@ public class drop : MonoBehaviour
     [SerializeField] private float _maxDropperDirection = 65f; //max angle of the dropper
     [SerializeField] private GameObject _rightWall;
     [SerializeField] private GameObject _leftWall;
+    [SerializeField] private float _distanceFromWall = 0.5f; //distance from the wall to not spawn
     [SerializeField] private float _maxDropRotation = 45f; //random rotation when dropping
     [SerializeField] private float _maxDropForce = 10f; //random downwards force when dropping
     
@@ -35,6 +36,7 @@ public class drop : MonoBehaviour
     [SerializeField] private float _pointerTimeWarning = 0.5f; //when dropping with warning, time to reach final color and size
  
     private GameObject[] _dropPrefabs;
+    private GameObject _nextDropPrefab;
     private SpriteRenderer _dropperPointerSpriteRenderer;
     private float rightBoundX;
     private float leftBoundX;
@@ -50,10 +52,11 @@ public class drop : MonoBehaviour
         dropTimer = _dropInterval;
         originalRotation = transform.eulerAngles.z;
         
-        rightBoundX = _rightWall.transform.position.x - _rightWall.transform.localScale.x / 2;
-        leftBoundX = _leftWall.transform.position.x + _leftWall.transform.localScale.x / 2;
+        rightBoundX = _rightWall.transform.position.x - _distanceFromWall - _rightWall.transform.localScale.x / 2;
+        leftBoundX = _leftWall.transform.position.x + _distanceFromWall + _leftWall.transform.localScale.x / 2;
         
         _dropPrefabs = new GameObject[]{Resources.Load<GameObject>(_dropPrefabStrings[0])};
+        _nextDropPrefab = _dropPrefabs[0];
         StartCoroutine(LoadPrefabs());
     }
 
@@ -132,7 +135,8 @@ public class drop : MonoBehaviour
     //drops a random gameobject from the prefab list
     private void Drop()
     {
-        Drop(_dropPrefabs[Random.Range(0, _dropPrefabs.Length)]);
+        Drop(_nextDropPrefab);
+        _nextDropPrefab = _dropPrefabs[Random.Range(0, _dropPrefabs.Length)];
     }
     
     //loads prefabs from resources
@@ -154,23 +158,25 @@ public class drop : MonoBehaviour
      * drops a random prefab when the animation is done
      * changes the dropper's position and rotation when done
      */
-    IEnumerator DropAnimation(Color final_color, float final_size, float time)
+    IEnumerator DropAnimation(Color final_color, float final_size_multiplier, float time)
     {
         isWarning = true;
         float time_elapsed = 0f;
         Color initial_color = _dropperPointerSpriteRenderer.color;
-        float initial_size = _dropperPointer.transform.localScale.x;
+        Vector3 initial_size = _dropperPointer.transform.localScale;
         while (time_elapsed < time)
         {
             _dropperPointerSpriteRenderer.color = Color.Lerp(initial_color, final_color, time_elapsed / time);
-            _dropperPointer.transform.localScale = Vector3.Lerp(Vector3.one * initial_size, Vector3.one * final_size, time_elapsed / time);
+            _dropperPointer.transform.localScale = 
+                Vector3.Lerp(initial_size, initial_size * final_size_multiplier, time_elapsed / time);
             time_elapsed += Time.deltaTime;
             yield return null;
         }
 
         Drop();
         _dropperPointerSpriteRenderer.color = initial_color;
-        _dropperPointer.transform.localScale = Vector3.one * initial_size;
+        _dropperPointer.transform.localScale = 
+            new Vector3(_nextDropPrefab.transform.localScale.x, initial_size.y, initial_size.z);
         ChangeToNewRandomLocation();
         dropTimer = _dropInterval;
         isWarning = false;
