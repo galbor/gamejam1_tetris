@@ -1,9 +1,11 @@
 using System;
+using System.Linq.Expressions;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using Interfaces;
 using UnityEngine;
+using Object = System.Object;
 
 public class PlayerMovement : MonoBehaviour, IMovable
 {
@@ -32,6 +34,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     private bool _submerged;
     private SpriteRenderer _spriteRenderer;
     private float _timeInWater;
+    private bool _lost;
 
     public bool Grounded { get; private set; }
     public bool Jumping { get; private set; }
@@ -45,6 +48,8 @@ public class PlayerMovement : MonoBehaviour, IMovable
         _waterLayerMask = LayerMask.GetMask("Water");
         _timeInWater = 0f;
         CanMove = true;
+        _lost = false;
+        // EventManagerScript.Instance.StartListening("PlayerHit", ((Object obj) => _lost = true));
     }
 
     private void Update()
@@ -100,6 +105,13 @@ public class PlayerMovement : MonoBehaviour, IMovable
         }
         var easeInCubic = Mathf.Pow(_timeInWater / timeInWaterUntilStop, 4f);
         _velocityMultiplier = Mathf.Lerp(1f, 0f, easeInCubic);
+        
+        // if _velocityMultiplier reached 0, lose
+        if (!_lost && _velocityMultiplier <= 0f)
+        {
+            _lost = true;
+            EventManagerScript.Instance.TriggerEvent("PlayerDrowned", null);
+        }
     }
 
     private void CheckHoldAndRelease()
@@ -201,11 +213,6 @@ public class PlayerMovement : MonoBehaviour, IMovable
             {
                 Debug.Log("player's head touches rock");
                 _velocity.y = 0f;
-            }
-            if (fallable.IsFalling())
-            {
-                Debug.Log("Player hit by falling object");
-                // TODO kill\lower HP of player
             }
         }
     }

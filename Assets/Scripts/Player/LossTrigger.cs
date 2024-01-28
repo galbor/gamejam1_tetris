@@ -17,9 +17,10 @@ public class LossTrigger : MonoBehaviour
         _gameOverText.alpha = 0;
         _restartText.alpha = 0;
         EventManagerScript.Instance.StartListening("PlayerHit", Lose);
+        EventManagerScript.Instance.StartListening("PlayerDrowned", Lose);
     }
 
-    public void Lose(Object obj)
+    public void Lose(Object obj=null)
     {
         Debug.Log("Game Over");
         StartCoroutine(GameOverCoroutine());
