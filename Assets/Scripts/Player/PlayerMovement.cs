@@ -7,6 +7,8 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour, IMovable
 {
+    public bool CanMove { get; set; }
+
     private LayerMask _waterLayerMask;
     
     private Rigidbody2D _rigidBody;
@@ -42,6 +44,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         _rigidBody = GetComponent<Rigidbody2D>();
         _waterLayerMask = LayerMask.GetMask("Water");
         _timeInWater = 0f;
+        CanMove = true;
     }
 
     private void Update()
@@ -101,7 +104,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
 
     private void CheckHoldAndRelease()
     {
-        if (Input.GetButtonDown("Fire1") && _holdable == null)
+        if (CanMove && Input.GetButtonDown("Fire1") && _holdable == null)
         {
             var transform1 = transform;
             var hitInfo = Physics2D.Raycast(transform1.position, transform1.right, holdDistance * transform1.localScale.x, ~_waterLayerMask);
@@ -119,7 +122,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
                 _holdableTween = _holdable.GetObject().transform.DOLocalMoveY(_tweenYOffset + .3f, .15f);
             }
         }
-        if (Input.GetButtonUp("Fire1") && _holdable != null)
+        if (CanMove && Input.GetButtonUp("Fire1") && _holdable != null)
         {
             // _holdable.Release();
             Debug.Log("Player released " + _holdable);
@@ -131,7 +134,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
 
     private void HorizontalMovement()
     {
-        _inputAxis = Input.GetAxis("Horizontal");
+        _inputAxis = CanMove? Input.GetAxis("Horizontal"): 0;
         
         _velocity.x = Mathf.MoveTowards(_velocity.x, _inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
         _velocity.x *= _velocityMultiplier;
@@ -160,7 +163,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         _velocity.y = Mathf.Max(_velocity.y, 0f);
         Jumping = _velocity.y > 0f;
         
-        if (Input.GetButtonDown("Jump"))
+        if (CanMove && Input.GetButtonDown("Jump"))
         {
             _velocity.y = JumpForce * _velocityMultiplier;
             Jumping = true;
@@ -192,13 +195,17 @@ public class PlayerMovement : MonoBehaviour, IMovable
         {
             return;
         }
-        if (other.gameObject.CompareTag("rock"))
+        if (other.gameObject.TryGetComponent(out IFallable fallable))
         {
-            // TODO kill\lower HP of player
             if (transform.IsDirectionFrom(other.transform, Vector2.up))
             {
-                Debug.Log("Rock hits player's head");
+                Debug.Log("player's head touches rock");
                 _velocity.y = 0f;
+            }
+            if (fallable.IsFalling())
+            {
+                Debug.Log("Player hit by falling object");
+                // TODO kill\lower HP of player
             }
         }
     }

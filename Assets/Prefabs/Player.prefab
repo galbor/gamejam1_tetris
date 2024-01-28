@@ -79,6 +79,7 @@ MonoBehaviour:
   maxJumpHeight: 3
   maxJumpTime: 1
   holdDistance: 0.5
+  timeInWaterUntilStop: 5
 --- !u!70 &3518768818733390510
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
