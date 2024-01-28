@@ -10,7 +10,7 @@ public class drop : MonoBehaviour
     [SerializeField] private Transform _drop_parent; //for organization's sake
     [SerializeField] private GameObject _dropperPointer; //the little triangle that shows where the drop will be
     
-    [SerializeField] private string[] _dropPrefabStrings; //names of prefabs to drop
+    [SerializeField] private GameObject[] _dropPrefabs;
     
     [SerializeField] private KeyCode _dropKey = KeyCode.Space; //manually drop
     [SerializeField] private KeyCode _moveLeftKey = KeyCode.A; //move the dropper left
@@ -29,13 +29,14 @@ public class drop : MonoBehaviour
     [SerializeField] private float _maxDropRotation = 45f; //random rotation when dropping
     [SerializeField] private float _maxDropForce = 10f; //random downwards force when dropping
     
-    [SerializeField] private float _dropInterval = 1f;
+    [SerializeField] private float _minDropInterval = 1f;
+    [SerializeField] private float _maxDropInterval = 5f;
+    [SerializeField] private float _accelerationRate = 0.5f; //how much the drop interval decreases when dropping with warning
 
     [SerializeField] private Color _pointerColorWarning = Color.red; //when dropping with warning, final color
     [SerializeField] private float _pointerSizeWarning = 1.5f; //when dropping with warning, final size
     [SerializeField] private float _pointerTimeWarning = 0.5f; //when dropping with warning, time to reach final color and size
- 
-    private GameObject[] _dropPrefabs;
+    
     private GameObject _nextDropPrefab;
     private SpriteRenderer _dropperPointerSpriteRenderer;
     private float rightBoundX;
@@ -49,15 +50,13 @@ public class drop : MonoBehaviour
     {
         Debug.Log("drop start");
         _dropperPointerSpriteRenderer = _dropperPointer.GetComponent<SpriteRenderer>();
-        dropTimer = _dropInterval;
+        dropTimer = GetDropInterval();
         originalRotation = transform.eulerAngles.z;
         
         rightBoundX = _rightWall.transform.position.x - _distanceFromWall - _rightWall.transform.localScale.x / 2;
         leftBoundX = _leftWall.transform.position.x + _distanceFromWall + _leftWall.transform.localScale.x / 2;
         
-        _dropPrefabs = new GameObject[]{Resources.Load<GameObject>(_dropPrefabStrings[0])};
         _nextDropPrefab = _dropPrefabs[0];
-        StartCoroutine(LoadPrefabs());
     }
 
     // Update is called once per frame
@@ -138,20 +137,6 @@ public class drop : MonoBehaviour
         Drop(_nextDropPrefab);
         _nextDropPrefab = _dropPrefabs[Random.Range(0, _dropPrefabs.Length)];
     }
-    
-    //loads prefabs from resources
-    IEnumerator LoadPrefabs()
-    {
-        GameObject[] prefabs = new GameObject[_dropPrefabStrings.Length];
-        prefabs[0] = _dropPrefabs[0];
-        
-        for (int i = 1; i< _dropPrefabStrings.Length; i++)
-        {
-            prefabs[i] = Resources.Load<GameObject>(_dropPrefabStrings[i]);
-            yield return null;
-        }
-        _dropPrefabs = prefabs;
-    }
 
     /**
      * small animation to warn when dropping
@@ -178,7 +163,7 @@ public class drop : MonoBehaviour
         _dropperPointer.transform.localScale = 
             new Vector3(_nextDropPrefab.transform.localScale.x, initial_size.y, initial_size.z);
         ChangeToNewRandomLocation();
-        dropTimer = _dropInterval;
+        dropTimer = GetDropInterval();
         isWarning = false;
     }
 
@@ -193,5 +178,13 @@ public class drop : MonoBehaviour
     public void SwitchAutomatic()
     {
         isAutomatic = !isAutomatic;
+    }
+    
+    private float GetDropInterval()
+    {
+        float res = Random.Range(_minDropInterval, _maxDropInterval);
+        _minDropInterval -= _accelerationRate;
+        _maxDropInterval -= _accelerationRate;
+        return res;
     }
 }
