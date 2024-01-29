@@ -12,6 +12,10 @@ public class PlayerMovement : MonoBehaviour, IMovable
     public bool CanMove { get; set; }
 
     private LayerMask _waterLayerMask;
+    private LayerMask _borderLayerMask;
+    private LayerMask _playerLayerMask;
+    private LayerMask _ignorePlayerCollisionLayerMask;
+    private LayerMask _ignoreHoldableLayerMask;
     
     private Rigidbody2D _rigidBody;
     private IHoldable _holdable;
@@ -46,6 +50,10 @@ public class PlayerMovement : MonoBehaviour, IMovable
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidBody = GetComponent<Rigidbody2D>();
         _waterLayerMask = LayerMask.GetMask("Water");
+        _borderLayerMask = LayerMask.GetMask("Border");
+        _playerLayerMask = LayerMask.GetMask("Player");
+        _ignorePlayerCollisionLayerMask = _waterLayerMask | _playerLayerMask;
+        _ignoreHoldableLayerMask = _waterLayerMask | _borderLayerMask | _playerLayerMask;
         _timeInWater = 0f;
         CanMove = true;
         _lost = false;
@@ -59,18 +67,17 @@ public class PlayerMovement : MonoBehaviour, IMovable
         var transform1 = transform;
         var scale = transform1.localScale;
         var localScale = scale;
-        var distance = .1f * localScale.x;
+        var distance = 3f * localScale.x;
 
         // cast ray from the player's feet
         // get the down-left corner of the player
         var position = transform1.position;     
         var spriteBounds = _spriteRenderer.sprite.bounds;
-        var spriteBottomLeftCorner = new Vector3(spriteBounds.min.x, spriteBounds.min.y, 0) * (scale.x * .78f);
-        var spriteBottomRightCorner = new Vector3(spriteBounds.max.x, spriteBounds.min.y, 0) * (scale.x * .78f);
-        var playerBottomLeftCorner = position + spriteBottomLeftCorner;
-        var playerBottomRightCorner = position + spriteBottomRightCorner;
-        var leftHit = Physics2D.Raycast(playerBottomLeftCorner, Vector2.down, distance, ~_waterLayerMask);
-        var rightHit = Physics2D.Raycast(playerBottomRightCorner, Vector2.down, distance, ~_waterLayerMask);
+        var playerBottomCenter = position + new Vector3(0, spriteBounds.min.y, 0) * scale.x;
+        var playerBottomLeftCorner = playerBottomCenter + new Vector3(-.2f, .1f, 0);
+        var playerBottomRightCorner = playerBottomCenter + new Vector3(.2f, .1f, 0);
+        var leftHit = Physics2D.Raycast(playerBottomLeftCorner, Vector2.down, distance, ~_ignorePlayerCollisionLayerMask);
+        var rightHit = Physics2D.Raycast(playerBottomRightCorner, Vector2.down, distance, ~_ignorePlayerCollisionLayerMask);
         // Debug.DrawRay(playerBottomLeftCorner, Vector2.down * distance, Color.red);
         // Debug.DrawRay(playerBottomRightCorner, Vector2.down * distance, Color.red);
         
@@ -90,7 +97,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         
         ApplyWaterSoak();
         
-        CheckHoldAndRelease();
+        // CheckHoldAndRelease();
     }
 
     private void ApplyWaterSoak()
@@ -119,7 +126,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         if (CanMove && Input.GetButtonDown("Fire1") && _holdable == null)
         {
             var transform1 = transform;
-            var hitInfo = Physics2D.Raycast(transform1.position, transform1.right, holdDistance * transform1.localScale.x, ~_waterLayerMask);
+            var hitInfo = Physics2D.Raycast(transform1.position, transform1.right, holdDistance * transform1.localScale.x, ~_ignoreHoldableLayerMask);
             if (hitInfo.collider != null && hitInfo.collider.TryGetComponent(out IHoldable holdable))
             {
                 // _holdable.PickUp(transform);

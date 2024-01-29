@@ -11,11 +11,13 @@ namespace Dishes
         private bool _isFalling;
         private int _waterLayer;
         private int _borderLayer;
+        private int _playerLayer;
 
         private void Awake()
         {
             _waterLayer = LayerMask.NameToLayer("Water");
             _borderLayer = LayerMask.NameToLayer("Border");
+            _playerLayer = LayerMask.NameToLayer("Player");
             _isFalling = true;
         }
 
@@ -34,7 +36,7 @@ namespace Dishes
             {
                 return;
             }
-            if (other.gameObject.CompareTag("Player"))
+            if (other.gameObject.layer == _playerLayer)
             {
                 EventManagerScript.Instance.TriggerEvent("PlayerHit", null);
             }
