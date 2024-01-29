@@ -183,8 +183,8 @@ public class drop : MonoBehaviour
     private float GetDropInterval()
     {
         float res = Random.Range(_minDropInterval, _maxDropInterval);
-        _minDropInterval -= _accelerationRate;
-        _maxDropInterval -= _accelerationRate;
+        _minDropInterval = Math.Max(_minDropInterval - _accelerationRate, 0);
+        _maxDropInterval = Math.Max(_maxDropInterval - _accelerationRate, _minDropInterval);
         return res;
     }
 }
