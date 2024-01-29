@@ -29,6 +29,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     private float _inputAxis;
     private Vector2 _velocity;
     private float _velocityMultiplier = 1f;
+    private float _timeInWater;
     private float JumpForce => (2f * maxJumpHeight) / (maxJumpTime / 2f);
     private float Gravity => (-2f * maxJumpHeight) / Mathf.Pow(maxJumpTime / 2f, 2);
     private FixedJoint2D _fixedJoint;
@@ -37,8 +38,8 @@ public class PlayerMovement : MonoBehaviour, IMovable
     private TweenerCore<Vector3,Vector3,VectorOptions> _holdableTween;
     private bool _submerged;
     private SpriteRenderer _spriteRenderer;
-    private float _timeInWater;
     private bool _lost;
+    [SerializeField] private float waterSoakCurve = 3f;
 
     public bool Grounded { get; private set; }
     public bool Jumping { get; private set; }
@@ -57,7 +58,6 @@ public class PlayerMovement : MonoBehaviour, IMovable
         _timeInWater = 0f;
         CanMove = true;
         _lost = false;
-        // EventManagerScript.Instance.StartListening("PlayerHit", ((Object obj) => _lost = true));
     }
 
     private void Update()
@@ -74,8 +74,8 @@ public class PlayerMovement : MonoBehaviour, IMovable
         var position = transform1.position;     
         var spriteBounds = _spriteRenderer.sprite.bounds;
         var playerBottomCenter = position + new Vector3(0, spriteBounds.min.y, 0) * scale.x;
-        var playerBottomLeftCorner = playerBottomCenter + new Vector3(-.2f, .1f, 0);
-        var playerBottomRightCorner = playerBottomCenter + new Vector3(.2f, .1f, 0);
+        var playerBottomLeftCorner = playerBottomCenter + new Vector3(-.2f, .15f, 0);
+        var playerBottomRightCorner = playerBottomCenter + new Vector3(.2f, .15f, 0);
         var leftHit = Physics2D.Raycast(playerBottomLeftCorner, Vector2.down, distance, ~_ignorePlayerCollisionLayerMask);
         var rightHit = Physics2D.Raycast(playerBottomRightCorner, Vector2.down, distance, ~_ignorePlayerCollisionLayerMask);
         // Debug.DrawRay(playerBottomLeftCorner, Vector2.down * distance, Color.red);
@@ -110,7 +110,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         {
             _timeInWater += Time.deltaTime;
         }
-        var easeInCubic = Mathf.Pow(_timeInWater / timeInWaterUntilStop, 4f);
+        var easeInCubic = Mathf.Pow(_timeInWater / timeInWaterUntilStop, waterSoakCurve);
         _velocityMultiplier = Mathf.Lerp(1f, 0f, easeInCubic);
         
         // if _velocityMultiplier reached 0, lose
@@ -245,5 +245,10 @@ public class PlayerMovement : MonoBehaviour, IMovable
     public Vector2 GetVelocity()
     {
         return _velocity;
+    }
+
+    public float GetSoakness()
+    {
+        return _timeInWater / timeInWaterUntilStop;
     }
 }
