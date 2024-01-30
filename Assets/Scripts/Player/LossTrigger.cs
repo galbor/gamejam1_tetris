@@ -9,13 +9,25 @@ using Object = System.Object;
 public class LossTrigger : MonoBehaviour
 {
     [SerializeField] private PlayerMovement _playerMovement;
-    [SerializeField] private TextMeshProUGUI _gameOverText;
-    [SerializeField] private TextMeshProUGUI _restartText;
+    [SerializeField] private SpriteRenderer _gameOverText;
+    [SerializeField] private SpriteRenderer[] _restartText;
+    
+    [SerializeField] private float _fadeTime = 2f;
+    [SerializeField] private float _restartFadeDelay = 3f;
 
+    private Color gameOverTextColor;
+    private Color[] restartTextColors;
+    
     private void Awake()
     {
-        _gameOverText.alpha = 0;
-        _restartText.alpha = 0;
+        restartTextColors = new Color[_restartText.Length];
+        gameOverTextColor = _gameOverText.color;
+        _gameOverText.color = new Color(gameOverTextColor.r, gameOverTextColor.g, gameOverTextColor.b, 0);
+        for (int i = 0; i < restartTextColors.Length; ++i)
+        {
+            restartTextColors[i] = _restartText[i].color;
+            _restartText[i].color = new Color(restartTextColors[i].r, restartTextColors[i].g, restartTextColors[i].b, 0);
+        }
         EventManagerScript.Instance.StartListening("PlayerHit", Lose);
         EventManagerScript.Instance.StartListening("PlayerDrowned", Lose);
     }
@@ -29,9 +41,12 @@ public class LossTrigger : MonoBehaviour
     private IEnumerator GameOverCoroutine()
     {
         _playerMovement.CanMove = false;
-        _gameOverText.DOFade(1, 2f);
-        yield return new WaitForSeconds(3f);
-        _restartText.DOFade(1, 2f);
+        _gameOverText.DOFade(1, _fadeTime);
+        yield return new WaitForSeconds(_restartFadeDelay);
+        foreach (SpriteRenderer text in _restartText)
+        {
+            text.DOFade(1, _fadeTime);
+        }
     }
     
 }
