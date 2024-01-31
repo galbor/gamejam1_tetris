@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 public static class Helpers
@@ -19,6 +20,6 @@ public static class Helpers
     public static bool IsDirectionFrom(this Transform transform, Transform other, Vector2 direction)
     {
         Vector2 toOther = other.position - transform.position;
-        return Vector2.Dot(toOther, direction) > .25f;
+        return Vector2.Dot(toOther.normalized, direction) > .6f;
     }
 }
