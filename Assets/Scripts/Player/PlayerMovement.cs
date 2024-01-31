@@ -185,6 +185,9 @@ public class PlayerMovement : MonoBehaviour, IMovable
         if (CanMove && Input.GetButtonDown("Jump"))
         {
             _velocity.y = JumpForce * _velocityMultiplier;
+
+            Debug.Log("Velocity: " + _velocity.y);
+            
             Jumping = true;
             if (_holdable != null)
             {

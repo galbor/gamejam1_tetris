@@ -67,36 +67,36 @@ public class drop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(_dropKey))
-        {
-            Drop();
-        }
-        //move
-        if (Input.GetKey(_moveLeftKey))
-        {
-            transform.position = new Vector2(Math.Max(leftBoundX, transform.position.x - _moveSpeed * Time.deltaTime),
-                transform.position.y);
-        }
-        else if (Input.GetKey(_moveRightKey))
-        {
-            transform.position = new Vector2(Math.Min(rightBoundX, transform.position.x + _moveSpeed * Time.deltaTime),
-                transform.position.y);
-        }
+        // if (Input.GetKeyDown(_dropKey))
+        // {
+        //     Drop();
+        // }
+        // //move
+        // if (Input.GetKey(_moveLeftKey))
+        // {
+        //     transform.position = new Vector2(Math.Max(leftBoundX, transform.position.x - _moveSpeed * Time.deltaTime),
+        //         transform.position.y);
+        // }
+        // else if (Input.GetKey(_moveRightKey))
+        // {
+        //     transform.position = new Vector2(Math.Min(rightBoundX, transform.position.x + _moveSpeed * Time.deltaTime),
+        //         transform.position.y);
+        // }
         
         //rotate
-        if (Input.GetKey(_rotateRightKey))
-        {
-            transform.Rotate(0, 0, Math.Min(_rotateSpeed * Time.deltaTime, _maxDropperDirection));
-        }
-        else if (Input.GetKey(_rotateLeftKey))
-        {
-            transform.Rotate(0, 0, Math.Max(-_rotateSpeed * Time.deltaTime, -_maxDropperDirection));
-        }
-        
-        if (Input.GetKeyDown(_switchAutomaticKey))
-        {
-            SwitchAutomatic();
-        }
+        // if (Input.GetKey(_rotateRightKey))
+        // {
+        //     transform.Rotate(0, 0, Math.Min(_rotateSpeed * Time.deltaTime, _maxDropperDirection));
+        // }
+        // else if (Input.GetKey(_rotateLeftKey))
+        // {
+        //     transform.Rotate(0, 0, Math.Max(-_rotateSpeed * Time.deltaTime, -_maxDropperDirection));
+        // }
+        //
+        // if (Input.GetKeyDown(_switchAutomaticKey))
+        // {
+        //     SwitchAutomatic();
+        // }
 
         //every _dropInterval seconds, drop a random prefab (if automatic)
         if (isAutomatic)

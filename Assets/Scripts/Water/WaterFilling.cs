@@ -29,21 +29,21 @@ public class WaterFilling : MonoBehaviour
         EventManagerScript.Instance.StartListening("Win", CloseFaucet);
     }
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(_openFaucetKey))
-        {
-            if (_isFaucetOpen)
-            {
-                CloseFaucet();
-            }
-            else
-            {
-                OpenFaucet();
-            }
-            _isFaucetOpen = !_isFaucetOpen;
-        }
-    }
+    // void Update()
+    // {
+    //     if (Input.GetKeyDown(_openFaucetKey))
+    //     {
+    //         if (_isFaucetOpen)
+    //         {
+    //             CloseFaucet();
+    //         }
+    //         else
+    //         {
+    //             OpenFaucet();
+    //         }
+    //         _isFaucetOpen = !_isFaucetOpen;
+    //     }
+    // }
 
     // Update is called once per frame
     void FixedUpdate()
