@@ -18,6 +18,7 @@ namespace Player
         [SerializeField] private AnimatedSprite run;
         [SerializeField] private Sprite soak;
         [SerializeField] private Sprite hit;
+        [SerializeField] private float _expansionRate = .05f;
 
         private void Awake()
         {
@@ -58,7 +59,7 @@ namespace Player
                 _spriteRenderer.sprite = soak;
                 var transform2 = _spriteRenderer.transform;
                 var localScale1 = transform2.localScale;
-                localScale1 = new Vector3(localScale1.x, _scaleY + .025f, localScale1.z);
+                localScale1 = new Vector3(localScale1.x, _scaleY + _expansionRate, localScale1.z);
                 transform2.localScale = localScale1;
             } else if (_hit)
             {
@@ -78,7 +79,7 @@ namespace Player
             var transform1 = _spriteRenderer.transform;
             var localScale = transform1.localScale;
             var scale = localScale;
-            scale.x = _scaleX + soakness * .025f;
+            scale.x = _scaleX + soakness * _expansionRate;
             localScale = scale;
             transform1.localScale = localScale;
         }

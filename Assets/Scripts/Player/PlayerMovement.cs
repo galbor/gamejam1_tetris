@@ -221,6 +221,10 @@ public class PlayerMovement : MonoBehaviour, IMovable
                 Debug.Log("player's head touches rock");
                 _velocity.y = 0f;
             }
+            if (fallable.IsFalling())
+            {
+                EventManagerScript.Instance.TriggerEvent("PlayerHit", fallable);
+            }
         }
     }
 

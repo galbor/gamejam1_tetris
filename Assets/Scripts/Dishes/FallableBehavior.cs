@@ -19,15 +19,25 @@ namespace Dishes
             _borderLayer = LayerMask.NameToLayer("Border");
             _playerLayer = LayerMask.NameToLayer("Player");
             _isFalling = true;
+            EventManagerScript.Instance.StartListening("PlayerHit", HitHead);
         }
 
         public bool IsFalling()
         {
             return _isFalling;
         }
+
+        private void HitHead(object obj)
+        {
+            if (obj.Equals(this))
+            {
+                _isFalling = false;
+            }
+        }
         
         private void OnCollisionEnter2D(Collision2D other)
         {
+            Debug.Log("Fallable collision enter with " + other.gameObject.layer);
             if (other.gameObject.layer == _waterLayer || other.gameObject.layer == _borderLayer)
             {
                 return;
@@ -36,12 +46,12 @@ namespace Dishes
             {
                 return;
             }
-            if (other.gameObject.layer == _playerLayer)
+            if (other.gameObject.layer != _playerLayer)
             {
-                EventManagerScript.Instance.TriggerEvent("PlayerHit", null);
+                Debug.Log("not falling");
+                _isFalling = false;
             }
-            Debug.Log("not falling");
-            _isFalling = false;
+
         }
     }
 }
