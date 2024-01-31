@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using DefaultNamespace;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -36,6 +37,7 @@ public class drop : MonoBehaviour
     [SerializeField] private Color _pointerColorWarning = Color.red; //when dropping with warning, final color
     [SerializeField] private float _pointerSizeWarning = 1.5f; //when dropping with warning, final size
     [SerializeField] private float _pointerTimeWarning = 0.5f; //when dropping with warning, time to reach final color and size
+    [SerializeField] private float dropRandomVariance = 2f;
     
     private GameObject _nextDropPrefab;
     private SpriteRenderer _dropperPointerSpriteRenderer;
@@ -45,6 +47,7 @@ public class drop : MonoBehaviour
     private bool isAutomatic = false;
     private float dropTimer;
     private float originalRotation;
+    private RandomNormalDistribution _rand;
 
     void Start()
     {
@@ -55,6 +58,8 @@ public class drop : MonoBehaviour
         
         rightBoundX = _rightWall.transform.position.x - _distanceFromWall - _rightWall.transform.localScale.x / 2;
         leftBoundX = _leftWall.transform.position.x + _distanceFromWall + _leftWall.transform.localScale.x / 2;
+        var mean = (leftBoundX + rightBoundX) / 2;
+        _rand = new RandomNormalDistribution(mean, dropRandomVariance, leftBoundX, rightBoundX);
         
         _nextDropPrefab = _dropPrefabs[0];
     }
@@ -171,7 +176,7 @@ public class drop : MonoBehaviour
     //moves the dropper and rotates it randomly
     private void ChangeToNewRandomLocation()
     {
-        transform.position = new Vector3(Random.Range(leftBoundX, rightBoundX), transform.position.y, 0);
+        transform.position = new Vector3(_rand.GenerateRandomNumber(), transform.position.y, 0);//Random.Range(leftBoundX, rightBoundX), transform.position.y, 0);
         transform.eulerAngles = new Vector3( 0,0, Random.Range(-_maxDropperDirection, _maxDropperDirection) + originalRotation);
     }
 
