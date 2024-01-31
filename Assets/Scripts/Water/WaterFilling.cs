@@ -26,7 +26,7 @@ public class WaterFilling : MonoBehaviour
         _minWaterLevel = transform.position.y;
         _streamWidth = _faucetStream.localScale.x;
         _faucetStream.localScale = new Vector3(0, _faucetStream.localScale.y, 1);
-        EventManagerScript.Instance.StartListening("Win", CloseFaucet);
+        EventManagerScript.Instance.StartListening(EventManagerScript.Win, CloseFaucet);
     }
 
     // void Update()

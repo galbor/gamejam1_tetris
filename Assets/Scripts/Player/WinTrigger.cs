@@ -18,7 +18,7 @@ public class WinTrigger : MonoBehaviour
         if (other.gameObject.CompareTag("Finish"))
         {
             Debug.Log("WinTrigger OnTriggerEnter2D Finish");
-            EventManagerScript.Instance.TriggerEvent("Win", null);
+            EventManagerScript.Instance.TriggerEvent(EventManagerScript.Win, null);
             foreach (GameObject signifier in _winSignifiers)
             {
                 signifier.SetActive(true);

@@ -5,7 +5,15 @@ using System.Collections.Generic;
 
 public class EventManagerScript : Singleton<EventManagerScript>
 {
-    protected EventManagerScript()
+	public const string WaterHit = "WaterHit";
+	public const string PlayerDrowned = "PlayerDrowned";
+	public const string PlayerHit = "PlayerHit";
+	public const string Win = "Win";
+	public const string StartDescent = "start descent";
+	public const string StopDescent = "stop descent";
+	
+
+	protected EventManagerScript()
     {
         Init();
     } // guarantee this will be always a singleton only - can't use the constructor!

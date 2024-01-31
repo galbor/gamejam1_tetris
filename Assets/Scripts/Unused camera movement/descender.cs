@@ -19,8 +19,8 @@ public class descender : MonoBehaviour, IMovable
         _descender = GetComponent<Rigidbody2D>();
         
         _eventManager = EventManagerScript.Instance;
-        _eventManager.StartListening("start descent", StartDescent);
-        _eventManager.StartListening("stop descent", StopDescent);
+        _eventManager.StartListening(EventManagerScript.StartDescent, StartDescent);
+        _eventManager.StartListening(EventManagerScript.StopDescent, StopDescent);
     }
 
     void OnTriggerEnter2D(Collider2D other)

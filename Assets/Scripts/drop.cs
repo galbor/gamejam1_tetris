@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
+using Dishes;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -48,6 +49,7 @@ public class drop : MonoBehaviour
     private float dropTimer;
     private float originalRotation;
     private RandomNormalDistribution _rand;
+    [SerializeField] private WaterShapeController wsc;
 
     void Start()
     {
@@ -123,6 +125,7 @@ public class drop : MonoBehaviour
     {
         GameObject drop = Instantiate(prefab, transform.position,
             transform.rotation, _drop_parent);
+        drop.GetComponent<MovableBehavior>().Init(wsc);
         Rigidbody2D dropRb = drop.GetComponent<Rigidbody2D>();
         dropRb.AddForce(-force * transform.up, ForceMode2D.Impulse);
         dropRb.AddTorque(torque, ForceMode2D.Impulse);

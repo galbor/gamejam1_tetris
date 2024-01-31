@@ -1,4 +1,5 @@
 using System;
+using Effects;
 using Interfaces;
 using UnityEngine;
 
@@ -12,6 +13,7 @@ namespace Dishes
         private int _waterLayer;
         private int _borderLayer;
         private int _playerLayer;
+        private Rigidbody2D _rigidbody2D;
 
         private void Awake()
         {
@@ -19,7 +21,8 @@ namespace Dishes
             _borderLayer = LayerMask.NameToLayer("Border");
             _playerLayer = LayerMask.NameToLayer("Player");
             _isFalling = true;
-            EventManagerScript.Instance.StartListening("PlayerHit", HitHead);
+            _rigidbody2D = GetComponent<Rigidbody2D>();
+            EventManagerScript.Instance.StartListening(EventManagerScript.PlayerHit, HitHead);
         }
 
         public bool IsFalling()
@@ -46,6 +49,8 @@ namespace Dishes
             {
                 return;
             }
+            var velocity = _rigidbody2D.velocity;
+            ScreenEffects.Shake(.5f, velocity.magnitude * velocity.magnitude/400);
             if (other.gameObject.layer != _playerLayer)
             {
                 Debug.Log("not falling");

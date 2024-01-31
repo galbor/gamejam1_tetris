@@ -40,6 +40,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     private SpriteRenderer _spriteRenderer;
     private bool _lost;
     [SerializeField] private float waterSoakCurve = 3f;
+    [SerializeField] private WaterShapeController waterShapeController;
 
     public bool Grounded { get; private set; }
     public bool Jumping { get; private set; }
@@ -117,7 +118,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         if (!_lost && _velocityMultiplier <= 0f)
         {
             _lost = true;
-            EventManagerScript.Instance.TriggerEvent("PlayerDrowned", null);
+            EventManagerScript.Instance.TriggerEvent(EventManagerScript.PlayerDrowned, null);
         }
     }
 
@@ -225,7 +226,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
                 _velocity.y = 0f;
                 if (fallable.IsFalling())
                 {
-                    EventManagerScript.Instance.TriggerEvent("PlayerHit", fallable);
+                    EventManagerScript.Instance.TriggerEvent(EventManagerScript.PlayerHit, fallable);
                 }
             }
         }
@@ -236,6 +237,10 @@ public class PlayerMovement : MonoBehaviour, IMovable
         if (other.gameObject.CompareTag("water"))
         {
             _submerged = true;
+            var position = transform.position;
+            var bottomY = position.y - _spriteRenderer.bounds.extents.y;
+            var splashPosition = new Vector3(position.x, bottomY, position.z);
+            waterShapeController.Splash(splashPosition, _velocity);
             Debug.Log("Player enters water");
         }
     }

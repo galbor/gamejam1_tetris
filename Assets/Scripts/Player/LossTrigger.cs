@@ -30,9 +30,9 @@ public class LossTrigger : MonoBehaviour
             _restartText[i].color = new Color(restartTextColors[i].r, restartTextColors[i].g, restartTextColors[i].b, 0);
         }
         _canLose = true;
-        EventManagerScript.Instance.StartListening("PlayerHit", Lose);
-        EventManagerScript.Instance.StartListening("PlayerDrowned", Lose);
-        EventManagerScript.Instance.StartListening("Win", DisableLoss);
+        EventManagerScript.Instance.StartListening(EventManagerScript.PlayerHit, Lose);
+        EventManagerScript.Instance.StartListening(EventManagerScript.PlayerDrowned, Lose);
+        EventManagerScript.Instance.StartListening(EventManagerScript.Win, DisableLoss);
     }
 
     private void DisableLoss(object arg0)

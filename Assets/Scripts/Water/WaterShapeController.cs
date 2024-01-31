@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -8,12 +9,11 @@ public class WaterShapeController : MonoBehaviour
 {
 
     private int CorsnersCount = 2;
-    [SerializeField]
-    private SpriteShapeController spriteShapeController;
-    [SerializeField]
-    private GameObject wavePointPref;
-    [SerializeField]
-    private GameObject wavePoints;
+    [SerializeField] private SpriteShapeController spriteShapeController;
+    [SerializeField] private GameObject wavePointPref;
+    [SerializeField] private GameObject wavePoints;
+    [SerializeField] private ParticleSystem splashParticleSystem;
+    private ParticleSystem _splash;
 
     [SerializeField]
     [Range(1, 100)]
@@ -30,6 +30,12 @@ public class WaterShapeController : MonoBehaviour
         // Clean waterpoints 
         StartCoroutine(CreateWaves());
     }
+
+    private void Awake()
+    {
+        _splash = Instantiate(splashParticleSystem);
+    }
+
     IEnumerator CreateWaves() {
         foreach (Transform child in wavePoints.transform) {
             StartCoroutine(Destroy(child.gameObject));
@@ -146,9 +152,15 @@ public class WaterShapeController : MonoBehaviour
             }
         }
     }
-    private void Splash(int index, float speed) { 
-        if (index >= 0 && index < springs.Count) {
-            springs[index].velocity += speed;
+    public void Splash(Vector3 position, Vector2 velocity) { 
+        if (_splash.isPlaying)
+        {
+            _splash.Stop();
         }
+        
+        var nDroplets = (int)(velocity.magnitude * velocity.magnitude / 6);
+        _splash.emission.SetBurst(0, new ParticleSystem.Burst(0, nDroplets));
+        _splash.transform.position = position;
+        _splash.Play();
     }
 }

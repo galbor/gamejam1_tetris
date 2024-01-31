@@ -138,3 +138,4 @@ MonoBehaviour:
   height: 5
   springTransform: {fileID: 4807435788306670504}
   spriteShapeController: {fileID: 0}
+  splashParticleSystem: {fileID: 2391852695107472639, guid: 0e59a89ed508fb642acde5eb5ab8a293, type: 3}

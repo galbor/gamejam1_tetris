@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Effects;
 using Interfaces;
 using UnityEngine;
 using UnityEngine.U2D;
@@ -12,12 +13,10 @@ public class WaterSpring : MonoBehaviour
     public float height = 0f;
     // normal height
     private float target_height = 0f;
-    public Transform springTransform;
-    [SerializeField]
-    private SpriteShapeController spriteShapeController = null;
+    [SerializeField] private SpriteShapeController spriteShapeController = null;
     private int waveIndex = 0;
-    private List<WaterSpring> springs = new();
     private float resistance = 40f;
+
     public void Init(SpriteShapeController ssc) { 
 
         var index = transform.GetSiblingIndex();

@@ -21,12 +21,12 @@ public class cameramovement : MonoBehaviour
         if (Input.GetKeyDown(_goDownKey) && goingdown)
         {
             goingdown = false;
-            _eventManager.TriggerEvent("stop descent", _speed);
+            _eventManager.TriggerEvent(EventManagerScript.StopDescent, _speed);
         }
         else if (goingdown || Input.GetKeyDown(_goDownKey))
         {
             goingdown = true;
-            _eventManager.TriggerEvent("start descent", _speed);
+            _eventManager.TriggerEvent(EventManagerScript.StartDescent, _speed);
         }
     }
 }

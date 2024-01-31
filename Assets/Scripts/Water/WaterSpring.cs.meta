@@ -3,7 +3,10 @@ guid: b288e71eb8cf7a249b8d955f231a8ec5
 MonoImporter:
   externalObjects: {}
   serializedVersion: 2
-  defaultReferences: []
+  defaultReferences:
+  - springTransform: {instanceID: 0}
+  - spriteShapeController: {instanceID: 0}
+  - splashParticleSystem: {fileID: 2391852695107472639, guid: 0e59a89ed508fb642acde5eb5ab8a293, type: 3}
   executionOrder: 0
   icon: {instanceID: 0}
   userData: 

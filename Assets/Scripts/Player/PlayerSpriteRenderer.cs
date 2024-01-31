@@ -27,8 +27,8 @@ namespace Player
             var localScale = transform.localScale;
             _scaleX = localScale.x;
             _scaleY = localScale.y;
-            EventManagerScript.Instance.StartListening("PlayerHit", Hit);
-            EventManagerScript.Instance.StartListening("PlayerDrowned", Drown);
+            EventManagerScript.Instance.StartListening(EventManagerScript.PlayerHit, Hit);
+            EventManagerScript.Instance.StartListening(EventManagerScript.PlayerDrowned, Drown);
         }
 
         private void OnEnable()
