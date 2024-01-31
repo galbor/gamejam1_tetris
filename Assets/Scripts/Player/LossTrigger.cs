@@ -17,7 +17,8 @@ public class LossTrigger : MonoBehaviour
 
     private Color gameOverTextColor;
     private Color[] restartTextColors;
-    
+    private bool _canLose;
+
     private void Awake()
     {
         restartTextColors = new Color[_restartText.Length];
@@ -28,12 +29,20 @@ public class LossTrigger : MonoBehaviour
             restartTextColors[i] = _restartText[i].color;
             _restartText[i].color = new Color(restartTextColors[i].r, restartTextColors[i].g, restartTextColors[i].b, 0);
         }
+        _canLose = true;
         EventManagerScript.Instance.StartListening("PlayerHit", Lose);
         EventManagerScript.Instance.StartListening("PlayerDrowned", Lose);
+        EventManagerScript.Instance.StartListening("Win", DisableLoss);
+    }
+
+    private void DisableLoss(object arg0)
+    {
+        _canLose = false;
     }
 
     public void Lose(Object obj=null)
     {
+        if (!_canLose) return;
         Debug.Log("Game Over");
         StartCoroutine(GameOverCoroutine());
     }

@@ -26,6 +26,7 @@ public class WaterFilling : MonoBehaviour
         _minWaterLevel = transform.position.y;
         _streamWidth = _faucetStream.localScale.x;
         _faucetStream.localScale = new Vector3(0, _faucetStream.localScale.y, 1);
+        EventManagerScript.Instance.StartListening("Win", CloseFaucet);
     }
 
     private void Update()
@@ -69,7 +70,7 @@ public class WaterFilling : MonoBehaviour
             new Vector2(0, _fillSpeed)));
     }
     
-    public void CloseFaucet()
+    public void CloseFaucet(object obj = null)
     {
         StartCoroutine(FaucetAnimationCoroutine(new Vector3(0, _faucetStream.localScale.y, 1),
             new Vector2(0, -_drainSpeed)));
