@@ -45,36 +45,85 @@
     <Analyzer Include="C:\Program Files\Unity\Hub\Editor\2022.3.13f1\Editor\Data\Tools\Unity.SourceGenerators\Unity.Properties.SourceGenerator.dll" />
   </ItemGroup>
   <ItemGroup>
+     <Compile Include="Assets\Scripts\NormalDistribution.cs" />
      <Compile Include="Assets\Scripts\Water\WaterShapeController.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerSpriteRenderer.cs" />
-     <Compile Include="Assets\Scripts\descender.cs" />
      <Compile Include="Assets\Scripts\EventManagerScript.cs" />
+     <Compile Include="Assets\Scripts\Dishes\FallableBehavior.cs" />
+     <Compile Include="Assets\Scripts\Restarter.cs" />
      <Compile Include="Assets\Scripts\Singleton.cs" />
+     <Compile Include="Assets\Scripts\Water\WaterFilling.cs" />
      <Compile Include="Assets\Scripts\Water\WaterSpring.cs" />
      <Compile Include="Assets\Scripts\SetResolution.cs" />
+     <Compile Include="Assets\Scripts\Player\LossTrigger.cs" />
+     <Compile Include="Assets\Scripts\Player\WinTrigger.cs" />
+     <Compile Include="Assets\Scripts\Unused camera movement\cameramovement.cs" />
+     <Compile Include="Assets\Scripts\Interfaces\Fallable.cs" />
+     <Compile Include="Assets\Scripts\AnimatedSprite.cs" />
      <Compile Include="Assets\Scripts\Dishes\HoldableBehavior.cs" />
-     <Compile Include="Assets\Scripts\Extensions.cs" />
+     <Compile Include="Assets\Scripts\ScaleColliderToButton.cs" />
+     <Compile Include="Assets\Scripts\Helpers.cs" />
      <Compile Include="Assets\Scripts\Player\PlayerMovement.cs" />
+     <Compile Include="Assets\Scripts\Unused camera movement\descender.cs" />
+     <Compile Include="Assets\Scripts\Dishes\MovableBehavior.cs" />
      <Compile Include="Assets\Scripts\Interfaces\Movable.cs" />
-     <Compile Include="Assets\Scripts\cameramovement.cs" />
      <Compile Include="Assets\Scripts\Interfaces\Holdable.cs" />
+     <Compile Include="Assets\Scripts\DelayedStarter.cs" />
      <Compile Include="Assets\Scripts\drop.cs" />
      <Folder Include="Assets" />
      <Folder Include="Assets\Scripts\Interfaces" />
      <Folder Include="Assets\Prefabs" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Overlay.shader" />
+     <Folder Include="Assets\TextMesh Pro\Sprites" />
      <Folder Include="Assets\Prefabs\Resources" />
+     <Folder Include="Assets\TextMesh Pro\Resources\Sprite Assets" />
+     <Folder Include="Assets\Images\start end screens" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap.shader" />
+     <Folder Include="Assets\TextMesh Pro\Resources\Fonts &amp; Materials" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Mobile.cginc" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF SSD.shader" />
+     <Folder Include="Assets\TextMesh Pro\Resources" />
      <Folder Include="Assets\Materials" />
      <Folder Include="Assets\Sprites" />
      <Folder Include="Assets\Scripts\Player" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface-Mobile.shader" />
+     <Folder Include="Assets\TextMesh Pro" />
      <Folder Include="Assets\Prefabs\Water" />
+     <Folder Include="Assets\Images\start end screens\Win" />
      <Folder Include="Assets\Images\player" />
+     <Folder Include="Assets\Images\start end screens\Lose" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Surface.shader" />
+     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne Attribution.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Custom-Atlas.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile SSD.shader" />
+     <Folder Include="Assets\Images\start end screens\Open Screen" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Leading Characters.txt" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Properties.cginc" />
+     <Folder Include="Assets\Images\Dishes" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMPro_Surface.cginc" />
+     <Folder Include="Assets\TextMesh Pro\Shaders" />
+     <Folder Include="Assets\TextMesh Pro\Resources\Style Sheets" />
+     <Folder Include="Assets\TextMesh Pro\Fonts" />
+     <None Include="Assets\TextMesh Pro\Resources\LineBreaking Following Characters.txt" />
      <Folder Include="Assets\Scripts" />
      <Folder Include="Assets\Resources" />
      <Folder Include="Assets\Water" />
      <Folder Include="Assets\Images" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile Masking.shader" />
      <Folder Include="Assets\Scripts\Dishes" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF Overlay.shader" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Bitmap-Mobile.shader" />
+     <None Include="Assets\TextMesh Pro\Fonts\LiberationSans - OFL.txt" />
      <Folder Include="Assets\Scripts\Water" />
+     <Folder Include="Assets\TextMesh Pro\Documentation" />
      <Folder Include="Assets\Scenes" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_SDF-Mobile.shader" />
+     <Folder Include="Assets\Scripts\Unused camera movement" />
+     <Folder Include="Assets\Prefabs\Sink" />
+     <None Include="Assets\TextMesh Pro\Sprites\EmojiOne.json" />
+     <None Include="Assets\TextMesh Pro\Shaders\TMP_Sprite.shader" />
      <Reference Include="UnityEngine">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.13f1\Editor\Data\Managed\UnityEngine\UnityEngine.dll</HintPath>
      </Reference>
@@ -708,6 +757,9 @@
      <Reference Include="System.Xml.Serialization">
      <HintPath>C:\Program Files\Unity\Hub\Editor\2022.3.13f1\Editor\Data\NetStandard\compat\2.1.0\shims\netfx\System.Xml.Serialization.dll</HintPath>
      </Reference>
+     <Reference Include="Unity.Recorder.Editor">
+     <HintPath>C:\Users\ohadk\Desktop\Degree\GameJam\SpongeInSink\Library\ScriptAssemblies\Unity.Recorder.Editor.dll</HintPath>
+     </Reference>
      <Reference Include="Unity.2D.IK.Runtime">
      <HintPath>C:\Users\ohadk\Desktop\Degree\GameJam\SpongeInSink\Library\ScriptAssemblies\Unity.2D.IK.Runtime.dll</HintPath>
      </Reference>
@@ -731,6 +783,9 @@
      </Reference>
      <Reference Include="Unity.VisualScripting.Shared.Editor">
      <HintPath>C:\Users\ohadk\Desktop\Degree\GameJam\SpongeInSink\Library\ScriptAssemblies\Unity.VisualScripting.Shared.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Recorder.Base">
+     <HintPath>C:\Users\ohadk\Desktop\Degree\GameJam\SpongeInSink\Library\ScriptAssemblies\Unity.Recorder.Base.dll</HintPath>
      </Reference>
      <Reference Include="Unity.VisualStudio.Editor">
      <HintPath>C:\Users\ohadk\Desktop\Degree\GameJam\SpongeInSink\Library\ScriptAssemblies\Unity.VisualStudio.Editor.dll</HintPath>
@@ -821,6 +876,9 @@
      </Reference>
      <Reference Include="Unity.TextMeshPro.Editor">
      <HintPath>C:\Users\ohadk\Desktop\Degree\GameJam\SpongeInSink\Library\ScriptAssemblies\Unity.TextMeshPro.Editor.dll</HintPath>
+     </Reference>
+     <Reference Include="Unity.Recorder">
+     <HintPath>C:\Users\ohadk\Desktop\Degree\GameJam\SpongeInSink\Library\ScriptAssemblies\Unity.Recorder.dll</HintPath>
      </Reference>
      <Reference Include="Unity.2D.Aseprite.Editor">
      <HintPath>C:\Users\ohadk\Desktop\Degree\GameJam\SpongeInSink\Library\ScriptAssemblies\Unity.2D.Aseprite.Editor.dll</HintPath>
