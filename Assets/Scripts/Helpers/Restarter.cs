@@ -18,6 +18,7 @@ public class Restarter : MonoBehaviour
         if (Input.GetKeyDown(_restartKey) && !restart) {
             restart = true;  
             Debug.Log("Restarted");
+            AudioManager.PlayRestartButtonPressed();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }

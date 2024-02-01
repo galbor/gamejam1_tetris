@@ -54,6 +54,25 @@ public class WaterFilling : MonoBehaviour
         }
     }
 
+    private void LateUpdate()
+    {
+        if (_isFaucetOpen)
+        {
+            if (_waterBody.position.y < _minWaterLevel + .5f)
+            {
+                AudioManager.StopWaterFallOnWater();
+                AudioManager.PlayWaterFallOnSink();
+            }
+            else
+            {
+                AudioManager.StopWaterFallOnSink();
+                AudioManager.PlayWaterFallOnWater();
+            }
+
+            AudioManager.PlayWaterFlow();
+        }
+    }
+
     private void WaterUp()
     {
         _waterBody.velocity = new Vector2(0, _fillSpeed);
@@ -66,12 +85,16 @@ public class WaterFilling : MonoBehaviour
     
     public void OpenFaucet()
     {
+        AudioManager.PlayFaucetOpen();
+        AudioManager.PlayFaucetOpenWaterPressure();
         StartCoroutine(FaucetAnimationCoroutine(new Vector3(_streamWidth, _faucetStream.localScale.y, 1),
             new Vector2(0, _fillSpeed)));
     }
     
     public void CloseFaucet(object obj = null)
     {
+        AudioManager.PlayFaucetClose();
+        AudioManager.PlayFaucetCloseWaterPressure();
         StartCoroutine(FaucetAnimationCoroutine(new Vector3(0, _faucetStream.localScale.y, 1),
             new Vector2(0, -_drainSpeed)));
     }

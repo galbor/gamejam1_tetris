@@ -45,6 +45,10 @@ namespace Dishes
             {
                 return;
             }
+            if (other.gameObject.TryGetComponent(out IFallable fallable1))
+            {
+                AudioManager.PlayDishWithDishCollision();
+            }
             if (!_isFalling || (other.gameObject.TryGetComponent(out IFallable fallable) && fallable.IsFalling()))
             {
                 return;
@@ -56,7 +60,6 @@ namespace Dishes
                 Debug.Log("not falling");
                 _isFalling = false;
             }
-
         }
     }
 }

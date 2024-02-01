@@ -9,6 +9,7 @@ public class EventManagerScript : Singleton<EventManagerScript>
 	public const string PlayerDrowned = "PlayerDrowned";
 	public const string PlayerHit = "PlayerHit";
 	public const string Win = "Win";
+    public const string Lose = "Lose";
 	public const string StartDescent = "start descent";
 	public const string StopDescent = "stop descent";
 	
@@ -22,8 +23,8 @@ public class EventManagerScript : Singleton<EventManagerScript>
 
 
     private Dictionary <string, FloatEvent> eventDictionary;
-	
-	private void Init ()
+
+    private void Init ()
 	{
 		if (eventDictionary == null)
 		{

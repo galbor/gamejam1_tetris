@@ -44,6 +44,7 @@ public class LossTrigger : MonoBehaviour
     {
         if (!_canLose) return;
         Debug.Log("Game Over");
+        EventManagerScript.Instance.TriggerEvent(EventManagerScript.Lose, null);
         StartCoroutine(GameOverCoroutine());
     }
     

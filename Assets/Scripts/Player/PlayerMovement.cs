@@ -41,6 +41,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     private bool _lost;
     [SerializeField] private float waterSoakCurve = 3f;
     [SerializeField] private WaterShapeController waterShapeController;
+    private bool _firstTimeTouchesGround;
 
     public bool Grounded { get; private set; }
     public bool Jumping { get; private set; }
@@ -59,6 +60,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         _timeInWater = 0f;
         CanMove = true;
         _lost = false;
+        _firstTimeTouchesGround = true;
     }
 
     private void Update()
@@ -87,6 +89,11 @@ public class PlayerMovement : MonoBehaviour, IMovable
         if (!Grounded && touchesGround)
         {
             Debug.Log("Player touches the ground");
+            if (_firstTimeTouchesGround)
+            {
+                AudioManager.PlayFirstLanding();
+                _firstTimeTouchesGround = false;
+            }
         }
         Grounded = touchesGround;
         if (Grounded) {
@@ -188,7 +195,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
             _velocity.y = JumpForce * _velocityMultiplier;
 
             Debug.Log("Velocity: " + _velocity.y);
-            
+            AudioManager.PlayJump();
             Jumping = true;
             if (_holdable != null)
             {
@@ -204,7 +211,15 @@ public class PlayerMovement : MonoBehaviour, IMovable
         _velocity.y += multiplier * Gravity * Time.deltaTime;
         _velocity.y = Mathf.Max(_velocity.y, Gravity / 2f);
     }
-    
+
+    private void LateUpdate()
+    {
+        if (_timeInWater > 0f)
+        {
+            AudioManager.PlayUnderwaterMoving();
+        }
+    }
+
     private void FixedUpdate()
     {
         Vector2 position = _rigidBody.position;
@@ -230,6 +245,20 @@ public class PlayerMovement : MonoBehaviour, IMovable
                 }
             }
         }
+
+        // audio
+        if (_firstTimeTouchesGround) return;
+        if (transform.IsDirectionFrom(other.transform, Vector2.down))
+        {
+            if (other.gameObject.TryGetComponent(out IFallable fallable1))
+            {
+                AudioManager.PlayLandOnObject();
+            }
+            else
+            {
+                AudioManager.PlayLandOnSink();
+            }
+        }
     }
 
     private void OnTriggerEnter2D(Collider2D other)
@@ -242,6 +271,14 @@ public class PlayerMovement : MonoBehaviour, IMovable
             var splashPosition = new Vector3(position.x, bottomY, position.z);
             waterShapeController.Splash(splashPosition, _velocity);
             Debug.Log("Player enters water");
+        }
+        // audio
+        if (transform.IsDirectionFrom(other.transform, Vector2.down))
+        {
+            if (other.gameObject.CompareTag("water"))
+            {
+                AudioManager.PlayLandInWater();
+            }
         }
     }
 

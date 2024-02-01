@@ -129,6 +129,8 @@ public class drop : MonoBehaviour
         Rigidbody2D dropRb = drop.GetComponent<Rigidbody2D>();
         dropRb.AddForce(-force * transform.up, ForceMode2D.Impulse);
         dropRb.AddTorque(torque, ForceMode2D.Impulse);
+        // also add drop sound
+        AudioManager.PlayFallingObject();
     }
     
     //drops a gameobject from the dropper, with a random rotation and a random force
