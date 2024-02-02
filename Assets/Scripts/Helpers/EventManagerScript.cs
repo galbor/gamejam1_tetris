@@ -12,6 +12,7 @@ public class EventManagerScript : Singleton<EventManagerScript>
     public const string Lose = "Lose";
 	public const string StartDescent = "start descent";
 	public const string StopDescent = "stop descent";
+    public const string DishWithDishCollision = "DishWithDishCollision";
 	
 
 	protected EventManagerScript()

@@ -3,11 +3,13 @@ using System.Collections;
 using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.U2D;
 
 public class WaterFilling : MonoBehaviour
 {
     [SerializeField] private float _drainSpeed = 1f;
     [SerializeField] private float _fillSpeed = 1f;
+    [SerializeField] private float _fastFillSpeed = 2f;
     
     [SerializeField] private float _faucetOpenTime = 0.5f;
 
@@ -18,6 +20,9 @@ public class WaterFilling : MonoBehaviour
     private float _minWaterLevel;
     private float _streamWidth;
     private bool _isFaucetOpen = false;
+    private float _desiredWaterLevel = 0;
+    private EventManagerScript _eventManager;
+    private SpriteShapeRenderer _spriteRenderer;
     
     // Start is called before the first frame update
     void Start()
@@ -26,7 +31,10 @@ public class WaterFilling : MonoBehaviour
         _minWaterLevel = transform.position.y;
         _streamWidth = _faucetStream.localScale.x;
         _faucetStream.localScale = new Vector3(0, _faucetStream.localScale.y, 1);
-        EventManagerScript.Instance.StartListening(EventManagerScript.Win, CloseFaucet);
+        _eventManager = EventManagerScript.Instance;
+        _eventManager.StartListening(EventManagerScript.Win, CloseFaucet);
+        _eventManager.StartListening(EventManagerScript.DishWithDishCollision, UpdateDesiredWaterLevel);
+        _spriteRenderer = GetComponent<SpriteShapeRenderer>();
     }
 
     // void Update()
@@ -51,6 +59,17 @@ public class WaterFilling : MonoBehaviour
         if (transform.position.y <= _minWaterLevel && _waterBody.velocity.y < 0)
         {
             _waterBody.velocity = Vector2.zero;
+        }
+
+        if (!_isFaucetOpen)
+            return;
+        if (transform.position.y < _desiredWaterLevel)
+        {
+            _waterBody.velocity = new Vector2(0, _fastFillSpeed);
+        }
+        else
+        {
+            _waterBody.velocity = new Vector2(0, _fillSpeed);
         }
     }
 
@@ -85,6 +104,7 @@ public class WaterFilling : MonoBehaviour
     
     public void OpenFaucet()
     {
+        _isFaucetOpen = true;
         AudioManager.PlayFaucetOpen();
         AudioManager.PlayFaucetOpenWaterPressure();
         StartCoroutine(FaucetAnimationCoroutine(new Vector3(_streamWidth, _faucetStream.localScale.y, 1),
@@ -93,11 +113,19 @@ public class WaterFilling : MonoBehaviour
     
     public void CloseFaucet(object obj = null)
     {
+        _isFaucetOpen = false;
         AudioManager.PlayFaucetClose();
         AudioManager.PlayFaucetCloseWaterPressure();
         StartCoroutine(FaucetAnimationCoroutine(new Vector3(0, _faucetStream.localScale.y, 1),
             new Vector2(0, -_drainSpeed)));
     }
+    
+    
+    private void UpdateDesiredWaterLevel(object obj)
+    {
+        _desiredWaterLevel = (float) obj - _spriteRenderer.bounds.size.y / 2;
+    }
+    
     
     IEnumerator FaucetAnimationCoroutine(Vector3 final_stream_size, Vector2 final_water_velocity)
     {

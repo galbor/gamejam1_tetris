@@ -57,7 +57,7 @@ namespace Dishes
             if (other.gameObject.TryGetComponent(out IFallable fallable1))
             {
                 AudioManager.PlayDishWithDishCollision();
-                _eventManager.TriggerEvent("DishWithDishCollision", transform.position.y);
+                _eventManager.TriggerEvent(EventManagerScript.DishWithDishCollision, transform.position.y);
             }
             if (!_isFalling || (other.gameObject.TryGetComponent(out IFallable fallable) && fallable.IsFalling()))
             {

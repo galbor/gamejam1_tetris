@@ -123,10 +123,10 @@ public class drop : MonoBehaviour
      */
     private void Drop(GameObject prefab, float force, float torque)
     {
-        GameObject drop = Instantiate(prefab, transform.position,
-            transform.rotation, _drop_parent);
-        drop.GetComponent<MovableBehavior>().Init(wsc);
-        Rigidbody2D dropRb = drop.GetComponent<Rigidbody2D>();
+        GameObject newDrop = Instantiate(prefab, transform.position,
+            prefab.transform.rotation, _drop_parent);
+        newDrop.GetComponent<MovableBehavior>().Init(wsc);
+        Rigidbody2D dropRb = newDrop.GetComponent<Rigidbody2D>();
         dropRb.AddForce(-force * transform.up, ForceMode2D.Impulse);
         dropRb.AddTorque(torque, ForceMode2D.Impulse);
         // also add drop sound
