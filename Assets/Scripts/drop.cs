@@ -171,7 +171,8 @@ public class drop : MonoBehaviour
         Drop();
         _dropperPointerSpriteRenderer.color = initial_color;
         // _dropperPointer.transform.localScale = 
-            // new Vector3(_nextDropPrefab.transform.localScale.x, initial_size.y, initial_size.z);
+        //     new Vector3(_nextDropPrefab.transform.localScale.x, initial_size.y, initial_size.z);
+        _dropperPointer.transform.localScale = initial_size;
         ChangeToNewRandomLocation();
         dropTimer = GetDropInterval();
         isWarning = false;
