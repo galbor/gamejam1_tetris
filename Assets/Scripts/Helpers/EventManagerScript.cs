@@ -13,6 +13,9 @@ public class EventManagerScript : Singleton<EventManagerScript>
 	public const string StartDescent = "start descent";
 	public const string StopDescent = "stop descent";
     public const string DishWithDishCollision = "DishWithDishCollision";
+
+    private bool restarted = false; //used to check if the game was restarted
+									//I pur it here because it's a singleton with DontDestroyOnLoad
 	
 
 	protected EventManagerScript()
@@ -64,5 +67,15 @@ public class EventManagerScript : Singleton<EventManagerScript>
 		{
 			thisEvent.Invoke (obj);
 		}
+	}
+	
+	public void restart()
+	{
+		restarted = true;
+	}
+	
+	public bool isRestarted()
+	{
+		return restarted;
 	}
 }
