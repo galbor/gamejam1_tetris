@@ -22,12 +22,7 @@ namespace Dishes
             _hitWater = false;
             _rigidbody2D = GetComponent<Rigidbody2D>();
         }
-
-        public Vector2 GetVelocity()
-        {
-            return _rigidbody2D.velocity;
-        }
-
+        
         private void OnTriggerEnter2D(Collider2D other)
         {
             if (!_hitWater && other.gameObject.layer == _waterLayer)
@@ -38,6 +33,11 @@ namespace Dishes
                 waterShapeController.Splash(splashPosition, GetVelocity());
                 _hitWater = true;
             }
+        }
+        
+        public Vector2 GetVelocity()
+        {
+            return _rigidbody2D.velocity;
         }
     }
 }

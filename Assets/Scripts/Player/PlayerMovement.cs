@@ -4,7 +4,9 @@ using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
 using Interfaces;
+using Player;
 using UnityEngine;
+using UnityEngine.Pool;
 using Object = System.Object;
 
 public class PlayerMovement : MonoBehaviour, IMovable
@@ -41,13 +43,19 @@ public class PlayerMovement : MonoBehaviour, IMovable
     private bool _lost;
     [SerializeField] private float waterSoakCurve = 3f;
     [SerializeField] private WaterShapeController waterShapeController;
+    
+    private ObjectPool<GameObject> _squeezeDropletPool;
+    [SerializeField] private GameObject squeezeDropletPrefab;
+    [SerializeField] private GameObject squeezeDropletParent;
+    [SerializeField] private float squeezeDropletLifeTime = .5f;
+    
     private bool _firstTimeTouchesGround;
 
     public bool Grounded { get; private set; }
     public bool Jumping { get; private set; }
     public bool Turning => (_inputAxis > 0f && _velocity.x < 0f) || (_inputAxis < 0f && _velocity.x > 0f);
     public bool Running => Mathf.Abs(_velocity.x) > .25f || Mathf.Abs(_inputAxis) > .25f;
-    
+
     private void Awake()
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
@@ -61,6 +69,8 @@ public class PlayerMovement : MonoBehaviour, IMovable
         CanMove = true;
         _lost = false;
         _firstTimeTouchesGround = true;
+        
+        _squeezeDropletPool = new ObjectPool<GameObject>(() => Instantiate(squeezeDropletPrefab, squeezeDropletParent.transform), droplet => droplet.GetComponent<SqueezeDroplet>().Init(squeezeDropletLifeTime, _squeezeDropletPool), droplet => droplet.GetComponent<SqueezeDroplet>().Release());
     }
 
     private void Update()
@@ -104,8 +114,19 @@ public class PlayerMovement : MonoBehaviour, IMovable
         ApplyGravity();
         
         ApplyWaterSoak();
-        
+
+        ApplySqueeze();
+
         // CheckHoldAndRelease();
+    }
+
+    private void ApplySqueeze()
+    {
+        if (CanMove && Input.GetButton("Fire1"))
+        {
+            _squeezeDropletPool.Get();
+            // droplet.transform.position = transform.position;
+        }
     }
 
     private void ApplyWaterSoak()

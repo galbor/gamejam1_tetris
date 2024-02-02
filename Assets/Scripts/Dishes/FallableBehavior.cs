@@ -38,6 +38,11 @@ namespace Dishes
             }
         }
         
+        public void AddForce(Vector2 force)
+        {
+            _rigidbody2D.AddForce(force, ForceMode2D.Impulse);
+        }
+        
         private void OnCollisionEnter2D(Collision2D other)
         {
             Debug.Log("Fallable collision enter with " + other.gameObject.layer);
