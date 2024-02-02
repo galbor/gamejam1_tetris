@@ -31,6 +31,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
 
     private float _inputAxis;
     private Vector2 _velocity;
+    [SerializeField] private float minVelocity;
     private float _velocityMultiplier = 1f;
     private float _timeInWater;
     private float JumpForce => (2f * maxJumpHeight) / (maxJumpTime / 2f);
@@ -204,6 +205,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         
         _velocity.x = Mathf.MoveTowards(_velocity.x, _inputAxis * moveSpeed, moveSpeed * Time.deltaTime);
         _velocity.x *= _velocityMultiplier;
+        _velocity.x = _inputAxis * Mathf.Max(minVelocity, Mathf.Abs(_velocity.x));
     
         // player's facing direction
         if (_holdable != null) {  // we want to not turn if we're holding something
@@ -220,7 +222,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         // if player is turning, add drag to make him turn faster
         if (Turning)
         {
-            _velocity.x *= .98f;
+            _velocity.x =0;  // i.e. disables turning for now
         }
     }
 
