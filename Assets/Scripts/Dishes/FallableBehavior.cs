@@ -14,6 +14,7 @@ namespace Dishes
         private int _borderLayer;
         private int _playerLayer;
         private Rigidbody2D _rigidbody2D;
+        private EventManagerScript _eventManager;
 
         private void Awake()
         {
@@ -22,7 +23,8 @@ namespace Dishes
             _playerLayer = LayerMask.NameToLayer("Player");
             _isFalling = true;
             _rigidbody2D = GetComponent<Rigidbody2D>();
-            EventManagerScript.Instance.StartListening(EventManagerScript.PlayerHit, HitHead);
+            _eventManager = EventManagerScript.Instance;
+            _eventManager.StartListening(EventManagerScript.PlayerHit, HitHead);
         }
 
         public bool IsFalling()
@@ -53,6 +55,7 @@ namespace Dishes
             if (other.gameObject.TryGetComponent(out IFallable fallable1))
             {
                 AudioManager.PlayDishWithDishCollision();
+                _eventManager.TriggerEvent("DishWithDishCollision", transform.position.y);
             }
             if (!_isFalling || (other.gameObject.TryGetComponent(out IFallable fallable) && fallable.IsFalling()))
             {

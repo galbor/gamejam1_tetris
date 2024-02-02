@@ -170,8 +170,8 @@ public class drop : MonoBehaviour
 
         Drop();
         _dropperPointerSpriteRenderer.color = initial_color;
-        _dropperPointer.transform.localScale = 
-            new Vector3(_nextDropPrefab.transform.localScale.x, initial_size.y, initial_size.z);
+        // _dropperPointer.transform.localScale = 
+            // new Vector3(_nextDropPrefab.transform.localScale.x, initial_size.y, initial_size.z);
         ChangeToNewRandomLocation();
         dropTimer = GetDropInterval();
         isWarning = false;
@@ -182,7 +182,7 @@ public class drop : MonoBehaviour
     private void ChangeToNewRandomLocation()
     {
         transform.position = new Vector3(_rand.GenerateRandomNumber(), transform.position.y, 0);//Random.Range(leftBoundX, rightBoundX), transform.position.y, 0);
-        transform.eulerAngles = new Vector3( 0,0, Random.Range(-_maxDropperDirection, _maxDropperDirection) + originalRotation);
+        // transform.eulerAngles = new Vector3( 0,0, Random.Range(-_maxDropperDirection, _maxDropperDirection) + originalRotation);
     }
 
     public void SwitchAutomatic()
