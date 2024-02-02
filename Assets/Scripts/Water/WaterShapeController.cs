@@ -33,7 +33,8 @@ public class WaterShapeController : MonoBehaviour
 
     private void Awake()
     {
-        _splash = Instantiate(splashParticleSystem);
+        // _splash = Instantiate(splashParticleSystem);
+        _splash = splashParticleSystem;
     }
 
     IEnumerator CreateWaves() {

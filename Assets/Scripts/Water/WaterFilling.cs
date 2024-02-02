@@ -22,10 +22,11 @@ public class WaterFilling : MonoBehaviour
     private float _minWaterLevel;
     private float _streamWidth;
     private bool _isFaucetOpen = false;
-    private float _desiredWaterLevel = 0;
+    private bool _isFilling = false;
+    private float _desiredWaterLevel = -30;
     private EventManagerScript _eventManager;
     private SpriteShapeRenderer _spriteRenderer;
-    private Vector3 _screenCenter; //860, 540, 0
+    private Vector3 _screenEnd; //1920, 1080, 0
     
     // Start is called before the first frame update
     void Start()
@@ -38,23 +39,23 @@ public class WaterFilling : MonoBehaviour
         _eventManager.StartListening(EventManagerScript.Win, CloseFaucet);
         _eventManager.StartListening(EventManagerScript.DishWithDishCollision, UpdateDesiredWaterLevel);
         _spriteRenderer = GetComponent<SpriteShapeRenderer>();
-        _screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
+        _screenEnd = new Vector3(Screen.width, Screen.height, 0);
     }
 
-    void Update()
-    {
-        if (Input.GetKeyDown(_openFaucetKey))
-        {
-            if (_isFaucetOpen)
-            {
-                CloseFaucet();
-            }
-            else
-            {
-                OpenFaucet();
-            }
-        }
-    }
+    // void Update()
+    // {
+    //     if (Input.GetKeyDown(_openFaucetKey))
+    //     {
+    //         if (_isFaucetOpen)
+    //         {
+    //             CloseFaucet();
+    //         }
+    //         else
+    //         {
+    //             OpenFaucet();
+    //         }
+    //     }
+    // }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -65,14 +66,14 @@ public class WaterFilling : MonoBehaviour
             return;
         }
 
-        if (transform.position.y >= _mainCamera.ScreenToWorldPoint(_screenCenter).y)
+        if (_spriteRenderer.bounds.max.y >= _mainCamera.ScreenToWorldPoint(_screenEnd).y)
         {
             CloseFaucet(null);
         }
 
-        if (!_isFaucetOpen)
+        if (!_isFaucetOpen || _isFilling)
             return;
-        if (transform.position.y < _desiredWaterLevel)
+        if (_spriteRenderer.bounds.max.y < _desiredWaterLevel)
         {
             _waterBody.velocity = new Vector2(0, _fastFillSpeed);
         }
@@ -132,12 +133,13 @@ public class WaterFilling : MonoBehaviour
     
     private void UpdateDesiredWaterLevel(object obj)
     {
-        _desiredWaterLevel = (float) obj - _spriteRenderer.bounds.size.y / 2;
+        _desiredWaterLevel = Math.Max((float) obj, _desiredWaterLevel);
     }
     
     
     IEnumerator FaucetAnimationCoroutine(Vector3 final_stream_size, Vector2 final_water_velocity)
     {
+        _isFilling = true;
         float time_elapsed = 0f;
         Vector3 initial_size = _faucetStream.localScale;
         Vector2 initial_velocity = _waterBody.velocity;
@@ -151,5 +153,6 @@ public class WaterFilling : MonoBehaviour
         }
         _faucetStream.localScale = final_stream_size;
         _waterBody.velocity = final_water_velocity;
+        _isFilling = false;
     }
 }
