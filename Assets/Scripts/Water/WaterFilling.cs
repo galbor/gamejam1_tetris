@@ -16,6 +16,8 @@ public class WaterFilling : MonoBehaviour
     [SerializeField] private Transform _faucetStream;
     [SerializeField] private KeyCode _openFaucetKey = KeyCode.Z;
     
+    [SerializeField] private Camera _mainCamera;
+    
     private Rigidbody2D _waterBody;
     private float _minWaterLevel;
     private float _streamWidth;
@@ -23,6 +25,7 @@ public class WaterFilling : MonoBehaviour
     private float _desiredWaterLevel = 0;
     private EventManagerScript _eventManager;
     private SpriteShapeRenderer _spriteRenderer;
+    private Vector3 _screenCenter; //860, 540, 0
     
     // Start is called before the first frame update
     void Start()
@@ -35,23 +38,23 @@ public class WaterFilling : MonoBehaviour
         _eventManager.StartListening(EventManagerScript.Win, CloseFaucet);
         _eventManager.StartListening(EventManagerScript.DishWithDishCollision, UpdateDesiredWaterLevel);
         _spriteRenderer = GetComponent<SpriteShapeRenderer>();
+        _screenCenter = new Vector3(Screen.width / 2, Screen.height / 2, 0);
     }
 
-    // void Update()
-    // {
-    //     if (Input.GetKeyDown(_openFaucetKey))
-    //     {
-    //         if (_isFaucetOpen)
-    //         {
-    //             CloseFaucet();
-    //         }
-    //         else
-    //         {
-    //             OpenFaucet();
-    //         }
-    //         _isFaucetOpen = !_isFaucetOpen;
-    //     }
-    // }
+    void Update()
+    {
+        if (Input.GetKeyDown(_openFaucetKey))
+        {
+            if (_isFaucetOpen)
+            {
+                CloseFaucet();
+            }
+            else
+            {
+                OpenFaucet();
+            }
+        }
+    }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -59,6 +62,12 @@ public class WaterFilling : MonoBehaviour
         if (transform.position.y <= _minWaterLevel && _waterBody.velocity.y < 0)
         {
             _waterBody.velocity = Vector2.zero;
+            return;
+        }
+
+        if (transform.position.y >= _mainCamera.ScreenToWorldPoint(_screenCenter).y)
+        {
+            CloseFaucet(null);
         }
 
         if (!_isFaucetOpen)
