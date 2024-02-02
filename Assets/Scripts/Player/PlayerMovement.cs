@@ -16,6 +16,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     private LayerMask _waterLayerMask;
     private LayerMask _borderLayerMask;
     private LayerMask _playerLayerMask;
+    private LayerMask _squeezeDropletsLayerMask;
     private LayerMask _ignorePlayerCollisionLayerMask;
     private LayerMask _ignoreHoldableLayerMask;
     
@@ -48,6 +49,11 @@ public class PlayerMovement : MonoBehaviour, IMovable
     [SerializeField] private GameObject squeezeDropletPrefab;
     [SerializeField] private GameObject squeezeDropletParent;
     [SerializeField] private float squeezeDropletLifeTime = .5f;
+    [SerializeField] private float squeezeDrySpeed;
+    [SerializeField] private bool canSqueezeWhenDry;
+    [SerializeField] private bool canDryWhenNotSqueezed;
+    private bool CanSqueeze => canSqueezeWhenDry || _timeInWater > 0;
+    private float CurSqueezeDrySpeed => _submerged? 0f : squeezeDrySpeed;
     
     private bool _firstTimeTouchesGround;
 
@@ -63,14 +69,26 @@ public class PlayerMovement : MonoBehaviour, IMovable
         _waterLayerMask = LayerMask.GetMask("Water");
         _borderLayerMask = LayerMask.GetMask("Border");
         _playerLayerMask = LayerMask.GetMask("Player");
-        _ignorePlayerCollisionLayerMask = _waterLayerMask | _playerLayerMask;
-        _ignoreHoldableLayerMask = _waterLayerMask | _borderLayerMask | _playerLayerMask;
+        _squeezeDropletsLayerMask = LayerMask.GetMask("SqueezeDroplets");
+        _ignorePlayerCollisionLayerMask = _waterLayerMask | _playerLayerMask | _squeezeDropletsLayerMask;
+        _ignoreHoldableLayerMask = _waterLayerMask | _borderLayerMask | _playerLayerMask | _squeezeDropletsLayerMask;
         _timeInWater = 0f;
         CanMove = true;
         _lost = false;
         _firstTimeTouchesGround = true;
         
-        _squeezeDropletPool = new ObjectPool<GameObject>(() => Instantiate(squeezeDropletPrefab, squeezeDropletParent.transform), droplet => droplet.GetComponent<SqueezeDroplet>().Init(squeezeDropletLifeTime, _squeezeDropletPool), droplet => droplet.GetComponent<SqueezeDroplet>().Release());
+        _squeezeDropletPool = new ObjectPool<GameObject>(() => Instantiate(squeezeDropletPrefab, squeezeDropletParent.transform), 
+            droplet =>
+            {
+                droplet.SetActive(true);
+                droplet.GetComponent<SqueezeDroplet>()
+                    .Init(transform.position, squeezeDropletLifeTime, _squeezeDropletPool);
+            },
+            droplet =>
+            {
+                droplet.SetActive(false);
+                droplet.GetComponent<SqueezeDroplet>().Release();
+            });
     }
 
     private void Update()
@@ -122,16 +140,16 @@ public class PlayerMovement : MonoBehaviour, IMovable
 
     private void ApplySqueeze()
     {
-        if (CanMove && Input.GetButton("Fire1"))
+        if (CanMove && CanSqueeze && Input.GetButton("Fire1"))
         {
             _squeezeDropletPool.Get();
-            // droplet.transform.position = transform.position;
+            _timeInWater = Mathf.Max(0, _timeInWater - CurSqueezeDrySpeed * Time.deltaTime);
         }
     }
 
     private void ApplyWaterSoak()
     {
-        if (!_submerged && _timeInWater > 0f)
+        if (!_submerged && canDryWhenNotSqueezed && _timeInWater > 0f)
         {
             _timeInWater -= Time.deltaTime;
         }
@@ -284,6 +302,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
 
     private void OnTriggerEnter2D(Collider2D other)
     {
+        if (other.gameObject.layer == _squeezeDropletsLayerMask) return;
         if (other.gameObject.CompareTag("water"))
         {
             _submerged = true;

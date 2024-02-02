@@ -96,6 +96,7 @@ public class AudioManager : MonoBehaviour
 
     private void WinAudio(object arg0)
     {
+        if (homeBackgroundMusics == null || homeBackgroundMusics.Length == 0) return;
         homeBackgroundMusics[_homeBackgroundIndex].Stop();
         roomToneSound.Stop();
         peopleFoliesSound.Stop();
@@ -104,6 +105,7 @@ public class AudioManager : MonoBehaviour
     
     private void LoseAudio(object arg0)
     {
+        if (homeBackgroundMusics == null || homeBackgroundMusics.Length == 0) return;
         homeBackgroundMusics[_homeBackgroundIndex].Stop();
         roomToneSound.Stop();
         peopleFoliesSound.Stop();

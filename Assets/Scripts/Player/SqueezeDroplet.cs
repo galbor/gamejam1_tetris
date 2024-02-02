@@ -17,6 +17,7 @@ namespace Player
         [SerializeField] private float angleFirst;
         [SerializeField] private float angleLast;
         [SerializeField] private float force;
+        [SerializeField] private float spawnRadius;
     
         private float _lifeTime;
         private SpriteRenderer _spriteRenderer;
@@ -26,16 +27,16 @@ namespace Player
         private ObjectPool<GameObject> _pool;
         private bool _released;
 
-        public void Init(float lifetime, ObjectPool<GameObject> objPool)
+        public void Init(Vector3 position, float lifetime, ObjectPool<GameObject> objPool)
         {
+            Debug.Log("droplet Init");
             _lifeTime = lifetime;
             _pool = objPool;
             _released = false;
         
             // color
             _spriteRenderer = GetComponent<SpriteRenderer>();
-            _spriteRenderer.color = Random.ColorHSV(colorBright.r, colorDark.r, colorBright.g, colorDark.g, colorBright.b,
-                colorDark.b);
+            _spriteRenderer.color = Color.Lerp(colorBright, colorDark, Random.Range(0f, 1f));
             // size
             _size = Random.Range(sizeSmall, sizeBig);
             transform.localScale = new Vector3(_size, _size, 1);
@@ -43,6 +44,7 @@ namespace Player
             _speed = Random.Range(speedSlow, speedFast);
             // angle
             _angle = Random.Range(angleFirst, angleLast);
+            transform.position = position + new Vector3(Mathf.Cos(_angle * Mathf.Deg2Rad), Mathf.Sin(_angle * Mathf.Deg2Rad)) * spawnRadius;
         
             StartCoroutine(Fade());
         }

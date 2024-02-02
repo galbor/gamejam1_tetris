@@ -15,12 +15,14 @@ namespace Dishes
         private int _playerLayer;
         private Rigidbody2D _rigidbody2D;
         private EventManagerScript _eventManager;
+        private int _squeezeDropletsLayer;
 
         private void Awake()
         {
             _waterLayer = LayerMask.NameToLayer("Water");
             _borderLayer = LayerMask.NameToLayer("Border");
             _playerLayer = LayerMask.NameToLayer("Player");
+            _squeezeDropletsLayer = LayerMask.NameToLayer("SqueezeDroplets");
             _isFalling = true;
             _rigidbody2D = GetComponent<Rigidbody2D>();
             _eventManager = EventManagerScript.Instance;
@@ -63,7 +65,7 @@ namespace Dishes
             }
             var velocity = _rigidbody2D.velocity;
             ScreenEffects.Shake(.5f, velocity.magnitude * velocity.magnitude/400);
-            if (other.gameObject.layer != _playerLayer)
+            if (other.gameObject.layer != _playerLayer && other.gameObject.layer != _squeezeDropletsLayer)
             {
                 Debug.Log("not falling");
                 _isFalling = false;

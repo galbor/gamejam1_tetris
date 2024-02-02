@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 5651233103214594753}
   - component: {fileID: 3006301431263691146}
   - component: {fileID: 7297774145331422784}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SqueezeDroplet
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -74,9 +74,9 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 20
+  m_SortingOrder: 8
   m_Sprite: {fileID: -2413806693520163455, guid: a86470a33a6bf42c4b3595704624658b, type: 3}
-  m_Color: {r: 0, g: 0.10466727, b: 0.6150943, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
@@ -133,13 +133,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f8136c3af0a364c9c4a788dce98c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorBright: {r: 0, g: 0, b: 0, a: 0}
-  colorDark: {r: 0, g: 0, b: 0, a: 0}
-  sizeSmall: 0.2
-  sizeBig: 0.3
-  speedSlow: 0.05
-  speedFast: 0.5
-  fadeStartTime: 0.3
+  colorBright: {r: 0.42075467, g: 0.8552957, b: 1, a: 1}
+  colorDark: {r: 0.0074261003, g: 0.20041318, b: 0.5622641, a: 1}
+  sizeSmall: 1
+  sizeBig: 2
+  speedSlow: 0.5
+  speedFast: 3
+  fadeStartTime: 0.7
   angleFirst: -45
   angleLast: 225
-  force: 5
+  force: 1
+  spawnRadius: 0.5
