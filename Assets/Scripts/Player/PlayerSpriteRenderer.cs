@@ -66,9 +66,9 @@ namespace Player
                 _spriteRenderer.sprite = hit;
             } else if (_movement.Jumping) {
                 _spriteRenderer.sprite = jump;
-            } else if (_movement.Turning)
-            {
-                _spriteRenderer.sprite = turn;
+            // } else if (_movement.Turning)
+            // {
+                // _spriteRenderer.sprite = turn;
             } else if (!_movement.Running)
             {
                 _spriteRenderer.sprite = idle;
