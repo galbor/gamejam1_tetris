@@ -93,13 +93,25 @@ public class AudioManager : MonoBehaviour
         
         PlayStartBackground();
     }
+    
+    private void PlaySound(AudioSource audioSource)
+    {
+        if (audioSource == null) return;
+        audioSource.Play();
+    }
+    
+    private void StopSound(AudioSource audioSource)
+    {
+        if (audioSource == null) return;
+        audioSource.Stop();
+    }
 
     private void WinAudio(object arg0)
     {
         if (homeBackgroundMusics == null || homeBackgroundMusics.Length == 0) return;
         homeBackgroundMusics[_homeBackgroundIndex].Stop();
-        roomToneSound.Stop();
-        peopleFoliesSound.Stop();
+        StopSound(roomToneSound);
+        StopSound(peopleFoliesSound);
         PlayWinBackground();
     }
     
@@ -107,8 +119,8 @@ public class AudioManager : MonoBehaviour
     {
         if (homeBackgroundMusics == null || homeBackgroundMusics.Length == 0) return;
         homeBackgroundMusics[_homeBackgroundIndex].Stop();
-        roomToneSound.Stop();
-        peopleFoliesSound.Stop();
+        StopSound(roomToneSound);
+        StopSound(peopleFoliesSound);
         PlayLoseBackground();
     }
 
@@ -128,26 +140,22 @@ public class AudioManager : MonoBehaviour
     
     private void PlayStartBackgroundMusic()
     {
-        if (startBackgroundMusic == null) return;
-        startBackgroundMusic.Play();
+        PlaySound(startBackgroundMusic);
     }
     
     private void StopStartBackgroundMusic()
     {
-        if (startBackgroundMusic == null) return;
-        startBackgroundMusic.Stop();
+        StopSound(startBackgroundMusic);
     }
     
     private void PlayLoseBackgroundMusic()
     {
-        if (loseBackgroundMusic == null) return;
-        loseBackgroundMusic.Play();
+        PlaySound(loseBackgroundMusic);
     }
     
     private void PlayWinBackgroundMusic()
     {
-        if (winBackgroundMusic == null) return;
-        winBackgroundMusic.Play();
+        PlaySound(winBackgroundMusic);
     }
     
     private void PlayRestartButtonPressedSound()
@@ -170,8 +178,7 @@ public class AudioManager : MonoBehaviour
     
     private void PlayRunningSound()
     {
-        if (_isrunningSoundNull) return;
-        runningSound.Play();
+        PlaySound(runningSound);
     }
     
     private void PlayJumpSound()
@@ -224,14 +231,12 @@ public class AudioManager : MonoBehaviour
     
     private void PlayRoomToneSound()
     {
-        if (roomToneSound == null) return;
-        roomToneSound.Play();
+        PlaySound(roomToneSound);
     }
     
     private void PlayPeopleFoliesSound()
     {
-        if (peopleFoliesSound == null) return;
-        peopleFoliesSound.Play();
+        PlaySound(peopleFoliesSound);
     }
     
     private void PlayHomeBackgroundMusic()
