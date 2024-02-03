@@ -133,7 +133,7 @@ public class WaterFilling : MonoBehaviour
     
     private void UpdateDesiredWaterLevel(object obj)
     {
-        _desiredWaterLevel = Math.Max((float) obj, _desiredWaterLevel);
+        _desiredWaterLevel = Math.Max((float) obj-1, _desiredWaterLevel);
     }
     
     
