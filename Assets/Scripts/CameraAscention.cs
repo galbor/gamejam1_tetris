@@ -35,7 +35,7 @@ public class CameraAscention : MonoBehaviour
     // Update is called once per frame
     void FixedUpdate()
     { 
-        if (_camera.WorldToScreenPoint(_player.transform.position).y > _playerMaxHeightScreen && started)
+        if (started && _camera.WorldToScreenPoint(_player.transform.position).y > _playerMaxHeightScreen)
         {
             _cameraBody.velocity = _ascensionVector;
             return;

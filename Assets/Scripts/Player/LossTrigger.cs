@@ -55,6 +55,7 @@ public class LossTrigger : MonoBehaviour
         yield return new WaitForSeconds(_restartFadeDelay);
         foreach (SpriteRenderer text in _restartText)
         {
+            text.transform.gameObject.SetActive(true);
             text.DOFade(1, _fadeTime);
         }
     }
