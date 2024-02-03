@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Helpers;
 using UnityEngine;
 using UnityEngine.Serialization;
 
@@ -37,7 +38,7 @@ public class Starter : MonoBehaviour
     public void OnStartPressed()
     {
         _startKey = KeyCode.None; //in case it's restarted
-        
+        EventManagerScript.Instance.TriggerEvent(EventManagerScript.StartGame, null);
         AudioManager.PlayStartButtonPressed();
         AudioManager.StopStartBackground();
         AudioManager.PlayHomeBackground();

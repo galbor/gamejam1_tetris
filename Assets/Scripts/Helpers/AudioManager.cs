@@ -90,7 +90,7 @@ public class AudioManager : MonoBehaviour
         EventManagerScript.Instance.StartListening(EventManagerScript.Lose, LoseAudio);
         EventManagerScript.Instance.StartListening(EventManagerScript.PlayerHit, PlaySmashedByObject);
         EventManagerScript.Instance.StartListening(EventManagerScript.PlayerDrowned, PlayDrown);
-        
+        EventManagerScript.Instance.StartListening(EventManagerScript.PlayerFirstLand, PlayFirstLanding);
         PlayStartBackground();
     }
     
@@ -332,7 +332,7 @@ public class AudioManager : MonoBehaviour
     public static void PlayWinBackground(object arg0=null) => Instance.PlayWinBackgroundMusic();
     public static void PlayRestartButtonPressed() => Instance.PlayRestartButtonPressedSound();
     public static void PlayScoreUp() => Instance.PlayScoreUpSound();  // todo score not yet implemented
-    public static void PlayFirstLanding() => Instance.PlayFirstLandingSound();
+    public static void PlayFirstLanding(object arg0=null) => Instance.PlayFirstLandingSound();
     public static void PlayRunning() => Instance.PlayRunningSound();
     public static void PlayJump() => Instance.PlayJumpSound();
     public static void PlayLandOnSink() => Instance.PlayLandOnSinkSound();
