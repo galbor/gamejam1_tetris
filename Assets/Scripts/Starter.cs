@@ -9,7 +9,9 @@ public class Starter : MonoBehaviour
     [SerializeField] private KeyCode _startKey = KeyCode.Return; //Enter
     
     [SerializeField] private GameObject[] _objectsToActivateDelayed;
+    [SerializeField] private GameObject[] _objectsToActivateImmediately;
     [SerializeField] private GameObject[] _objectsToDeactivateImmediately;
+    [SerializeField] private CameraAscention _cameraAscender;
     [SerializeField] private drop _drop;
     
     
@@ -45,10 +47,15 @@ public class Starter : MonoBehaviour
         AudioManager.PlayRoomTone();
         AudioManager.PlayPeopleFolies();
         _drop.SwitchAutomatic();
+        _cameraAscender.GameStarted();
         
         foreach (GameObject obj in _objectsToDeactivateImmediately)
         {
             obj.SetActive(false);
+        }
+        foreach(GameObject obj in _objectsToActivateImmediately)
+        {
+            obj.SetActive(true);
         }
         StartDelayedActivation();
     }

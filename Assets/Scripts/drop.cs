@@ -13,20 +13,9 @@ public class drop : MonoBehaviour
     [SerializeField] private GameObject _dropperPointer; //the little triangle that shows where the drop will be
     
     [SerializeField] private GameObject[] _dropPrefabs;
-    private GameObject[] _heroDropPrefabs;
-    private int HeroDropInverval = 30;
-    
-    [SerializeField] private KeyCode _dropKey = KeyCode.Space; //manually drop
-    [SerializeField] private KeyCode _moveLeftKey = KeyCode.A; //move the dropper left
-    [SerializeField] private KeyCode _moveRightKey = KeyCode.D; //move the dropper right
-    [SerializeField] private KeyCode _rotateLeftKey = KeyCode.Q; //rotate the dropper left 
-    [SerializeField] private KeyCode _rotateRightKey = KeyCode.E; //rotate the dropper right
-    [SerializeField] private KeyCode _switchAutomaticKey = KeyCode.F; //switch between automatic and manual dropping
+    [SerializeField] private GameObject[] _heroDropPrefabs;
+    [SerializeField] private int HeroDropInverval = 30;
 
-
-    [SerializeField] private float _moveSpeed = 5f; //manual move speed
-    [SerializeField] private float _rotateSpeed = 20f; //manual rotate speed
-    [SerializeField] private float _maxDropperDirection = 65f; //max angle of the dropper
     [SerializeField] private GameObject _rightWall;
     [SerializeField] private GameObject _leftWall;
     [SerializeField] private float _distanceFromWall = 0.5f; //distance from the wall to not spawn
