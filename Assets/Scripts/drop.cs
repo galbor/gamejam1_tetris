@@ -13,6 +13,8 @@ public class drop : MonoBehaviour
     [SerializeField] private GameObject _dropperPointer; //the little triangle that shows where the drop will be
     
     [SerializeField] private GameObject[] _dropPrefabs;
+    private GameObject[] _heroDropPrefabs;
+    private int HeroDropInverval = 30;
     
     [SerializeField] private KeyCode _dropKey = KeyCode.Space; //manually drop
     [SerializeField] private KeyCode _moveLeftKey = KeyCode.A; //move the dropper left
@@ -47,7 +49,7 @@ public class drop : MonoBehaviour
     private bool isWarning = false;
     private bool isAutomatic = false;
     private float dropTimer;
-    private float originalRotation;
+    private int _dropCounter = 0;
     private RandomNormalDistribution _rand;
     [SerializeField] private WaterShapeController wsc;
 
@@ -56,7 +58,6 @@ public class drop : MonoBehaviour
         Debug.Log("drop start");
         _dropperPointerSpriteRenderer = _dropperPointer.GetComponent<SpriteRenderer>();
         dropTimer = GetDropInterval();
-        originalRotation = transform.eulerAngles.z;
         
         rightBoundX = _rightWall.transform.position.x - _distanceFromWall - _rightWall.transform.localScale.x / 2;
         leftBoundX = _leftWall.transform.position.x + _distanceFromWall + _leftWall.transform.localScale.x / 2;
@@ -69,36 +70,6 @@ public class drop : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        // if (Input.GetKeyDown(_dropKey))
-        // {
-        //     Drop();
-        // }
-        // //move
-        // if (Input.GetKey(_moveLeftKey))
-        // {
-        //     transform.position = new Vector2(Math.Max(leftBoundX, transform.position.x - _moveSpeed * Time.deltaTime),
-        //         transform.position.y);
-        // }
-        // else if (Input.GetKey(_moveRightKey))
-        // {
-        //     transform.position = new Vector2(Math.Min(rightBoundX, transform.position.x + _moveSpeed * Time.deltaTime),
-        //         transform.position.y);
-        // }
-        
-        //rotate
-        // if (Input.GetKey(_rotateRightKey))
-        // {
-        //     transform.Rotate(0, 0, Math.Min(_rotateSpeed * Time.deltaTime, _maxDropperDirection));
-        // }
-        // else if (Input.GetKey(_rotateLeftKey))
-        // {
-        //     transform.Rotate(0, 0, Math.Max(-_rotateSpeed * Time.deltaTime, -_maxDropperDirection));
-        // }
-        //
-        // if (Input.GetKeyDown(_switchAutomaticKey))
-        // {
-        //     SwitchAutomatic();
-        // }
 
         //every _dropInterval seconds, drop a random prefab (if automatic)
         if (isAutomatic)
@@ -131,6 +102,7 @@ public class drop : MonoBehaviour
         dropRb.AddTorque(torque, ForceMode2D.Impulse);
         // also add drop sound
         AudioManager.PlayFallingObject();
+        ++_dropCounter;
     }
     
     //drops a gameobject from the dropper, with a random rotation and a random force
@@ -145,7 +117,14 @@ public class drop : MonoBehaviour
     private void Drop()
     {
         Drop(_nextDropPrefab);
-        _nextDropPrefab = _dropPrefabs[Random.Range(0, _dropPrefabs.Length)];
+        if (_dropCounter % HeroDropInverval == 0 && _heroDropPrefabs.Length != 0)
+        {
+            _nextDropPrefab = _heroDropPrefabs[Random.Range(0, _heroDropPrefabs.Length)];
+        }
+        else
+        {
+            _nextDropPrefab = _dropPrefabs[Random.Range(0, _dropPrefabs.Length)];
+        }
     }
 
     /**
@@ -170,8 +149,6 @@ public class drop : MonoBehaviour
 
         Drop();
         _dropperPointerSpriteRenderer.color = initial_color;
-        // _dropperPointer.transform.localScale = 
-        //     new Vector3(_nextDropPrefab.transform.localScale.x, initial_size.y, initial_size.z);
         _dropperPointer.transform.localScale = initial_size;
         ChangeToNewRandomLocation();
         dropTimer = GetDropInterval();
@@ -183,7 +160,6 @@ public class drop : MonoBehaviour
     private void ChangeToNewRandomLocation()
     {
         transform.position = new Vector3(_rand.GenerateRandomNumber(), transform.position.y, 0);//Random.Range(leftBoundX, rightBoundX), transform.position.y, 0);
-        // transform.eulerAngles = new Vector3( 0,0, Random.Range(-_maxDropperDirection, _maxDropperDirection) + originalRotation);
     }
 
     public void SwitchAutomatic()

@@ -13,6 +13,7 @@ public class CameraAscention : MonoBehaviour
     
     private Camera _camera;
     private Vector3 _ascensionVector;
+    private SpriteRenderer _playerSpriteRenderer;
 
     private float _playerMaxHeightScreen;
     // Start is called before the first frame update
@@ -20,17 +21,22 @@ public class CameraAscention : MonoBehaviour
     {
         Debug.Log("CameraAscention Start");
         _camera = _cameraObject.GetComponent<Camera>();
+        _playerSpriteRenderer = _player.GetComponent<SpriteRenderer>();
         _playerMaxHeightScreen = _camera.pixelHeight * _playerMaxHeightPercent;
         _ascensionVector = new Vector3(0, _ascensionSpeed, 0);
     }
 
     // Update is called once per frame
-    void Update()
-    {
+    void FixedUpdate()
+    { 
         if (_camera.WorldToScreenPoint(_player.transform.position).y > _playerMaxHeightScreen)
         {
-            _cameraObject.transform.position += _ascensionVector * Time.deltaTime;
-            // _dropper.transform.position += _ascensionVector * Time.deltaTime;
+            _cameraObject.transform.position += _ascensionVector * Time.fixedDeltaTime;
+            return;
+        }
+        if (_camera.WorldToScreenPoint(_playerSpriteRenderer.bounds.min).y <= 0)
+        {
+            _cameraObject.transform.position -= _ascensionVector * Time.fixedDeltaTime;
         }
     }
 }
