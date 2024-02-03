@@ -1,10 +1,11 @@
-﻿using UnityEngine;
-using UnityEngine.Events;
-using System.Collections;
+﻿using UnityEngine.Events;
 using System.Collections.Generic;
+using Effects;
 
 public class EventManagerScript : Singleton<EventManagerScript>
 {
+	public const string StartGame = "StartGame";
+    public const string PlayerFirstLand = "PlayerFirstLand";
 	public const string WaterHit = "WaterHit";
 	public const string PlayerDrowned = "PlayerDrowned";
 	public const string PlayerHit = "PlayerHit";
@@ -71,6 +72,7 @@ public class EventManagerScript : Singleton<EventManagerScript>
 	
 	public void restart()
 	{
+		ScreenEffects.StopShake();
 		restarted = true;
 	}
 	

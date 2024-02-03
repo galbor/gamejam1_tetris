@@ -1,3 +1,4 @@
+using Helpers;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -21,6 +22,7 @@ public class Restarter : MonoBehaviour
             Debug.Log("Restarted");
             AudioManager.PlayRestartButtonPressed();
             EventManagerScript.Instance.restart(); //doing it because it's a singleton
+            GameData.Restart();
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }

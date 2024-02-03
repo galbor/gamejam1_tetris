@@ -3,6 +3,7 @@ using System.Linq.Expressions;
 using DG.Tweening;
 using DG.Tweening.Core;
 using DG.Tweening.Plugins.Options;
+using Helpers;
 using Interfaces;
 using Player;
 using UnityEngine;
@@ -42,7 +43,6 @@ public class PlayerMovement : MonoBehaviour, IMovable
     private TweenerCore<Vector3,Vector3,VectorOptions> _holdableTween;
     private bool _submerged;
     private SpriteRenderer _spriteRenderer;
-    private bool _lost;
     [SerializeField] private float waterSoakCurve = 3f;
     [SerializeField] private WaterShapeController waterShapeController;
     
@@ -75,7 +75,6 @@ public class PlayerMovement : MonoBehaviour, IMovable
         _ignoreHoldableLayerMask = _waterLayerMask | _borderLayerMask | _playerLayerMask | _squeezeDropletsLayerMask;
         _timeInWater = 0f;
         CanMove = true;
-        _lost = false;
         _firstTimeTouchesGround = true;
         
         _squeezeDropletPool = new ObjectPool<GameObject>(() => Instantiate(squeezeDropletPrefab, squeezeDropletParent.transform), 
@@ -118,9 +117,10 @@ public class PlayerMovement : MonoBehaviour, IMovable
         if (!Grounded && touchesGround)
         {
             Debug.Log("Player touches the ground");
-            if (_firstTimeTouchesGround)
+            if (_firstTimeTouchesGround && GameData.Started)
             {
-                AudioManager.PlayFirstLanding();
+                Debug.Log("First land");
+                EventManagerScript.Instance.TriggerEvent(EventManagerScript.PlayerFirstLand, null);
                 _firstTimeTouchesGround = false;
             }
         }
@@ -162,9 +162,8 @@ public class PlayerMovement : MonoBehaviour, IMovable
         _velocityMultiplier = Mathf.Lerp(1f, 0f, easeInCubic);
         
         // if _velocityMultiplier reached 0, lose
-        if (!_lost && _velocityMultiplier <= 0f)
+        if (!GameData.Lost && _velocityMultiplier <= 0f)
         {
-            _lost = true;
             EventManagerScript.Instance.TriggerEvent(EventManagerScript.PlayerDrowned, null);
         }
     }
@@ -195,7 +194,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
             Debug.Log("Player released " + _holdable);
             _holdable = null;
             Destroy(_fixedJoint);
-            _holdableTween?.Kill();
+            // _holdableTween?.Kill();
         }
     }
 
@@ -238,10 +237,10 @@ public class PlayerMovement : MonoBehaviour, IMovable
             Debug.Log("Velocity: " + _velocity.y);
             AudioManager.PlayJump();
             Jumping = true;
-            if (_holdable != null)
-            {
-                _holdableTween?.Kill();
-            }
+            // if (_holdable != null)
+            // {
+            //     _holdableTween?.Kill();
+            // }
         }
     }
     
