@@ -73,6 +73,6 @@ public class Starter : MonoBehaviour
             obj.SetActive(true);
         }
         _faucet.OpenFaucet();
-        gameObject.SetActive(false);
+        // gameObject.SetActive(false);
     }
 }
