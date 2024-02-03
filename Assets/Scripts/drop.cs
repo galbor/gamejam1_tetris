@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using DefaultNamespace;
 using Dishes;
+using Interfaces;
 using UnityEngine;
 using UnityEngine.Serialization;
 using Random = UnityEngine.Random;
@@ -85,10 +86,32 @@ public class drop : MonoBehaviour
     {
         GameObject newDrop = Instantiate(prefab, transform.position,
             prefab.transform.rotation, _drop_parent);
-        newDrop.GetComponent<MovableBehavior>().Init(wsc);
-        Rigidbody2D dropRb = newDrop.GetComponent<Rigidbody2D>();
-        dropRb.AddForce(-force * transform.up, ForceMode2D.Impulse);
-        dropRb.AddTorque(torque, ForceMode2D.Impulse);
+        List<MovableBehavior> movable = new List<MovableBehavior>();
+        List<Rigidbody2D> dropRb = new List<Rigidbody2D>();
+        if (newDrop.TryGetComponent(out IBreakable breakable))
+        {
+            foreach (var variable in newDrop.GetComponentsInChildren<MovableBehavior>())
+            {
+                movable.Add(variable);
+            }
+            foreach (var variable in newDrop.GetComponentsInChildren<Rigidbody2D>())
+            {
+                dropRb.Add(variable);
+            }
+        } else
+        { 
+            movable.Add(newDrop.GetComponent<MovableBehavior>());
+            dropRb.Add(newDrop.GetComponent<Rigidbody2D>());
+        } 
+        foreach (var variable in movable)
+        {
+            variable.Init(wsc);
+        }
+        foreach (var variable in dropRb)
+        {
+            variable.AddForce(-force * transform.up, ForceMode2D.Impulse);
+            variable.AddTorque(torque, ForceMode2D.Impulse);
+        }
         // also add drop sound
         AudioManager.PlayFallingObject();
         ++_dropCounter;
