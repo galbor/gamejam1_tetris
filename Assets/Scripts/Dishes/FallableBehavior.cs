@@ -16,6 +16,7 @@ namespace Dishes
         private Rigidbody2D _rigidbody2D;
         private EventManagerScript _eventManager;
         private int _squeezeDropletsLayer;
+        private SpriteRenderer _spriteRenderer;
 
         private void Awake()
         {
@@ -25,6 +26,7 @@ namespace Dishes
             _squeezeDropletsLayer = LayerMask.NameToLayer("SqueezeDroplets");
             _isFalling = true;
             _rigidbody2D = GetComponent<Rigidbody2D>();
+            _spriteRenderer = GetComponent<SpriteRenderer>();
             _eventManager = EventManagerScript.Instance;
             _eventManager.StartListening(EventManagerScript.PlayerHit, HitHead);
         }
@@ -57,7 +59,7 @@ namespace Dishes
             if (other.gameObject.TryGetComponent(out IFallable fallable1))
             {
                 AudioManager.PlayDishWithDishCollision();
-                _eventManager.TriggerEvent(EventManagerScript.DishWithDishCollision, transform.position.y);
+                _eventManager.TriggerEvent(EventManagerScript.DishWithDishCollision, transform.position.y + _spriteRenderer.bounds.extents.y);
             }
             if (!_isFalling || (other.gameObject.TryGetComponent(out IFallable fallable) && fallable.IsFalling()))
             {
