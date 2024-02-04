@@ -1,7 +1,9 @@
+using System;
 using System.Collections;
 using Interfaces;
 using UnityEngine;
 using UnityEngine.Pool;
+using Random = UnityEngine.Random;
 
 namespace Player
 {
@@ -21,11 +23,18 @@ namespace Player
     
         private float _lifeTime;
         private SpriteRenderer _spriteRenderer;
+        private TrailRenderer _trailRenderer;
         private float _size;
         private float _speed;
         private float _angle;
         private ObjectPool<GameObject> _pool;
         private bool _released;
+
+        private void Awake()
+        {
+            _spriteRenderer = GetComponent<SpriteRenderer>();
+            _trailRenderer = GetComponent<TrailRenderer>();
+        }
 
         public void Init(Vector3 position, float lifetime, ObjectPool<GameObject> objPool)
         {
@@ -35,8 +44,11 @@ namespace Player
             _released = false;
         
             // color
-            _spriteRenderer = GetComponent<SpriteRenderer>();
-            _spriteRenderer.color = Color.Lerp(colorBright, colorDark, Random.Range(0f, 1f));
+            var  color = Color.Lerp(colorBright, colorDark, Random.Range(0f, 1f));
+            _spriteRenderer.color = color;
+            _trailRenderer.startColor = color;
+            _trailRenderer.endColor = color;
+            
             // size
             _size = Random.Range(sizeSmall, sizeBig);
             transform.localScale = new Vector3(_size, _size, 1);
@@ -45,7 +57,8 @@ namespace Player
             // angle
             _angle = Random.Range(angleFirst, angleLast);
             transform.position = position + new Vector3(Mathf.Cos(_angle * Mathf.Deg2Rad), Mathf.Sin(_angle * Mathf.Deg2Rad)) * spawnRadius;
-        
+            _trailRenderer.Clear();
+            
             StartCoroutine(Fade());
         }
 
