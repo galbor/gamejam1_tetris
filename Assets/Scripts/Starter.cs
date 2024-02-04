@@ -47,7 +47,6 @@ public class Starter : MonoBehaviour
         AudioManager.PlayRoomTone();
         AudioManager.PlayPeopleFolies();
         _drop.SwitchAutomatic();
-        _cameraAscender.GameStarted();
         
         foreach (GameObject obj in _objectsToDeactivateImmediately)
         {
@@ -73,6 +72,7 @@ public class Starter : MonoBehaviour
             obj.SetActive(true);
         }
         _faucet.OpenFaucet();
+        _cameraAscender.GameStarted();
         // gameObject.SetActive(false);
     }
 }
