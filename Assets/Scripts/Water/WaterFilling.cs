@@ -28,6 +28,8 @@ public class WaterFilling : MonoBehaviour
     private SpriteShapeRenderer _spriteRenderer;
     private Vector3 _screenEnd; //1920, 1080, 0
     
+    public float WaterTop => _spriteRenderer.bounds.max.y;
+    
     // Start is called before the first frame update
     void Start()
     {

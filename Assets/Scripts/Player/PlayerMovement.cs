@@ -53,6 +53,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     [SerializeField] private float squeezeDrySpeed;
     [SerializeField] private bool canSqueezeWhenDry;
     [SerializeField] private bool canDryWhenNotSqueezed;
+    [SerializeField] private WaterFilling waterFilling;
     private bool CanSqueeze => canSqueezeWhenDry || _timeInWater > 0;
     private float CurSqueezeDrySpeed => _submerged? 0f : squeezeDrySpeed;
     
@@ -62,6 +63,8 @@ public class PlayerMovement : MonoBehaviour, IMovable
     public bool Jumping { get; private set; }
     public bool Turning => (_inputAxis > 0f && _velocity.x < 0f) || (_inputAxis < 0f && _velocity.x > 0f);
     public bool Running => Mathf.Abs(_velocity.x) > .25f || Mathf.Abs(_inputAxis) > .25f;
+    
+    private float PlayerTopY => transform.position.y + _spriteRenderer.bounds.extents.y;
 
     private void Awake()
     {
@@ -254,9 +257,13 @@ public class PlayerMovement : MonoBehaviour, IMovable
 
     private void LateUpdate()
     {
-        if (_timeInWater > 0f)
+        if (PlayerTopY < waterFilling.WaterTop)
         {
             AudioManager.PlayUnderwaterMoving();
+        }
+        else
+        {
+            AudioManager.StopUnderwaterMoving();
         }
     }
 

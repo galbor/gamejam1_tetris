@@ -324,6 +324,12 @@ public class AudioManager : MonoBehaviour
         if (_isunderwaterMovingSoundNull || underwaterMovingSound.isPlaying) return;
         underwaterMovingSound.PlayOneShot(underwaterMovingSound.clip);
     }
+    
+    private void StopUnderwaterMovingSound()
+    {
+        if (_isunderwaterMovingSoundNull || !underwaterMovingSound.isPlaying) return;
+        underwaterMovingSound.Stop();
+    }
 
     public static void PlayStartButtonPressed() => Instance.PlayStartButtonPressedSound();
     public static void PlayStartBackground() => Instance.PlayStartBackgroundMusic();
@@ -360,4 +366,5 @@ public class AudioManager : MonoBehaviour
     public static void PlayWaterFallOnWater() => Instance.PlayWaterFallOnWaterSound();
     public static void PlayWaterFlow() => Instance.PlayWaterFlowSound();
     public static void PlayUnderwaterMoving() => Instance.PlayUnderwaterMovingSound();
+    public static void StopUnderwaterMoving() => Instance.StopUnderwaterMovingSound();
 }
