@@ -3,7 +3,9 @@ using System.Collections;
 using System.Collections.Generic;
 using DG.Tweening;
 using TMPro;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.Rendering.PostProcessing;
 using Object = System.Object;
 
 public class LossTrigger : MonoBehaviour
@@ -11,12 +13,14 @@ public class LossTrigger : MonoBehaviour
     [SerializeField] private PlayerMovement _playerMovement;
     [SerializeField] private SpriteRenderer _gameOverText;
     [SerializeField] private SpriteRenderer[] _restartText;
+    [SerializeField] private Camera _camera;
     
     [SerializeField] private float _fadeTime = 2f;
     [SerializeField] private float _restartFadeDelay = 3f;
 
     private Color gameOverTextColor;
     private Color[] restartTextColors;
+    private ChromaticAberration _chromaticAberration;
     private bool _canLose;
 
     private void Awake()
@@ -24,6 +28,7 @@ public class LossTrigger : MonoBehaviour
         restartTextColors = new Color[_restartText.Length];
         gameOverTextColor = _gameOverText.color;
         _gameOverText.color = new Color(gameOverTextColor.r, gameOverTextColor.g, gameOverTextColor.b, 0);
+        _chromaticAberration = _camera.GetComponent<PostProcessVolume>().profile.GetSetting<ChromaticAberration>();
         for (int i = 0; i < restartTextColors.Length; ++i)
         {
             restartTextColors[i] = _restartText[i].color;
@@ -45,6 +50,7 @@ public class LossTrigger : MonoBehaviour
         if (!_canLose) return;
         Debug.Log("Game Over");
         EventManagerScript.Instance.TriggerEvent(EventManagerScript.Lose, null);
+        _chromaticAberration.enabled.value = true;
         StartCoroutine(GameOverCoroutine());
     }
     

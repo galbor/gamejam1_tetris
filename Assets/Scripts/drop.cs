@@ -55,6 +55,7 @@ public class drop : MonoBehaviour
         _rand = new RandomNormalDistribution(mean, dropRandomVariance, leftBoundX, rightBoundX);
         
         _nextDropPrefab = _dropPrefabs[0];
+        EventManagerScript.Instance.StartListening(EventManagerScript.PlayerFirstLand, SwitchAutomatic);
     }
 
     // Update is called once per frame
@@ -174,7 +175,7 @@ public class drop : MonoBehaviour
         transform.position = new Vector3(_rand.GenerateRandomNumber(), transform.position.y, 0);//Random.Range(leftBoundX, rightBoundX), transform.position.y, 0);
     }
 
-    public void SwitchAutomatic()
+    public void SwitchAutomatic(object obj)
     {
         isAutomatic = !isAutomatic;
     }

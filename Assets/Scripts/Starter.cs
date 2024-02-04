@@ -46,7 +46,7 @@ public class Starter : MonoBehaviour
         AudioManager.PlayHomeBackground();
         AudioManager.PlayRoomTone();
         AudioManager.PlayPeopleFolies();
-        _drop.SwitchAutomatic();
+        // _drop.SwitchAutomatic();
         
         foreach (GameObject obj in _objectsToDeactivateImmediately)
         {

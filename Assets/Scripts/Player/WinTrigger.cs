@@ -25,5 +25,9 @@ public class WinTrigger : MonoBehaviour
             }
             _dropper.gameObject.SetActive(false);
         }
+        if (other.gameObject.CompareTag("faucet stopper"))
+        {
+            _faucet.CloseFaucet();
+        }
     }
 }

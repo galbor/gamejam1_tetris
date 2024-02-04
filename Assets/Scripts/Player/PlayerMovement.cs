@@ -8,6 +8,7 @@ using Interfaces;
 using Player;
 using UnityEngine;
 using UnityEngine.Pool;
+using UnityEngine.Rendering.PostProcessing;
 using Object = System.Object;
 
 public class PlayerMovement : MonoBehaviour, IMovable
@@ -35,6 +36,9 @@ public class PlayerMovement : MonoBehaviour, IMovable
     [SerializeField] private float minVelocity;
     private float _velocityMultiplier = 1f;
     private float _timeInWater;
+    [SerializeField] private float _vignetteRate = 0.3f;
+    private Vignette _vignette;
+    private float _maxVignetteIntensity;
     private float JumpForce => (2f * maxJumpHeight) / (maxJumpTime / 2f);
     private float Gravity => (-2f * maxJumpHeight) / Mathf.Pow(maxJumpTime / 2f, 2);
     private FixedJoint2D _fixedJoint;
@@ -74,10 +78,13 @@ public class PlayerMovement : MonoBehaviour, IMovable
         _borderLayerMask = LayerMask.GetMask("Border");
         _playerLayerMask = LayerMask.GetMask("Player");
         _squeezeDropletsLayerMask = LayerMask.GetMask("SqueezeDroplets");
+        _vignette = Camera.main.GetComponent<PostProcessVolume>().profile.GetSetting<Vignette>();
+        _maxVignetteIntensity = _vignette.intensity.value;
+        _vignette.intensity.value = 0f;
         _ignorePlayerCollisionLayerMask = _waterLayerMask | _playerLayerMask | _squeezeDropletsLayerMask;
         _ignoreHoldableLayerMask = _waterLayerMask | _borderLayerMask | _playerLayerMask | _squeezeDropletsLayerMask;
         _timeInWater = 0f;
-        CanMove = true;
+        CanMove = false;
         _firstTimeTouchesGround = true;
         
         _squeezeDropletPool = new ObjectPool<GameObject>(() => Instantiate(squeezeDropletPrefab, squeezeDropletParent.transform), 
@@ -125,6 +132,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
                 Debug.Log("First land");
                 EventManagerScript.Instance.TriggerEvent(EventManagerScript.PlayerFirstLand, null);
                 _firstTimeTouchesGround = false;
+                CanMove = true;
             }
         }
         Grounded = touchesGround;
@@ -160,6 +168,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         else if (_submerged && _timeInWater < timeInWaterUntilStop)
         {
             _timeInWater += Time.deltaTime;
+            _vignette.intensity.value = Math.Min(_vignette.intensity.value + Time.deltaTime*_vignetteRate, _maxVignetteIntensity);
         }
         var easeInCubic = Mathf.Pow(_timeInWater / timeInWaterUntilStop, waterSoakCurve);
         _velocityMultiplier = Mathf.Lerp(1f, 0f, easeInCubic);
@@ -314,6 +323,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         if (other.gameObject.CompareTag("water"))
         {
             _submerged = true;
+            _vignette.enabled.value = true;
             var position = transform.position;
             var bottomY = position.y - _spriteRenderer.bounds.extents.y;
             var splashPosition = new Vector3(position.x, bottomY, position.z);
@@ -334,6 +344,8 @@ public class PlayerMovement : MonoBehaviour, IMovable
     {
         if (other.gameObject.CompareTag("water"))
         {
+            _vignette.intensity.value = 0f;
+            _vignette.enabled.value = false;
             _submerged = false;
             Debug.Log("Player exits water");
         }
