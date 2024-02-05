@@ -141,23 +141,29 @@ public class AudioManager : MonoBehaviour
         if (audioSource == null) return;
         audioSource.Stop();
     }
+    
+    private void StopSoundFromArray(AudioSource[] arr, int index)
+    {
+        if (arr == null || arr.Length == 0 || index >= arr.Length) return;
+        StopSound(arr[index]);
+    }
 
+    private void EndgameAudio()
+    {
+        StopSoundFromArray(homeBackgroundMusics, _homeBackgroundIndex);
+        StopSoundFromArray(roomToneSounds, _roomToneIndex);
+        StopSoundFromArray(peopleFoliesSounds, _peopleFoliesIndex);
+    }
+    
     private void WinAudio(object arg0)
     {
-        if (homeBackgroundMusics == null || homeBackgroundMusics.Length == 0) return;
-        homeBackgroundMusics[_homeBackgroundIndex].Stop();
-        
-        StopSound(roomToneSounds[_roomToneIndex]);
-        StopSound(peopleFoliesSounds[_peopleFoliesIndex]);
+        EndgameAudio();
         PlayWinBackground();
     }
     
     private void LoseAudio(object arg0)
     {
-        if (homeBackgroundMusics == null || homeBackgroundMusics.Length == 0) return;
-        homeBackgroundMusics[_homeBackgroundIndex].Stop();
-        StopSound(roomToneSounds[_roomToneIndex]);
-        StopSound(peopleFoliesSounds[_peopleFoliesIndex]);
+        EndgameAudio();
         PlayLoseBackground();
     }
 
@@ -184,7 +190,7 @@ public class AudioManager : MonoBehaviour
     private void StopStartBackgroundMusic()
     {
         if (_isStartButtonPressedSoundsNull) return;
-        StopSound(startBackgroundMusics[_startBackgroundIndex]);
+        StopSoundFromArray(startBackgroundMusics, _startBackgroundIndex);
     }
     
     private void PlayLoseBackgroundMusic()
