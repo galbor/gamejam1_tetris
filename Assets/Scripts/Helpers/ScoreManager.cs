@@ -65,6 +65,7 @@ public class ScoreManager : MonoBehaviour
                 PlayerPrefs.SetInt("HighScore", _score);
                 highScoreText.color = highScorePassedColor;
             }
+            AudioManager.PlayScoreUp();
         }
         else // if the score is not increasing, decrease the scale
         {

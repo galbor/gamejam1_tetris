@@ -83,6 +83,7 @@ public class AudioManager : MonoBehaviour
     private int _waterFallOnSinkIndex = 0;
     private int _waterFallOnWaterIndex = 0;
     private int _underwaterMovingIndex = 0;
+    private bool _isStartBackgroundMusicsNull;
 
 
     private static AudioManager Instance { get; set; }
@@ -98,6 +99,7 @@ public class AudioManager : MonoBehaviour
         _isfirstLandingSoundNull = firstLandingSounds == null || firstLandingSounds.Length == 0;
         _isrunningSoundNull = runningSounds == null || runningSounds.Length == 0;
         _isjumpSoundNull = jumpSounds == null || jumpSounds.Length == 0;
+        _isStartBackgroundMusicsNull = startBackgroundMusics == null || startBackgroundMusics.Length == 0;
         _isfallingObjectSoundNull = fallingObjectSounds == null || fallingObjectSounds.Length == 0;
         _isfaucetOpenSoundNull = faucetOpenSounds == null || faucetOpenSounds.Length == 0;
         _isfaucetOpenWaterPressureSoundNull = faucetOpenWaterPressureSounds == null || faucetOpenWaterPressureSounds.Length == 0;
@@ -182,14 +184,14 @@ public class AudioManager : MonoBehaviour
     
     private void PlayStartBackgroundMusic()
     {
-        if (_isStartButtonPressedSoundsNull) return;
+        if (_isStartBackgroundMusicsNull) return;
         _startBackgroundIndex = Random.Range(0, startBackgroundMusics.Length);
         PlaySound(startBackgroundMusics[_startBackgroundIndex]);
     }
     
     private void StopStartBackgroundMusic()
     {
-        if (_isStartButtonPressedSoundsNull) return;
+        if (_isStartBackgroundMusicsNull) return;
         StopSoundFromArray(startBackgroundMusics, _startBackgroundIndex);
     }
     

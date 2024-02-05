@@ -156,6 +156,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         {
             _squeezeDropletPool.Get();
             _timeInWater = Mathf.Max(0, _timeInWater - CurSqueezeDrySpeed * Time.deltaTime);
+            AudioManager.PlaySqueeze();
         }
     }
 
