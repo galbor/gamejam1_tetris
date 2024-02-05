@@ -7,49 +7,55 @@ public class AudioManager : MonoBehaviour
 {
     // UI
     //  Opening scene
-    [SerializeField] private AudioSource startButtonPressedSound;
-    [SerializeField] private AudioSource startBackgroundMusic;
+    [SerializeField] private AudioSource[] startButtonPressedSounds;
+    [SerializeField] private AudioSource[] startBackgroundMusics;
+    private int _startBackgroundIndex = 0;
     //  Lose / Win scenes
-    [SerializeField] private AudioSource loseBackgroundMusic;
-    [SerializeField] private AudioSource winBackgroundMusic;
-    [SerializeField] private AudioSource restartButtonPressedSound;
+    [SerializeField] private AudioSource[] loseBackgroundMusics;
+    private int _loseBackgroundIndex = 0;
+    [SerializeField] private AudioSource[] winBackgroundMusics;
+    private int _winBackgroundIndex = 0;
+    [SerializeField] private AudioSource[] restartButtonPressedSounds;
     //  Playing scene
-    [SerializeField] private AudioSource scoreUpSound;
+    [SerializeField] private AudioSource[] scoreUpSounds;
     
     // Character
     [SerializeField] private AudioSource[] firstLandingSounds;
-    [SerializeField] private AudioSource runningSound;
-    [SerializeField] private AudioSource jumpSound;
-    [SerializeField] private AudioSource landOnSinkSound;
-    [SerializeField] private AudioSource landOnObjectSound;
+    [SerializeField] private AudioSource[] runningSounds;
+    private int _runningSoundIndex;
+    [SerializeField] private AudioSource[] jumpSounds;
+    [SerializeField] private AudioSource[] landOnSinkSounds;
+    [SerializeField] private AudioSource[] landOnObjectSounds;
     [SerializeField] private AudioSource[] landInWaterSounds;
     [SerializeField] private AudioSource[] squeezeSounds;
-    [SerializeField] private AudioSource splashOnSqueezeSound;
+    [SerializeField] private AudioSource[] splashOnSqueezeSounds;
     [SerializeField] private AudioSource[] smashedByObjectSounds;
-    [SerializeField] private AudioSource drownSound;
+    [SerializeField] private AudioSource[] drownSounds;
     
     // Environment
     //  Home
-    [SerializeField] private AudioSource roomToneSound;
-    [SerializeField] private AudioSource peopleFoliesSound;
+    [SerializeField] private AudioSource[] roomToneSounds;
+    private int _roomToneIndex = 0;
+    [SerializeField] private AudioSource[] peopleFoliesSounds;
+    private int _peopleFoliesIndex = 0;
     [SerializeField] private AudioSource[] homeBackgroundMusics;
+    private int _homeBackgroundIndex = 0;
     //  Objects
-    [SerializeField] private AudioSource fallingObjectSound;
-    [SerializeField] private AudioSource plateBreakSound;
-    [SerializeField] private AudioSource dishWithDishCollisionSound;
+    [SerializeField] private AudioSource[] fallingObjectSounds;
+    [SerializeField] private AudioSource[] plateBreakSounds;
+    [SerializeField] private AudioSource[] dishWithDishCollisionSounds;
     //  Water
-    [SerializeField] private AudioSource faucetOpenSound;
-    [SerializeField] private AudioSource faucetCloseSound;
-    [SerializeField] private AudioSource faucetOpenWaterPressureSound;
-    [SerializeField] private AudioSource faucetCloseWaterPressureSound;
-    [SerializeField] private AudioSource waterFallOnSinkSound;
-    [SerializeField] private AudioSource waterFallOnWaterSound;
-    [SerializeField] private AudioSource waterFlowSound;
-    [SerializeField] private AudioSource underwaterMovingSound;
+    [SerializeField] private AudioSource[] faucetOpenSounds;
+    [SerializeField] private AudioSource[] faucetCloseSounds;
+    [SerializeField] private AudioSource[] faucetOpenWaterPressureSounds;
+    [SerializeField] private AudioSource[] faucetCloseWaterPressureSounds;
+    [SerializeField] private AudioSource[] waterFallOnSinkSounds;
+    [SerializeField] private AudioSource[] waterFallOnWaterSounds;
+    [SerializeField] private AudioSource[] waterFlowSounds;
+    [SerializeField] private AudioSource[] underwaterMovingSounds;
     
     // others
     [SerializeField] private PlayerMovement playerMovement;
-    private int _homeBackgroundIndex = 0;
     private bool _iswaterFallOnWaterSoundNull;
     private bool _fallOnWaterSoundNull;
     private bool _iswaterFallOnSinkSoundNull;
@@ -68,6 +74,15 @@ public class AudioManager : MonoBehaviour
     private bool _isSqueezeSoundsNull;
     private bool _isSmashedByObjectSoundsNull;
     private bool _isHomeBackgroundMusicsNull;
+    private bool _isStartButtonPressedSoundsNull;
+    private bool _isLoseBackgroundSoundsNull;
+    private bool _isWinBackgroundMusicsNull;
+    private bool _isScoreUpSoundsNull;
+    private bool _isRoomToneSoundsNull;
+    private bool _isPeopleFoliesSoundsNull;
+    private int _waterFallOnSinkIndex = 0;
+    private int _waterFallOnWaterIndex = 0;
+    private int _underwaterMovingIndex = 0;
 
 
     private static AudioManager Instance { get; set; }
@@ -76,24 +91,30 @@ public class AudioManager : MonoBehaviour
 
     private void Start()
     {
-        _isRunningSoundNull = runningSound == null;
-        _isunderwaterMovingSoundNull = underwaterMovingSound == null;
-        _iswaterFlowSoundNull = waterFlowSound == null;
-        _isrestartButtonPressedSoundNull = restartButtonPressedSound == null;
+        _isRunningSoundNull = runningSounds == null || runningSounds.Length == 0;
+        _isunderwaterMovingSoundNull = underwaterMovingSounds == null || underwaterMovingSounds.Length == 0;
+        _iswaterFlowSoundNull = waterFlowSounds == null || waterFlowSounds.Length == 0;
+        _isrestartButtonPressedSoundNull = restartButtonPressedSounds == null || restartButtonPressedSounds.Length == 0;
         _isfirstLandingSoundNull = firstLandingSounds == null || firstLandingSounds.Length == 0;
-        _isrunningSoundNull = runningSound == null;
-        _isjumpSoundNull = jumpSound == null;
-        _isfallingObjectSoundNull = fallingObjectSound == null;
-        _isfaucetOpenSoundNull = faucetOpenSound == null;
-        _isfaucetOpenWaterPressureSoundNull = faucetOpenWaterPressureSound == null;
-        _fallOnSinkSoundNull = waterFallOnSinkSound == null;
-        _iswaterFallOnSinkSoundNull = waterFallOnSinkSound == null;
-        _fallOnWaterSoundNull = waterFallOnWaterSound == null;
-        _iswaterFallOnWaterSoundNull = waterFallOnWaterSound == null;
+        _isrunningSoundNull = runningSounds == null || runningSounds.Length == 0;
+        _isjumpSoundNull = jumpSounds == null || jumpSounds.Length == 0;
+        _isfallingObjectSoundNull = fallingObjectSounds == null || fallingObjectSounds.Length == 0;
+        _isfaucetOpenSoundNull = faucetOpenSounds == null || faucetOpenSounds.Length == 0;
+        _isfaucetOpenWaterPressureSoundNull = faucetOpenWaterPressureSounds == null || faucetOpenWaterPressureSounds.Length == 0;
+        _fallOnSinkSoundNull = waterFallOnSinkSounds == null || waterFallOnSinkSounds.Length == 0;
+        _iswaterFallOnSinkSoundNull = waterFallOnSinkSounds == null || waterFallOnSinkSounds.Length == 0;
+        _fallOnWaterSoundNull = waterFallOnWaterSounds == null || waterFallOnWaterSounds.Length == 0;
+        _iswaterFallOnWaterSoundNull = waterFallOnWaterSounds == null || waterFallOnWaterSounds.Length == 0;
         _isLandInWaterSoundsNull = landInWaterSounds == null || landInWaterSounds.Length == 0;
         _isSqueezeSoundsNull = squeezeSounds == null || squeezeSounds.Length == 0;
         _isSmashedByObjectSoundsNull = smashedByObjectSounds == null || smashedByObjectSounds.Length == 0;
         _isHomeBackgroundMusicsNull = homeBackgroundMusics == null || homeBackgroundMusics.Length == 0.0;
+        _isLoseBackgroundSoundsNull = loseBackgroundMusics == null || loseBackgroundMusics.Length == 0;
+        _isRoomToneSoundsNull = roomToneSounds == null || roomToneSounds.Length == 0;
+        _isPeopleFoliesSoundsNull = peopleFoliesSounds == null || peopleFoliesSounds.Length == 0;
+        _isScoreUpSoundsNull = scoreUpSounds == null || scoreUpSounds.Length == 0;
+        _isWinBackgroundMusicsNull = winBackgroundMusics == null || winBackgroundMusics.Length == 0;
+        _isStartButtonPressedSoundsNull = startButtonPressedSounds == null || startButtonPressedSounds.Length == 0;
         EventManagerScript.Instance.StartListening(EventManagerScript.Win, WinAudio);
         EventManagerScript.Instance.StartListening(EventManagerScript.Lose, LoseAudio);
         EventManagerScript.Instance.StartListening(EventManagerScript.PlayerHit, PlaySmashedByObject);
@@ -108,6 +129,13 @@ public class AudioManager : MonoBehaviour
         audioSource.Play();
     }
     
+    private void PlayRandomSound(AudioSource[] audioSources)
+    {
+        if (audioSources == null || audioSources.Length == 0) return;
+        var random = Random.Range(0, audioSources.Length);
+        audioSources[random].Play();
+    }
+    
     private void StopSound(AudioSource audioSource)
     {
         if (audioSource == null) return;
@@ -118,8 +146,9 @@ public class AudioManager : MonoBehaviour
     {
         if (homeBackgroundMusics == null || homeBackgroundMusics.Length == 0) return;
         homeBackgroundMusics[_homeBackgroundIndex].Stop();
-        StopSound(roomToneSound);
-        StopSound(peopleFoliesSound);
+        
+        StopSound(roomToneSounds[_roomToneIndex]);
+        StopSound(peopleFoliesSounds[_peopleFoliesIndex]);
         PlayWinBackground();
     }
     
@@ -127,14 +156,14 @@ public class AudioManager : MonoBehaviour
     {
         if (homeBackgroundMusics == null || homeBackgroundMusics.Length == 0) return;
         homeBackgroundMusics[_homeBackgroundIndex].Stop();
-        StopSound(roomToneSound);
-        StopSound(peopleFoliesSound);
+        StopSound(roomToneSounds[_roomToneIndex]);
+        StopSound(peopleFoliesSounds[_peopleFoliesIndex]);
         PlayLoseBackground();
     }
 
     private void LateUpdate()
     {
-        if (playerMovement.Running && !_isRunningSoundNull && !runningSound.isPlaying)
+        if (playerMovement.Running && !_isRunningSoundNull && !runningSounds[_runningSoundIndex].isPlaying)
         {
             PlayRunning();
         }
@@ -142,113 +171,116 @@ public class AudioManager : MonoBehaviour
 
     private void PlayStartButtonPressedSound()
     {
-        if (startButtonPressedSound == null) return;
-        startButtonPressedSound.PlayOneShot(startButtonPressedSound.clip);
+        PlayRandomSound(startButtonPressedSounds);
     }
     
     private void PlayStartBackgroundMusic()
     {
-        PlaySound(startBackgroundMusic);
+        if (_isStartButtonPressedSoundsNull) return;
+        _startBackgroundIndex = Random.Range(0, startBackgroundMusics.Length);
+        PlaySound(startBackgroundMusics[_startBackgroundIndex]);
     }
     
     private void StopStartBackgroundMusic()
     {
-        StopSound(startBackgroundMusic);
+        if (_isStartButtonPressedSoundsNull) return;
+        StopSound(startBackgroundMusics[_startBackgroundIndex]);
     }
     
     private void PlayLoseBackgroundMusic()
     {
-        PlaySound(loseBackgroundMusic);
+        if (_isLoseBackgroundSoundsNull) return;
+        _loseBackgroundIndex = Random.Range(0, loseBackgroundMusics.Length);
+        PlaySound(loseBackgroundMusics[_loseBackgroundIndex]);
     }
     
     private void PlayWinBackgroundMusic()
     {
-        PlaySound(winBackgroundMusic);
+        if (_isWinBackgroundMusicsNull) return;
+        _winBackgroundIndex = Random.Range(0, winBackgroundMusics.Length);
+        PlaySound(winBackgroundMusics[_winBackgroundIndex]);
     }
     
     private void PlayRestartButtonPressedSound()
     {
-        if (_isrestartButtonPressedSoundNull) return;
-        restartButtonPressedSound.PlayOneShot(restartButtonPressedSound.clip);
+        PlayRandomSound(restartButtonPressedSounds);
     }
     
     private void PlayScoreUpSound()
     {
-        if (scoreUpSound == null) return;
-        scoreUpSound.PlayOneShot(scoreUpSound.clip);
+        PlayRandomSound(scoreUpSounds);
     }
     
     private void PlayFirstLandingSound()
     {
-        if (_isfirstLandingSoundNull) return;
-        var random = Random.Range(0, firstLandingSounds.Length);
-        firstLandingSounds[random].PlayOneShot(firstLandingSounds[random].clip);
+        PlayRandomSound(firstLandingSounds);
     }
     
     private void PlayRunningSound()
     {
-        PlaySound(runningSound);
+        if (_isrunningSoundNull) return;
+        _runningSoundIndex = Random.Range(0, runningSounds.Length);
+        runningSounds[_runningSoundIndex].Play();
+    }
+    
+    private void StopRunningSound()
+    {
+        if (_isrunningSoundNull || !runningSounds[_runningSoundIndex].isPlaying) return;
+        runningSounds[_runningSoundIndex].Stop();
     }
     
     private void PlayJumpSound()
     {
-        if (_isjumpSoundNull) return;
-        jumpSound.PlayOneShot(jumpSound.clip);
+        PlayRandomSound(jumpSounds);
     }
     
     private void PlayLandOnSinkSound()
     {
-        if (landOnSinkSound == null) return;
-        landOnSinkSound.PlayOneShot(landOnSinkSound.clip);
+        PlayRandomSound(landOnSinkSounds);
     }
     
     private void PlayLandOnObjectSound()
     {
-        if (landOnObjectSound == null) return;
-        landOnObjectSound.PlayOneShot(landOnObjectSound.clip);
+        PlayRandomSound(landOnObjectSounds);
     }
     
     private void PlayLandInWaterSound()
     {
-        if (_isLandInWaterSoundsNull) return;
-        var random = Random.Range(0, landInWaterSounds.Length);
-        landInWaterSounds[random].PlayOneShot(landInWaterSounds[random].clip);
+        PlayRandomSound(landInWaterSounds);
     }
     
     private void PlaySqueezeSound()
     {
-        if (_isSqueezeSoundsNull) return;
-        var random = Random.Range(0, squeezeSounds.Length);
-        squeezeSounds[random].PlayOneShot(squeezeSounds[random].clip);
+        PlayRandomSound(squeezeSounds);
     }
 
     private void PlaySplashOnSqueezeSound()
     {
-        if (splashOnSqueezeSound == null) return;
-        splashOnSqueezeSound.PlayOneShot(splashOnSqueezeSound.clip);
+        PlayRandomSound(splashOnSqueezeSounds);
     }
     
     private void PlaySmashedByObjectSound()
     {
-        if (_isSmashedByObjectSoundsNull) return;
-        var random = Random.Range(0, smashedByObjectSounds.Length);
-        smashedByObjectSounds[random].PlayOneShot(smashedByObjectSounds[random].clip);
+        PlayRandomSound(smashedByObjectSounds);
     }
     
     private void PlayDrownSound()
     {
-        if (drownSound == null) return;
-        drownSound.PlayOneShot(drownSound.clip);
+        PlayRandomSound(drownSounds);
     }
     
     private void PlayRoomToneSound()
     {
-        PlaySound(roomToneSound);
+        if (_isRoomToneSoundsNull) return;
+        _roomToneIndex = Random.Range(0, roomToneSounds.Length);
+        roomToneSounds[_roomToneIndex].Play();
     }
     
     private void PlayPeopleFoliesSound()
     {
-        PlaySound(peopleFoliesSound);
+        if (_isPeopleFoliesSoundsNull) return;
+        _peopleFoliesIndex = Random.Range(0, peopleFoliesSounds.Length);
+        peopleFoliesSounds[_peopleFoliesIndex].Play();
     }
     
     private void PlayHomeBackgroundMusic()
@@ -260,87 +292,82 @@ public class AudioManager : MonoBehaviour
     
     private void PlayFallingObjectSound()
     {
-        if (_isfallingObjectSoundNull) return;
-        fallingObjectSound.PlayOneShot(fallingObjectSound.clip);
+        PlayRandomSound(fallingObjectSounds);
     }
     
     private void PlayPlateBreakSound()
     {
-        if (plateBreakSound == null) return;
-        plateBreakSound.PlayOneShot(plateBreakSound.clip);
+        PlayRandomSound(plateBreakSounds);
     }
     
     private void PlayDishWithDishCollisionSound()
     {
-        if (dishWithDishCollisionSound == null) return;
-        dishWithDishCollisionSound.PlayOneShot(dishWithDishCollisionSound.clip);
+        PlayRandomSound(dishWithDishCollisionSounds);
     }
     
     private void PlayFaucetOpenSound()
     {
-        if (_isfaucetOpenSoundNull) return;
-        faucetOpenSound.PlayOneShot(faucetOpenSound.clip);
+        PlayRandomSound(faucetOpenSounds);
     }
     
     private void PlayFaucetCloseSound()
     {
-        if (faucetCloseSound == null) return;
-        faucetCloseSound.PlayOneShot(faucetCloseSound.clip);
+        PlayRandomSound(faucetCloseSounds);
     }
     
     private void PlayFaucetOpenWaterPressureSound()
     {
-        if (_isfaucetOpenWaterPressureSoundNull) return;
-        faucetOpenWaterPressureSound.PlayOneShot(faucetOpenWaterPressureSound.clip);
+        PlayRandomSound(faucetOpenWaterPressureSounds);
     }
     
     private void PlayFaucetCloseWaterPressureSound()
     {
-        if (faucetCloseWaterPressureSound == null) return;
-        faucetCloseWaterPressureSound.PlayOneShot(faucetCloseWaterPressureSound.clip);
+        PlayRandomSound(faucetCloseWaterPressureSounds);
     }
     
     private void PlayWaterFallOnSinkSound()
     {
-        if (_fallOnSinkSoundNull || waterFallOnSinkSound.isPlaying) return;
-        waterFallOnSinkSound.PlayOneShot(waterFallOnSinkSound.clip);
+        if (_fallOnSinkSoundNull || waterFallOnSinkSounds[_waterFallOnSinkIndex].isPlaying) return;
+        _waterFallOnSinkIndex = Random.Range(0, waterFallOnSinkSounds.Length);
+        waterFallOnSinkSounds[_waterFallOnSinkIndex].Play();
     }
     
     private void StopWaterFallOnSinkSound()
     {
-        if (_iswaterFallOnSinkSoundNull || !waterFallOnSinkSound.isPlaying) return;
-        waterFallOnSinkSound.Stop();
+        if (_iswaterFallOnSinkSoundNull || !waterFallOnSinkSounds[_waterFallOnSinkIndex].isPlaying) return;
+        waterFallOnSinkSounds[_waterFallOnSinkIndex].Stop();
     }
     
     private void PlayWaterFallOnWaterSound()
     {
-        if (_fallOnWaterSoundNull || waterFallOnWaterSound.isPlaying) return;
-        waterFallOnWaterSound.PlayOneShot(waterFallOnWaterSound.clip);
+        if (_fallOnWaterSoundNull || waterFallOnWaterSounds[_waterFallOnWaterIndex].isPlaying) return;
+        _waterFallOnWaterIndex = Random.Range(0, waterFallOnWaterSounds.Length);
+        waterFallOnWaterSounds[_waterFallOnWaterIndex].Play();
     }
     
     private void StopWaterFallOnWaterSound()
     {
-        if (_iswaterFallOnWaterSoundNull || !waterFallOnWaterSound.isPlaying) return;
-        waterFallOnWaterSound.Stop();
+        if (_iswaterFallOnWaterSoundNull || !waterFallOnWaterSounds[_waterFallOnWaterIndex].isPlaying) return;
+        waterFallOnWaterSounds[_waterFallOnWaterIndex].Stop();
     }
 
     
     private void PlayWaterFlowSound()
     {
-        if (_iswaterFlowSoundNull || waterFlowSound.isPlaying) return;
-        waterFlowSound.PlayOneShot(waterFlowSound.clip);
+        PlayRandomSound(waterFlowSounds);
     }
     
     private void PlayUnderwaterMovingSound()
     {
-        if (_isunderwaterMovingSoundNull || underwaterMovingSound.isPlaying) return;
-        underwaterMovingSound.PlayOneShot(underwaterMovingSound.clip);
+        if (_isunderwaterMovingSoundNull || underwaterMovingSounds[_underwaterMovingIndex].isPlaying) return;
+        _underwaterMovingIndex = Random.Range(0, underwaterMovingSounds.Length);
+        underwaterMovingSounds[_underwaterMovingIndex].Play();
     }
     
     private void StopUnderwaterMovingSound()
     {
-        if (_isunderwaterMovingSoundNull || !underwaterMovingSound.isPlaying) return;
-        underwaterMovingSound.Stop();
+        if (_isunderwaterMovingSoundNull || !underwaterMovingSounds[_underwaterMovingIndex].isPlaying) return;
+        underwaterMovingSounds[_underwaterMovingIndex].Stop();
     }
 
     public static void PlayStartButtonPressed() => Instance.PlayStartButtonPressedSound();
@@ -352,6 +379,7 @@ public class AudioManager : MonoBehaviour
     public static void PlayScoreUp() => Instance.PlayScoreUpSound();  // todo score not yet implemented
     public static void PlayFirstLanding(object arg0=null) => Instance.PlayFirstLandingSound();
     public static void PlayRunning() => Instance.PlayRunningSound();
+    public static void StopRunning() => Instance.StopRunningSound();
     public static void PlayJump() => Instance.PlayJumpSound();
     public static void PlayLandOnSink() => Instance.PlayLandOnSinkSound();
     public static void PlayLandOnObject() => Instance.PlayLandOnObjectSound();

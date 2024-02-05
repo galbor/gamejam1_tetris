@@ -274,6 +274,11 @@ public class PlayerMovement : MonoBehaviour, IMovable
         {
             AudioManager.StopUnderwaterMoving();
         }
+
+        if (!Running)
+        {
+            AudioManager.StopRunning();
+        }
     }
 
     private void FixedUpdate()
