@@ -17,15 +17,15 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private AudioSource scoreUpSound;
     
     // Character
-    [SerializeField] private AudioSource firstLandingSound;
+    [SerializeField] private AudioSource[] firstLandingSounds;
     [SerializeField] private AudioSource runningSound;
     [SerializeField] private AudioSource jumpSound;
     [SerializeField] private AudioSource landOnSinkSound;
     [SerializeField] private AudioSource landOnObjectSound;
-    [SerializeField] private AudioSource landInWaterSound;
-    [SerializeField] private AudioSource squeezeSound;
+    [SerializeField] private AudioSource[] landInWaterSounds;
+    [SerializeField] private AudioSource[] squeezeSounds;
     [SerializeField] private AudioSource splashOnSqueezeSound;
-    [SerializeField] private AudioSource smashedByObjectSound;
+    [SerializeField] private AudioSource[] smashedByObjectSounds;
     [SerializeField] private AudioSource drownSound;
     
     // Environment
@@ -64,6 +64,10 @@ public class AudioManager : MonoBehaviour
     private bool _iswaterFlowSoundNull;
     private bool _isunderwaterMovingSoundNull;
     private bool _isRunningSoundNull;
+    private bool _isLandInWaterSoundsNull;
+    private bool _isSqueezeSoundsNull;
+    private bool _isSmashedByObjectSoundsNull;
+    private bool _isHomeBackgroundMusicsNull;
 
 
     private static AudioManager Instance { get; set; }
@@ -76,7 +80,7 @@ public class AudioManager : MonoBehaviour
         _isunderwaterMovingSoundNull = underwaterMovingSound == null;
         _iswaterFlowSoundNull = waterFlowSound == null;
         _isrestartButtonPressedSoundNull = restartButtonPressedSound == null;
-        _isfirstLandingSoundNull = firstLandingSound == null;
+        _isfirstLandingSoundNull = firstLandingSounds == null || firstLandingSounds.Length == 0;
         _isrunningSoundNull = runningSound == null;
         _isjumpSoundNull = jumpSound == null;
         _isfallingObjectSoundNull = fallingObjectSound == null;
@@ -86,6 +90,10 @@ public class AudioManager : MonoBehaviour
         _iswaterFallOnSinkSoundNull = waterFallOnSinkSound == null;
         _fallOnWaterSoundNull = waterFallOnWaterSound == null;
         _iswaterFallOnWaterSoundNull = waterFallOnWaterSound == null;
+        _isLandInWaterSoundsNull = landInWaterSounds == null || landInWaterSounds.Length == 0;
+        _isSqueezeSoundsNull = squeezeSounds == null || squeezeSounds.Length == 0;
+        _isSmashedByObjectSoundsNull = smashedByObjectSounds == null || smashedByObjectSounds.Length == 0;
+        _isHomeBackgroundMusicsNull = homeBackgroundMusics == null || homeBackgroundMusics.Length == 0.0;
         EventManagerScript.Instance.StartListening(EventManagerScript.Win, WinAudio);
         EventManagerScript.Instance.StartListening(EventManagerScript.Lose, LoseAudio);
         EventManagerScript.Instance.StartListening(EventManagerScript.PlayerHit, PlaySmashedByObject);
@@ -173,7 +181,8 @@ public class AudioManager : MonoBehaviour
     private void PlayFirstLandingSound()
     {
         if (_isfirstLandingSoundNull) return;
-        firstLandingSound.PlayOneShot(firstLandingSound.clip);
+        var random = Random.Range(0, firstLandingSounds.Length);
+        firstLandingSounds[random].PlayOneShot(firstLandingSounds[random].clip);
     }
     
     private void PlayRunningSound()
@@ -201,14 +210,16 @@ public class AudioManager : MonoBehaviour
     
     private void PlayLandInWaterSound()
     {
-        if (landInWaterSound == null) return;
-        landInWaterSound.PlayOneShot(landInWaterSound.clip);
+        if (_isLandInWaterSoundsNull) return;
+        var random = Random.Range(0, landInWaterSounds.Length);
+        landInWaterSounds[random].PlayOneShot(landInWaterSounds[random].clip);
     }
     
     private void PlaySqueezeSound()
     {
-        if (squeezeSound == null) return;
-        squeezeSound.PlayOneShot(squeezeSound.clip);
+        if (_isSqueezeSoundsNull) return;
+        var random = Random.Range(0, squeezeSounds.Length);
+        squeezeSounds[random].PlayOneShot(squeezeSounds[random].clip);
     }
 
     private void PlaySplashOnSqueezeSound()
@@ -219,8 +230,9 @@ public class AudioManager : MonoBehaviour
     
     private void PlaySmashedByObjectSound()
     {
-        if (smashedByObjectSound == null) return;
-        smashedByObjectSound.PlayOneShot(smashedByObjectSound.clip);
+        if (_isSmashedByObjectSoundsNull) return;
+        var random = Random.Range(0, smashedByObjectSounds.Length);
+        smashedByObjectSounds[random].PlayOneShot(smashedByObjectSounds[random].clip);
     }
     
     private void PlayDrownSound()
@@ -241,7 +253,7 @@ public class AudioManager : MonoBehaviour
     
     private void PlayHomeBackgroundMusic()
     {
-        if (homeBackgroundMusics == null || homeBackgroundMusics.Length == 0) return;
+        if (_isHomeBackgroundMusicsNull) return;
         _homeBackgroundIndex = Random.Range(0, homeBackgroundMusics.Length);
         homeBackgroundMusics[_homeBackgroundIndex].Play();
     }
