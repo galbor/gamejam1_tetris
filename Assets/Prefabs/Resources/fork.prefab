@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 9018498282274330767}
   - component: {fileID: 4024794646863800604}
   - component: {fileID: -4124669295464592153}
-  - component: {fileID: 895734837836071302}
+  - component: {fileID: 7804018715330161176}
   m_Layer: 0
   m_Name: fork
   m_TagString: rock
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 5281220418060133468}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: -0.036, y: -0.079, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -78,12 +78,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: c3e772195f06cc14e9093521efadc690, type: 3}
+  m_Sprite: {fileID: 21300000, guid: e8f5c6d568906364e858c76445903d4d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 17.5, y: 5}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 928af06f042a4cbeab1f74cae3135f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &895734837836071302
-BoxCollider2D:
+--- !u!60 &7804018715330161176
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -184,16 +184,31 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.036342382, y: 0.0072684884}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.928, y: 1.8643125}
-    newSize: {x: 1, y: 2}
+    oldSize: {x: 3.5, y: 1}
+    newSize: {x: 17.5, y: 5}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.8553152, y: 1.8788495}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.47227448, y: -0.056542158}
+      - {x: -1.4756709, y: -0.14456293}
+      - {x: -1.6332611, y: -0.024668783}
+      - {x: -1.6830561, y: 0.089848354}
+      - {x: -1.6436671, y: 0.22518596}
+      - {x: -1.349645, y: 0.15090151}
+      - {x: -0.6995323, y: 0.08585407}
+      - {x: 0.63178337, y: 0.08577422}
+      - {x: 1.3740951, y: 0.23027281}
+      - {x: 1.524202, y: -0.03217733}
+      - {x: 0.9952408, y: -0.24264847}
+      - {x: 0.79282916, y: -0.2720581}
+      - {x: 0.6661929, y: -0.24868897}
+      - {x: 0.3764344, y: -0.08861621}
+      - {x: 0.08645004, y: -0.042289287}
+  m_UseDelaunayMesh: 0

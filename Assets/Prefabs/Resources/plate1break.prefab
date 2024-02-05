@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 5226056744963453110}
   - component: {fileID: 8998672921824817948}
   m_Layer: 0
-  m_Name: plate1right
+  m_Name: plate1down
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -31,7 +31,7 @@ Transform:
   m_GameObject: {fileID: 2615783995980851473}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 1.22, y: 0, z: 0}
+  m_LocalPosition: {x: -0.028, y: -0.804, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -78,12 +78,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: edcb03ac06a7eea4aa8d5542489800f0, type: 3}
+  m_Sprite: {fileID: -2042198722, guid: 031ef8983a0a8a24aa2b57e32160848d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 18.18, y: 6.9}
+  m_Size: {x: 2.5000002, y: 3.5009768}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -188,24 +188,35 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.636, y: 1.38}
-    newSize: {x: 18.18, y: 6.9}
+    oldSize: {x: 2.5000002, y: 3.5009768}
+    newSize: {x: 2.5000002, y: 3.5009768}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: -0.7058784, y: 0.68705547}
-      - {x: 1.0635227, y: 0.53646785}
-      - {x: 1.6470499, y: 0.35764492}
-      - {x: 1.8729306, y: 0.018823318}
-      - {x: 1.7317562, y: -0.23529308}
-      - {x: 0.49882072, y: -0.49882105}
-      - {x: -0.40470397, y: -0.49882093}
-      - {x: -0.44235095, y: -0.65882003}
-      - {x: -1.8446957, y: -0.7058788}
-      - {x: -1.8258722, y: 0.69646674}
+    - - {x: -0.83075446, y: -1.2445804}
+      - {x: -1.0144533, y: -0.866022}
+      - {x: -1.1254997, y: -0.44056135}
+      - {x: -1.2152016, y: 0.42042077}
+      - {x: -1.1809798, y: 1.2217264}
+      - {x: -0.5202306, y: 1.2740957}
+      - {x: -0.09711665, y: 0.6826979}
+      - {x: 0.47667444, y: 1.3758141}
+      - {x: 0.47667444, y: 1.3758141}
+      - {x: 0.47667444, y: 1.375814}
+      - {x: 0.77567583, y: 0.9307696}
+      - {x: 1.2290657, y: 1.0921125}
+      - {x: 1.2247529, y: 0.4950986}
+      - {x: 1.1512226, y: 0.07952597}
+      - {x: 0.9566308, y: -0.13359673}
+      - {x: 0.7565248, y: -0.8225008}
+      - {x: 0.5680753, y: -1.1522075}
+      - {x: 0.28392392, y: -1.455843}
+      - {x: -0.026922826, y: -1.5844085}
+      - {x: -0.30390257, y: -1.6122164}
+      - {x: -0.5744703, y: -1.5109079}
   m_UseDelaunayMesh: 0
 --- !u!1 &2739038530886437240
 GameObject:
@@ -299,7 +310,7 @@ GameObject:
   - component: {fileID: 9163377940363085603}
   - component: {fileID: 7368810218277974109}
   m_Layer: 0
-  m_Name: plate1left
+  m_Name: plate1up
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -314,7 +325,7 @@ Transform:
   m_GameObject: {fileID: 4397998847137733046}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.22, y: 0, z: 0}
+  m_LocalPosition: {x: 0.004, y: 0.736, z: 0}
   m_LocalScale: {x: 0.7, y: 0.7, z: 0.7}
   m_ConstrainProportionsScale: 1
   m_Children: []
@@ -361,12 +372,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 22652bbcf2d84db499b9e50d5144c076, type: 3}
+  m_Sprite: {fileID: -1446139098, guid: 031ef8983a0a8a24aa2b57e32160848d, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 16.62, y: 6.94}
+  m_Size: {x: 2.5000002, y: 3.5009768}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -471,24 +482,31 @@ PolygonCollider2D:
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 3.324, y: 1.388}
-    newSize: {x: 16.62, y: 6.94}
+    oldSize: {x: 2.5000002, y: 3.5009768}
+    newSize: {x: 2.5000002, y: 3.5009768}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
   m_Points:
     m_Paths:
-    - - {x: 1.6764616, y: 0.71529025}
-      - {x: 0.06588255, y: 0.6776435}
-      - {x: -1.0635239, y: 0.5741145}
-      - {x: -1.5152864, y: 0.44235042}
-      - {x: -1.684697, y: 0.26352817}
-      - {x: -1.4964628, y: -0.13176407}
-      - {x: -0.47999793, y: -0.44235095}
-      - {x: 0.62117237, y: -0.49882105}
-      - {x: 0.7058784, y: -0.6682318}
-      - {x: 1.6752857, y: -0.7058788}
+    - - {x: -0.2453577, y: 1.5362494}
+      - {x: -0.045845628, y: 1.6072762}
+      - {x: 0.23695762, y: 1.6083833}
+      - {x: 0.4987317, y: 1.429733}
+      - {x: 0.6890116, y: 1.1480076}
+      - {x: 0.9428, y: 0.56827855}
+      - {x: 1.0909116, y: -0.29936847}
+      - {x: 1.1910563, y: -0.33091873}
+      - {x: 1.1695747, y: -1.1644962}
+      - {x: 0.72621644, y: -1.3279569}
+      - {x: 0.42499223, y: -0.89708185}
+      - {x: -0.14736985, y: -1.5743706}
+      - {x: -0.14736971, y: -1.5743706}
+      - {x: -0.5760102, y: -0.97789353}
+      - {x: -1.2230837, y: -1.0323194}
+      - {x: -0.97420603, y: 0.35129654}
+      - {x: -0.6594281, y: 1.0761486}
   m_UseDelaunayMesh: 0
 --- !u!255 &9163377940363085603
 FixedJoint2D:
@@ -504,9 +522,9 @@ FixedJoint2D:
   m_BreakForce: Infinity
   m_BreakTorque: Infinity
   m_BreakAction: 3
-  m_AutoConfigureConnectedAnchor: 0
+  m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: -3.45, y: 0}
+  m_ConnectedAnchor: {x: 0.04571438, y: 2.2000003}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!114 &7368810218277974109

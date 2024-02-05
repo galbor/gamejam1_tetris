@@ -14,7 +14,7 @@ GameObject:
   - component: {fileID: 8773990542573365020}
   - component: {fileID: 7967292270031019400}
   - component: {fileID: 6019994949898292204}
-  - component: {fileID: 8594642241432941680}
+  - component: {fileID: -4948429709589244079}
   m_Layer: 0
   m_Name: martiniCup
   m_TagString: rock
@@ -78,12 +78,12 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 10
-  m_Sprite: {fileID: 21300000, guid: 0396267282fa5b4499d885c261b3076d, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 984f99fc52fd6594ba65f3ad4373fca1, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 1, y: 2}
+  m_Size: {x: 3, y: 4.501099}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1
@@ -152,8 +152,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 928af06f042a4cbeab1f74cae3135f96, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!61 &8594642241432941680
-BoxCollider2D:
+--- !u!60 &-4948429709589244079
+PolygonCollider2D:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -184,16 +184,31 @@ BoxCollider2D:
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.038184702, y: 0}
+  m_Offset: {x: 0, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
-    oldSize: {x: 2.558, y: 4.3511496}
-    newSize: {x: 1, y: 2}
+    oldSize: {x: 3, y: 4.501099}
+    newSize: {x: 3, y: 4.501099}
     adaptiveTilingThreshold: 0.5
     drawMode: 0
     adaptiveTiling: 0
   m_AutoTiling: 0
-  serializedVersion: 2
-  m_Size: {x: 2.0015912, y: 4.3511496}
-  m_EdgeRadius: 0
+  m_Points:
+    m_Paths:
+    - - {x: -0.7926282, y: -2.0851598}
+      - {x: 0.041435182, y: -1.9223063}
+      - {x: -0.012351826, y: -0.045788392}
+      - {x: -1.0502905, y: 1.8634186}
+      - {x: -1.3684683, y: 1.9508259}
+      - {x: -1.3928753, y: 2.122416}
+      - {x: -1.1138048, y: 2.221532}
+      - {x: -0.8960307, y: 2.068822}
+      - {x: 1.3638273, y: 2.015706}
+      - {x: 0.27494854, y: 0.19145286}
+      - {x: 0.2549671, y: -1.9170823}
+      - {x: 1.0281638, y: -2.042315}
+      - {x: 0.97677326, y: -2.2085829}
+      - {x: 0.027333243, y: -2.281993}
+      - {x: -0.7785809, y: -2.1801436}
+  m_UseDelaunayMesh: 0
