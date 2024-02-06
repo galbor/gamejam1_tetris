@@ -58,6 +58,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     [SerializeField] private bool canSqueezeWhenDry;
     [SerializeField] private bool canDryWhenNotSqueezed;
     [SerializeField] private WaterFilling waterFilling;
+    [SerializeField] private ParticleSystem bubbleParticleSystem;
     private bool CanSqueeze => canSqueezeWhenDry || _timeInWater > 0;
     private float CurSqueezeDrySpeed => _submerged? 0f : squeezeDrySpeed;
     
@@ -75,6 +76,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     {
         _spriteRenderer = GetComponent<SpriteRenderer>();
         _rigidBody = GetComponent<Rigidbody2D>();
+        bubbleParticleSystem.gameObject.SetActive(false);
         _waterLayerMask = LayerMask.GetMask("Water");
         _borderLayerMask = LayerMask.GetMask("Border");
         _playerLayerMask = LayerMask.GetMask("Player");
@@ -100,6 +102,14 @@ public class PlayerMovement : MonoBehaviour, IMovable
                 droplet.SetActive(false);
                 droplet.GetComponent<SqueezeDroplet>().Release();
             });
+        
+        EventManagerScript.Instance.StartListening(EventManagerScript.StartGame, OnStartGame);
+    }
+
+    private void OnStartGame(object arg0)
+    {
+        _rigidBody.freezeRotation = false;
+        _rigidBody.angularVelocity = -120f;
     }
 
     private void Update()
@@ -131,7 +141,16 @@ public class PlayerMovement : MonoBehaviour, IMovable
             if (_firstTimeTouchesGround && GameData.Started)
             {
                 Debug.Log("First land");
+                var transform2 = transform;
+                var position1 = transform2.position;
+                position1 = new Vector2(position1.x + 0.5f, position1.y);
+                transform2.position = position1;
+                _rigidBody.angularVelocity = 0f;
+                _rigidBody.rotation = 0f;
+                transform2.rotation = Quaternion.identity;
+                _rigidBody.freezeRotation = true;
                 EventManagerScript.Instance.TriggerEvent(EventManagerScript.PlayerFirstLand, null);
+                bubbleParticleSystem.gameObject.SetActive(true);
                 _firstTimeTouchesGround = false;
                 CanMove = true;
             }

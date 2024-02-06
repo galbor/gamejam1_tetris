@@ -13,6 +13,7 @@ namespace Player
         private bool _drown = false;
         private bool _hit = false;
 
+        [SerializeField] private Sprite lifeless;
         [SerializeField] private Sprite idle;
         [SerializeField] private Sprite jump;
         [SerializeField] private Sprite turn;
@@ -65,11 +66,11 @@ namespace Player
         private void LateUpdate()
         {
             _animator.enabled = _firstLand && (_movement.Running || _movement.Squeezing);
-            if (!_animator.enabled)
+            _animator.runtimeAnimatorController = _animator.enabled? _animator.runtimeAnimatorController : null;
+            if (!_firstLand)
             {
-                _animator.runtimeAnimatorController = null;
-            }
-            if (_drown)
+                _spriteRenderer.sprite = lifeless;
+            } else if (_drown)
             {
                 _spriteRenderer.sprite = soak;
                 var transform2 = _spriteRenderer.transform;
@@ -92,7 +93,7 @@ namespace Player
             {
                 if (_animator.runtimeAnimatorController != _run)
                     _animator.runtimeAnimatorController = _run;
-            } else
+            } else if (!_animator.enabled)
             {
                 _spriteRenderer.sprite = idle;
             }
