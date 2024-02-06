@@ -134,8 +134,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a1f8136c3af0a364c9c4a788dce98c6a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  colorBright: {r: 0.61698115, g: 0.6472194, b: 1, a: 0.8117647}
-  colorDark: {r: 0.31164572, g: 0.18665004, b: 0.9245283, a: 0.78431374}
+  colorBright: {r: 0.8584906, g: 1, b: 0.9265239, a: 0.8117647}
+  colorDark: {r: 0.6773585, g: 1, b: 0.83099735, a: 0.78431374}
   sizeSmall: 1
   sizeBig: 2
   speedSlow: 0.5

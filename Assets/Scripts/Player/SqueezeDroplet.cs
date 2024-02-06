@@ -24,6 +24,7 @@ namespace Player
         private float _lifeTime;
         private SpriteRenderer _spriteRenderer;
         private TrailRenderer _trailRenderer;
+        private Color _trailStartColor;
         private float _size;
         private float _speed;
         private float _angle;
@@ -34,6 +35,7 @@ namespace Player
         {
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _trailRenderer = GetComponent<TrailRenderer>();
+            _trailStartColor = _trailRenderer.startColor;
         }
 
         public void Init(Vector3 position, float lifetime, ObjectPool<GameObject> objPool)
@@ -48,6 +50,7 @@ namespace Player
             _spriteRenderer.color = color;
             _trailRenderer.startColor = color;
             _trailRenderer.endColor = color;
+            // _trailStartColor = color;
             
             // size
             _size = Random.Range(sizeSmall, sizeBig);
@@ -70,9 +73,13 @@ namespace Player
                 time += Time.deltaTime;
                 if (time > fadeStartTime)
                 {
+                    var a = 1 - (time - fadeStartTime) / (_lifeTime - fadeStartTime);
                     var color = _spriteRenderer.color;
-                    color.a = 1 - (time - fadeStartTime) / (_lifeTime - fadeStartTime);
+                    color.a = a;
                     _spriteRenderer.color = color;
+                    // also fade trail
+                    color = _trailRenderer.startColor;
+                    _trailRenderer.startColor = new Color(color.r, color.g, color.b, a);
                 }
                 transform.position += new Vector3(Mathf.Cos(_angle * Mathf.Deg2Rad), Mathf.Sin(_angle * Mathf.Deg2Rad)) * (_speed * Time.deltaTime);
                 yield return null;
