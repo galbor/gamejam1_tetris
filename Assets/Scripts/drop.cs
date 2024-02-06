@@ -14,8 +14,10 @@ public class drop : MonoBehaviour
     [SerializeField] private GameObject _dropperPointer; //the little triangle that shows where the drop will be
     
     [SerializeField] private GameObject[] _dropPrefabs;
+    [SerializeField] private GameObject[] _utenstilDropPrefabs;
     [SerializeField] private GameObject[] _heroDropPrefabs;
     [SerializeField] private int HeroDropInverval = 30;
+    [SerializeField] private float _utensilDropChance = 0.25f;
 
     [SerializeField] private GameObject _rightWall;
     [SerializeField] private GameObject _leftWall;
@@ -56,6 +58,7 @@ public class drop : MonoBehaviour
         
         _nextDropPrefab = _dropPrefabs[0];
         EventManagerScript.Instance.StartListening(EventManagerScript.PlayerFirstLand, SwitchAutomatic);
+        EventManagerScript.Instance.StartListening(EventManagerScript.Win, SwitchAutomatic);
     }
 
     // Update is called once per frame
@@ -133,6 +136,10 @@ public class drop : MonoBehaviour
         if (_dropCounter % HeroDropInverval == 0 && _heroDropPrefabs.Length != 0)
         {
             _nextDropPrefab = _heroDropPrefabs[Random.Range(0, _heroDropPrefabs.Length)];
+        }
+        else if (Random.Range(0, 100) <= _utensilDropChance*100)
+        {
+            _nextDropPrefab = _utenstilDropPrefabs[Random.Range(0, _utenstilDropPrefabs.Length)];
         }
         else
         {

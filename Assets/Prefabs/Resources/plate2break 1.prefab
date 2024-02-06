@@ -224,7 +224,7 @@ GameObject:
   - component: {fileID: 6476936817016409758}
   m_Layer: 0
   m_Name: plate2break 1
-  m_TagString: Untagged
+  m_TagString: gentlerock
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -237,7 +237,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2739038530886437240}
   serializedVersion: 2
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: -0.7071068, w: 0.7071068}
   m_LocalPosition: {x: 6.4, y: -1.49, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 1
@@ -245,7 +245,7 @@ Transform:
   - {fileID: 892201959002873370}
   - {fileID: 6361742595640238106}
   m_Father: {fileID: 0}
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: -90}
 --- !u!114 &7565336736091524585
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -514,7 +514,7 @@ FixedJoint2D:
   m_BreakAction: 3
   m_AutoConfigureConnectedAnchor: 1
   m_Anchor: {x: 0, y: 0}
-  m_ConnectedAnchor: {x: 0.042857442, y: 2.857143}
+  m_ConnectedAnchor: {x: 0.042857483, y: 2.8571424}
   m_DampingRatio: 0
   m_Frequency: 0
 --- !u!114 &7368810218277974109

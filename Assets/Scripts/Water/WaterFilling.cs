@@ -14,7 +14,6 @@ public class WaterFilling : MonoBehaviour
     [SerializeField] private float _faucetOpenTime = 0.5f;
 
     [SerializeField] private Transform _faucetStream;
-    [SerializeField] private KeyCode _openFaucetKey = KeyCode.Z;
     
     [SerializeField] private Camera _mainCamera;
     
@@ -43,21 +42,6 @@ public class WaterFilling : MonoBehaviour
         _spriteRenderer = GetComponent<SpriteShapeRenderer>();
         _screenEnd = new Vector3(Screen.width, Screen.height, 0);
     }
-
-    // void Update()
-    // {
-    //     if (Input.GetKeyDown(_openFaucetKey))
-    //     {
-    //         if (_isFaucetOpen)
-    //         {
-    //             CloseFaucet();
-    //         }
-    //         else
-    //         {
-    //             OpenFaucet();
-    //         }
-    //     }
-    // }
 
     // Update is called once per frame
     void FixedUpdate()
@@ -135,7 +119,7 @@ public class WaterFilling : MonoBehaviour
     
     private void UpdateDesiredWaterLevel(object obj)
     {
-        _desiredWaterLevel = Math.Max((float) obj-1, _desiredWaterLevel);
+        _desiredWaterLevel = Math.Max((float) obj-1.5f, _desiredWaterLevel);
     }
     
     
