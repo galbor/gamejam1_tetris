@@ -14,6 +14,7 @@ public class WaterFilling : MonoBehaviour
     [SerializeField] private float _faucetOpenTime = 0.5f;
 
     [SerializeField] private Transform _faucetStream;
+    [SerializeField] private ParticleSystem[] _streamParticles;
     
     [SerializeField] private Camera _mainCamera;
     
@@ -103,6 +104,8 @@ public class WaterFilling : MonoBehaviour
         _isFaucetOpen = true;
         AudioManager.PlayFaucetOpen();
         AudioManager.PlayFaucetOpenWaterPressure();
+        for (int i = 0; i < _streamParticles.Length; i++)
+            _streamParticles[i].Play();
         StartCoroutine(FaucetAnimationCoroutine(new Vector3(_streamWidth, _faucetStream.localScale.y, 1),
             new Vector2(0, _fillSpeed)));
     }
@@ -112,6 +115,8 @@ public class WaterFilling : MonoBehaviour
         _isFaucetOpen = false;
         AudioManager.PlayFaucetClose();
         AudioManager.PlayFaucetCloseWaterPressure();
+        for (int i = 0; i < _streamParticles.Length; i++)
+            _streamParticles[i].Stop();
         StartCoroutine(FaucetAnimationCoroutine(new Vector3(0, _faucetStream.localScale.y, 1),
             new Vector2(0, -_drainSpeed)));
     }
