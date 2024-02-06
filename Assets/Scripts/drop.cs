@@ -24,7 +24,8 @@ public class drop : MonoBehaviour
     [SerializeField] private float _distanceFromWall = 0.5f; //distance from the wall to not spawn
     [SerializeField] private float _maxDropRotation = 45f; //random rotation when dropping
     [SerializeField] private float _maxDropForce = 10f; //random downwards force when dropping
-    
+
+    [SerializeField] private float _moveDelay = 0.25f;
     [SerializeField] private float _minDropInterval = 1f;
     [SerializeField] private float _maxDropInterval = 5f;
     [SerializeField] private float _accelerationRate = 0.5f; //how much the drop interval decreases when dropping with warning
@@ -170,21 +171,24 @@ public class drop : MonoBehaviour
         Drop();
         _dropperPointerSpriteRenderer.color = initial_color;
         _dropperPointer.transform.localScale = initial_size;
-        ChangeToNewRandomLocation();
         dropTimer = GetDropInterval();
+        StartCoroutine(ChangeToNewRandomLocation());
         isWarning = false;
     }
 
 
     //moves the dropper and rotates it randomly
-    private void ChangeToNewRandomLocation()
+    IEnumerator ChangeToNewRandomLocation()
     {
+        yield return new WaitForSeconds(Math.Min(_moveDelay, _minDropInterval));
         transform.position = new Vector3(_rand.GenerateRandomNumber(), transform.position.y, 0);//Random.Range(leftBoundX, rightBoundX), transform.position.y, 0);
     }
 
     public void SwitchAutomatic(object obj)
     {
         isAutomatic = !isAutomatic;
+        _dropperPointer.SetActive(isAutomatic);
+        
     }
     
     private float GetDropInterval()
