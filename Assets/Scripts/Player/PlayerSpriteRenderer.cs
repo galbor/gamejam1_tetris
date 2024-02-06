@@ -16,6 +16,7 @@ namespace Player
         [SerializeField] private Sprite jump;
         [SerializeField] private Sprite turn;
         [SerializeField] private Animator run;
+        [SerializeField] private Animator squeeze;
         [SerializeField] private Sprite soak;
         [SerializeField] private Sprite hit;
         [SerializeField] private float _expansionRate = .05f;

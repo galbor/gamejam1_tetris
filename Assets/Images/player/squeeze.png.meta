@@ -134,7 +134,154 @@ TextureImporter:
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
-    sprites: []
+    sprites:
+    - serializedVersion: 2
+      name: squeeze_0
+      rect:
+        serializedVersion: 2
+        x: 0
+        y: 0
+        width: 1013
+        height: 1042
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 169d08901d4a230459c02cbd6adffcdb
+      internalID: 1209681251
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: squeeze_1
+      rect:
+        serializedVersion: 2
+        x: 1013
+        y: 0
+        width: 1013
+        height: 1042
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 0229055274602f245bc4cf838e5c3192
+      internalID: 358553310
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: squeeze_2
+      rect:
+        serializedVersion: 2
+        x: 2026
+        y: 0
+        width: 1013
+        height: 1042
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e1e1f49450e89da42b9b3501c1c98c87
+      internalID: 1728874253
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: squeeze_3
+      rect:
+        serializedVersion: 2
+        x: 3039
+        y: 0
+        width: 1013
+        height: 1042
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: e073aab77da2bae47bdddb0bbb834dbb
+      internalID: 752724905
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: squeeze_4
+      rect:
+        serializedVersion: 2
+        x: 4052
+        y: 0
+        width: 1013
+        height: 1042
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: b8c308007a43cb64383ad0306576188e
+      internalID: -145080615
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: squeeze_5
+      rect:
+        serializedVersion: 2
+        x: 5065
+        y: 0
+        width: 1013
+        height: 1042
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 05b0f3de625f63d4f8d51e46505b455f
+      internalID: -284595464
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
+    - serializedVersion: 2
+      name: squeeze_6
+      rect:
+        serializedVersion: 2
+        x: 6078
+        y: 0
+        width: 1013
+        height: 1042
+      alignment: 0
+      pivot: {x: 0, y: 0}
+      border: {x: 0, y: 0, z: 0, w: 0}
+      outline: []
+      physicsShape: []
+      tessellationDetail: 0
+      bones: []
+      spriteID: 663c426d12d5f7b47926478d3e61a631
+      internalID: 251316007
+      vertices: []
+      indices: 
+      edges: []
+      weights: []
     outline: []
     physicsShape: []
     bones: []
@@ -145,7 +292,14 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
-    nameFileIdTable: {}
+    nameFileIdTable:
+      squeeze_0: 1209681251
+      squeeze_1: 358553310
+      squeeze_2: 1728874253
+      squeeze_3: 752724905
+      squeeze_4: -145080615
+      squeeze_5: -284595464
+      squeeze_6: 251316007
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
