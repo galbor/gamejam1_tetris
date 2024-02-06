@@ -22009,6 +22009,9 @@ MonoBehaviour:
   - {fileID: 5281220418060133468, guid: f36064b2a55b87845899ce6d28c16c85, type: 3}
   _heroDropPrefabs:
   - {fileID: 5281220418060133468, guid: fa12d15fbc82b1c4bb2e97db156dbce8, type: 3}
+  - {fileID: 5281220418060133468, guid: ebf88c990e239ad4c89cb279e65a9ddf, type: 3}
+  - {fileID: 5281220418060133468, guid: f17c36c121b0cfd44b7c50d1b18efe6c, type: 3}
+  - {fileID: 5281220418060133468, guid: 1533bf2a96222a546893fb37fde5362b, type: 3}
   HeroDropInverval: 30
   _utensilDropChance: 0.15
   _rightWall: {fileID: 1999000697}
