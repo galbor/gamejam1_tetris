@@ -15,8 +15,9 @@ namespace Player
         [SerializeField] private Sprite idle;
         [SerializeField] private Sprite jump;
         [SerializeField] private Sprite turn;
-        [SerializeField] private Animator run;
-        [SerializeField] private Animator squeeze;
+        [SerializeField] private Animator _animator;
+        [SerializeField] private RuntimeAnimatorController _run;
+        [SerializeField] private RuntimeAnimatorController _squeeze;
         [SerializeField] private Sprite soak;
         [SerializeField] private Sprite hit;
         [SerializeField] private float _expansionRate = .05f;
@@ -54,7 +55,6 @@ namespace Player
 
         private void LateUpdate()
         {
-            run.enabled = _movement.Running;
             if (_drown)
             {
                 _spriteRenderer.sprite = soak;
@@ -70,7 +70,11 @@ namespace Player
             // } else if (_movement.Turning)
             // {
                 // _spriteRenderer.sprite = turn;
-            } else if (!_movement.Running)
+            } else if (_movement.Running)
+            {
+                // play the run animation
+                
+            } else
             {
                 _spriteRenderer.sprite = idle;
             }
