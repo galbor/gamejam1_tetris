@@ -1,4 +1,5 @@
 using System;
+using Helpers;
 using UnityEngine;
 
 namespace Player
@@ -21,9 +22,11 @@ namespace Player
         [SerializeField] private Sprite soak;
         [SerializeField] private Sprite hit;
         [SerializeField] private float _expansionRate = .05f;
+        private bool _firstLand;
 
         private void Awake()
         {
+            _firstLand = false;
             _spriteRenderer = GetComponent<SpriteRenderer>();
             _movement = GetComponent<PlayerMovement>();
             var localScale = transform.localScale;
@@ -31,6 +34,12 @@ namespace Player
             _scaleY = localScale.y;
             EventManagerScript.Instance.StartListening(EventManagerScript.PlayerHit, Hit);
             EventManagerScript.Instance.StartListening(EventManagerScript.PlayerDrowned, Drown);
+            EventManagerScript.Instance.StartListening(EventManagerScript.PlayerFirstLand, FirstLand);
+        }
+
+        private void FirstLand(object arg0)
+        {
+            _firstLand = true;
         }
 
         private void OnEnable()
@@ -55,6 +64,11 @@ namespace Player
 
         private void LateUpdate()
         {
+            _animator.enabled = _firstLand && (_movement.Running || _movement.Squeezing);
+            if (!_animator.enabled)
+            {
+                _animator.runtimeAnimatorController = null;
+            }
             if (_drown)
             {
                 _spriteRenderer.sprite = soak;
@@ -65,6 +79,10 @@ namespace Player
             } else if (_hit)
             {
                 _spriteRenderer.sprite = hit;
+            } else if (_movement.Squeezing)
+            {
+                if (_animator.runtimeAnimatorController != _squeeze)
+                    _animator.runtimeAnimatorController = _squeeze;
             } else if (_movement.Jumping) {
                 _spriteRenderer.sprite = jump;
             // } else if (_movement.Turning)
@@ -72,8 +90,8 @@ namespace Player
                 // _spriteRenderer.sprite = turn;
             } else if (_movement.Running)
             {
-                // play the run animation
-                
+                if (_animator.runtimeAnimatorController != _run)
+                    _animator.runtimeAnimatorController = _run;
             } else
             {
                 _spriteRenderer.sprite = idle;

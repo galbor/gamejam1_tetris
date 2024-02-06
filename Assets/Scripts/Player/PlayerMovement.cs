@@ -67,6 +67,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
     public bool Jumping { get; private set; }
     public bool Turning => (_inputAxis > 0f && _velocity.x < 0f) || (_inputAxis < 0f && _velocity.x > 0f);
     public bool Running => Mathf.Abs(_velocity.x) > .25f || Mathf.Abs(_inputAxis) > .25f;
+    public bool Squeezing => Input.GetButton("Fire1");
     
     private float PlayerTopY => transform.position.y + _spriteRenderer.bounds.extents.y;
 

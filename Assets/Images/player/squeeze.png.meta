@@ -48,7 +48,7 @@ TextureImporter:
   spriteMeshType: 1
   alignment: 0
   spritePivot: {x: 0.5, y: 0.5}
-  spritePixelsToUnits: 100
+  spritePixelsToUnits: 63
   spriteBorder: {x: 0, y: 0, z: 0, w: 0}
   spriteGenerateFallbackPhysicsShape: 1
   alphaUsage: 1
@@ -141,8 +141,8 @@ TextureImporter:
         serializedVersion: 2
         x: 0
         y: 0
-        width: 1013
-        height: 1042
+        width: 2026
+        height: 2084
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -160,10 +160,10 @@ TextureImporter:
       name: squeeze_1
       rect:
         serializedVersion: 2
-        x: 1013
+        x: 2026
         y: 0
-        width: 1013
-        height: 1042
+        width: 2026
+        height: 2084
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -181,10 +181,10 @@ TextureImporter:
       name: squeeze_2
       rect:
         serializedVersion: 2
-        x: 2026
+        x: 4052
         y: 0
-        width: 1013
-        height: 1042
+        width: 2026
+        height: 2084
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -202,10 +202,10 @@ TextureImporter:
       name: squeeze_3
       rect:
         serializedVersion: 2
-        x: 3039
+        x: 6078
         y: 0
-        width: 1013
-        height: 1042
+        width: 2026
+        height: 2084
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -223,10 +223,10 @@ TextureImporter:
       name: squeeze_4
       rect:
         serializedVersion: 2
-        x: 4052
+        x: 8104
         y: 0
-        width: 1013
-        height: 1042
+        width: 2026
+        height: 2084
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -234,8 +234,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: b8c308007a43cb64383ad0306576188e
-      internalID: -145080615
+      spriteID: 63c7849ca0ddecd4795ae98886929fa1
+      internalID: -664669953
       vertices: []
       indices: 
       edges: []
@@ -244,10 +244,10 @@ TextureImporter:
       name: squeeze_5
       rect:
         serializedVersion: 2
-        x: 5065
+        x: 10130
         y: 0
-        width: 1013
-        height: 1042
+        width: 2026
+        height: 2084
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -255,8 +255,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 05b0f3de625f63d4f8d51e46505b455f
-      internalID: -284595464
+      spriteID: c36a6269fe345ea468319e4f79ad3a02
+      internalID: -547144294
       vertices: []
       indices: 
       edges: []
@@ -265,10 +265,10 @@ TextureImporter:
       name: squeeze_6
       rect:
         serializedVersion: 2
-        x: 6078
+        x: 12156
         y: 0
-        width: 1013
-        height: 1042
+        width: 2026
+        height: 2084
       alignment: 0
       pivot: {x: 0, y: 0}
       border: {x: 0, y: 0, z: 0, w: 0}
@@ -276,8 +276,8 @@ TextureImporter:
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 663c426d12d5f7b47926478d3e61a631
-      internalID: 251316007
+      spriteID: f980649de045dd4498711f4789e77b72
+      internalID: -1509224280
       vertices: []
       indices: 
       edges: []
@@ -297,9 +297,9 @@ TextureImporter:
       squeeze_1: 358553310
       squeeze_2: 1728874253
       squeeze_3: 752724905
-      squeeze_4: -145080615
-      squeeze_5: -284595464
-      squeeze_6: 251316007
+      squeeze_4: -664669953
+      squeeze_5: -547144294
+      squeeze_6: -1509224280
   mipmapLimitGroupName: 
   pSDRemoveMatte: 0
   userData: 
