@@ -23,7 +23,7 @@ public class ScoreManager : MonoBehaviour
     private Color _highScoreColor;
     private bool _started;
     private float _startPointY;
-    private int CurScore => (int) (player.position.y - _startPointY) * maxScore / (int) (endPoint.position.y - _startPointY);
+    private int CurScore => Mathf.Min(maxScore, (int) (player.position.y - _startPointY) * maxScore / (int) (endPoint.position.y - _startPointY));
     
     private void Start()
     {
