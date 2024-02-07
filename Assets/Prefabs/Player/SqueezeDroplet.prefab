@@ -143,7 +143,7 @@ MonoBehaviour:
   fadeStartTime: 0.7
   angleFirst: -45
   angleLast: 225
-  force: 1
+  force: 1.5
   spawnRadius: 0.5
 --- !u!96 &4893323358593699263
 TrailRenderer:

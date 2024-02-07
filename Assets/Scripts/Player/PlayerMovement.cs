@@ -197,6 +197,7 @@ public class PlayerMovement : MonoBehaviour, IMovable
         // if _velocityMultiplier reached 0, lose
         if (!GameData.Lost && _velocityMultiplier <= 0f)
         {
+            Debug.Log("Drowned!!!");
             EventManagerScript.Instance.TriggerEvent(EventManagerScript.PlayerDrowned, null);
         }
     }

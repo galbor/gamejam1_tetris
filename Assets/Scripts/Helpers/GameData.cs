@@ -12,6 +12,7 @@ namespace Helpers
         private void Awake()
         {
             Instance = this;
+            Lost = false;
             EventManagerScript.Instance.StartListening(EventManagerScript.StartGame, (_) => Started = true);
             EventManagerScript.Instance.StartListening(EventManagerScript.PlayerDrowned, (_) => Lost = true);
             EventManagerScript.Instance.StartListening(EventManagerScript.PlayerHit, (_) => Lost = true);
