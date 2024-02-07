@@ -19,27 +19,29 @@ public class LossTrigger : MonoBehaviour
     [SerializeField] private float _restartFadeDelay = 3f;
 
     private Color gameOverTextColor;
-    private Color[] restartTextColors;
     private ChromaticAberration _chromaticAberration;
     private bool _canLose;
 
     private void Awake()
     {
-        restartTextColors = new Color[_restartText.Length];
         gameOverTextColor = _gameOverText.color;
         _gameOverText.color = new Color(gameOverTextColor.r, gameOverTextColor.g, gameOverTextColor.b, 0);
         _chromaticAberration = _camera.GetComponent<PostProcessVolume>().profile.GetSetting<ChromaticAberration>();
-        for (int i = 0; i < restartTextColors.Length; ++i)
-        {
-            restartTextColors[i] = _restartText[i].color;
-            _restartText[i].color = new Color(restartTextColors[i].r, restartTextColors[i].g, restartTextColors[i].b, 0);
-        }
         _canLose = true;
+        EventManagerScript.Instance.StartListening(EventManagerScript.StartGame, turnOffRestartText);
         EventManagerScript.Instance.StartListening(EventManagerScript.PlayerHit, Lose);
         EventManagerScript.Instance.StartListening(EventManagerScript.PlayerDrowned, Lose);
         EventManagerScript.Instance.StartListening(EventManagerScript.Win, DisableLoss);
     }
 
+    private void turnOffRestartText(object arg0)
+    {
+        for (int i = 0; i < _restartText.Length; ++i)
+        {
+            _restartText[i].DOFade(0, 0);
+        }
+    }
+    
     private void DisableLoss(object arg0)
     {
         _canLose = false;
